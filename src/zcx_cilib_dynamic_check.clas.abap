@@ -6,8 +6,11 @@ CLASS zcx_cilib_dynamic_check DEFINITION
 
   PUBLIC SECTION.
     INTERFACES:
-      if_t100_message,
       zif_cilib_exception.
+    ALIASES:
+      gc_default_message FOR zif_cilib_exception~gc_default_message,
+      ms_msg FOR zif_cilib_exception~ms_msg,
+      ms_t100_key FOR if_t100_message~t100key.
     METHODS:
       constructor IMPORTING is_textid   TYPE scx_t100key OPTIONAL
                             is_msg      TYPE zcilib_msg OPTIONAL
@@ -22,19 +25,24 @@ CLASS zcx_cilib_dynamic_check IMPLEMENTATION.
   METHOD constructor ##ADT_SUPPRESS_GENERATION.
     super->constructor( previous = ix_previous ).
 
+    ms_msg = is_msg.
+
+    CLEAR textid.
+
     IF is_msg IS NOT INITIAL.
-      if_t100_message~t100key = zif_cilib_exception=>gc_t100_message.
-      if_t100_message~t100key-msgid = is_msg-msgid.
-      if_t100_message~t100key-msgno = is_msg-msgno.
-      zif_cilib_exception~mv_msgv1 = is_msg-msgv1.
-      zif_cilib_exception~mv_msgv2 = is_msg-msgv2.
-      zif_cilib_exception~mv_msgv3 = is_msg-msgv3.
-      zif_cilib_exception~mv_msgv4 = is_msg-msgv4.
-    ELSEIF is_textid IS NOT INITIAL.
-      if_t100_message~t100key = is_textid.
+      if_t100_message~t100key = VALUE #(
+        msgid = is_msg-msgid
+        msgno = is_msg-msgno
+        attr1 = 'ZIF_CILIB_EXCEPTION~MS_MSG-MSGV1'
+        attr2 = 'ZIF_CILIB_EXCEPTION~MS_MSG-MSGV2'
+        attr3 = 'ZIF_CILIB_EXCEPTION~MS_MSG-MSGV3'
+        attr4 = 'ZIF_CILIB_EXCEPTION~MS_MSG-MSGV4'
+      ).
+    ELSEIF is_textid IS INITIAL.
+      if_t100_message~t100key = zif_cilib_exception=>gc_default_message.
+      ms_msg-msgv1 = CAST cl_abap_objectdescr( cl_abap_typedescr=>describe_by_object_ref( me ) )->get_relative_name( ).
     ELSE.
-      if_t100_message~t100key = zif_cilib_exception~gc_default_message.
-      zif_cilib_exception~mv_msgv1 = cl_abap_classdescr=>get_class_name( me ).
+      if_t100_message~t100key = is_textid.
     ENDIF.
   ENDMETHOD.
 ENDCLASS.
