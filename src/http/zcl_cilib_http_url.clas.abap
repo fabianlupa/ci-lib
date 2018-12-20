@@ -46,7 +46,7 @@ CLASS zcl_cilib_http_url IMPLEMENTATION.
         ev_type      = mv_type
     ).
     IF mv_authority IS NOT INITIAL.
-      FIND REGEX '^(//)?((\w*)@)?(\w*)(:(\w*))?$' IN mv_authority
+      FIND REGEX '^(//)?(([\w.]*)@)?([\w.]*)(:(\w*))?$' IN mv_authority
            SUBMATCHES lv_dummy lv_dummy mv_user mv_host lv_dummy mv_port.
     ENDIF.
 
