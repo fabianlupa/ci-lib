@@ -32,22 +32,30 @@ ENDCLASS.
 CLASS zcl_cilib_util_json_object IMPLEMENTATION.
   METHOD get_array.
     FIELD-SYMBOLS: <lr_ref> TYPE REF TO data.
+
     ASSIGN mr_element->* TO FIELD-SYMBOL(<lg_data>).
     ASSERT sy-subrc = 0.
 
     ASSIGN COMPONENT iv_name OF STRUCTURE <lg_data> TO <lr_ref>.
-    ASSERT sy-subrc = 0.
+    IF sy-subrc <> 0.
+      RAISE EXCEPTION TYPE zcx_cilib_not_found.
+    ENDIF.
+
     ro_array = mo_parser->get_array_by_ref( <lr_ref> ).
   ENDMETHOD.
 
   METHOD get_boolean.
     FIELD-SYMBOLS: <lv_boolean> TYPE csequence,
                    <lr_ref>     TYPE REF TO data.
+
     ASSIGN mr_element->* TO FIELD-SYMBOL(<lg_data>).
     ASSERT sy-subrc = 0.
 
     ASSIGN COMPONENT iv_name OF STRUCTURE <lg_data> TO <lr_ref>.
-    ASSERT sy-subrc = 0.
+    IF sy-subrc <> 0.
+      RAISE EXCEPTION TYPE zcx_cilib_not_found.
+    ENDIF.
+
     ASSIGN <lr_ref>->* TO <lv_boolean>.
     ASSERT sy-subrc = 0.
 
@@ -64,22 +72,30 @@ CLASS zcl_cilib_util_json_object IMPLEMENTATION.
 
   METHOD get_object.
     FIELD-SYMBOLS: <lr_ref> TYPE REF TO data.
+
     ASSIGN mr_element->* TO FIELD-SYMBOL(<lg_data>).
     ASSERT sy-subrc = 0.
 
     ASSIGN COMPONENT iv_name OF STRUCTURE <lg_data> TO <lr_ref>.
-    ASSERT sy-subrc = 0.
+    IF sy-subrc <> 0.
+      RAISE EXCEPTION TYPE zcx_cilib_not_found.
+    ENDIF.
+
     ro_object = mo_parser->get_object_by_ref( <lr_ref> ).
   ENDMETHOD.
 
   METHOD get_string.
     FIELD-SYMBOLS: <lv_string> TYPE csequence,
                    <lr_ref>    TYPE REF TO data.
+
     ASSIGN mr_element->* TO FIELD-SYMBOL(<lg_data>).
     ASSERT sy-subrc = 0.
 
     ASSIGN COMPONENT iv_name OF STRUCTURE <lg_data> TO <lr_ref>.
-    ASSERT sy-subrc = 0.
+    IF sy-subrc <> 0.
+      RAISE EXCEPTION TYPE zcx_cilib_not_found.
+    ENDIF.
+
     ASSIGN <lr_ref>->* TO <lv_string>.
     ASSERT sy-subrc = 0.
 
@@ -89,11 +105,15 @@ CLASS zcl_cilib_util_json_object IMPLEMENTATION.
   METHOD get_int.
     FIELD-SYMBOLS: <lv_int> TYPE i,
                    <lr_ref> TYPE REF TO data.
+
     ASSIGN mr_element->* TO FIELD-SYMBOL(<lg_data>).
     ASSERT sy-subrc = 0.
 
     ASSIGN COMPONENT iv_name OF STRUCTURE <lg_data> TO <lr_ref>.
-    ASSERT sy-subrc = 0.
+    IF sy-subrc <> 0.
+      RAISE EXCEPTION TYPE zcx_cilib_not_found.
+    ENDIF.
+
     ASSIGN <lr_ref>->* TO <lv_int>.
     ASSERT sy-subrc = 0.
 

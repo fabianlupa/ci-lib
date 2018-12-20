@@ -29,7 +29,7 @@ CLASS zcl_cilib_util_json_array IMPLEMENTATION.
       CATCH cx_sy_itab_line_not_found INTO DATA(lx_ex).
         RAISE EXCEPTION TYPE zcx_cilib_not_found
           EXPORTING
-            previous = lx_ex.
+            ix_previous = lx_ex.
     ENDTRY.
   ENDMETHOD.
 ENDCLASS.

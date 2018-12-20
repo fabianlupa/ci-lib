@@ -71,16 +71,6 @@ CLASS zcl_cilib_util_json_parser IMPLEMENTATION.
 
     IF lr_source IS NOT BOUND.
       RETURN.
-*      INSERT VALUE #(
-*        ref     = lr_source
-*        element =  NEW zcl_cilib_util_json_object( ir_element = lr_source io_parser = me io_parent = io_parent )
-*      ) INTO TABLE mt_elements REFERENCE INTO lr_new.
-*      ASSERT sy-subrc = 0.
-*
-*      IF mo_root IS NOT BOUND.
-*        mo_root = lr_new->element.
-*      ENDIF.
-*      RETURN.
     ENDIF.
 
     DATA(lv_kind) = cl_abap_typedescr=>describe_by_data_ref( lr_source )->kind.
@@ -145,7 +135,7 @@ CLASS zcl_cilib_util_json_parser IMPLEMENTATION.
       CATCH cx_sy_itab_line_not_found INTO DATA(lx_ex).
         RAISE EXCEPTION TYPE zcx_cilib_not_found
           EXPORTING
-            previous = lx_ex.
+            ix_previous = lx_ex.
     ENDTRY.
   ENDMETHOD.
 
@@ -155,7 +145,7 @@ CLASS zcl_cilib_util_json_parser IMPLEMENTATION.
       CATCH cx_sy_itab_line_not_found INTO DATA(lx_ex).
         RAISE EXCEPTION TYPE zcx_cilib_not_found
           EXPORTING
-            previous = lx_ex.
+            ix_previous = lx_ex.
     ENDTRY.
   ENDMETHOD.
 ENDCLASS.

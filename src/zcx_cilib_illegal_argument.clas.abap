@@ -1,7 +1,6 @@
-"! Not found exception
-CLASS zcx_cilib_not_found DEFINITION
+"! Illegal argument exception
+CLASS zcx_cilib_illegal_argument DEFINITION
   PUBLIC
-  FINAL
   INHERITING FROM zcx_cilib_dynamic_check
   CREATE PUBLIC.
 
@@ -12,5 +11,5 @@ ENDCLASS.
 
 
 
-CLASS zcx_cilib_not_found IMPLEMENTATION.
+CLASS zcx_cilib_illegal_argument IMPLEMENTATION.
 ENDCLASS.
