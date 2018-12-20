@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>RFC modules for events</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>LZCILIB_EXIT_REMOTETOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPLZCILIB_EXIT_REMOTE</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>ZCILIB_EXIT_RAISE_EVENT</FUNCNAME>
+     <REMOTE_CALL>R</REMOTE_CALL>
+     <SHORT_TEXT>Raise exit event</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>IV_EVENT</PARAMETER>
+       <TYP>CHAR1</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_TRANSPORT</PARAMETER>
+       <TYP>TRKORR</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_SYSTEM</PARAMETER>
+       <TYP>SYST_SYSID</TYP>
+      </RSIMP>
+     </IMPORT>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>IV_EVENT</PARAMETER>
+       <KIND>P</KIND>
+       <INDEX> 001</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_TRANSPORT</PARAMETER>
+       <KIND>P</KIND>
+       <INDEX> 002</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_SYSTEM</PARAMETER>
+       <KIND>P</KIND>
+       <INDEX> 003</INDEX>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+   </FUNCTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>

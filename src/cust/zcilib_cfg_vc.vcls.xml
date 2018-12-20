@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_VCLS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VCLDIR>
+    <VCLNAME>ZCILIB_CFG_VC</VCLNAME>
+    <CHANGEDATE>2018-12-17</CHANGEDATE>
+    <TEXT>ci-lib configuration</TEXT>
+   </VCLDIR>
+   <VLCSTRUC_TAB>
+    <V_VCLSTRUC>
+     <VCLNAME>ZCILIB_CFG_VC</VCLNAME>
+     <OBJECT>ZCILIB_HOST_V</OBJECT>
+     <OBJECTTEXT>Git Hosts</OBJECTTEXT>
+     <PREDOBJECT>ZCILIB_HOST_V</PREDOBJECT>
+     <DEPENDENCY>R</DEPENDENCY>
+     <OBJPOS>01</OBJPOS>
+     <OBJLEVEL>01</OBJLEVEL>
+     <STARTOBJ>X</STARTOBJ>
+    </V_VCLSTRUC>
+   </VLCSTRUC_TAB>
+   <VCLSTRUDEP_TAB>
+    <V_VCLSTDEP>
+     <VCLNAME>ZCILIB_CFG_VC</VCLNAME>
+     <OBJECT>ZCILIB_HOST_V</OBJECT>
+     <PREDOBJECT>ZCILIB_HOST_V</PREDOBJECT>
+    </V_VCLSTDEP>
+   </VCLSTRUDEP_TAB>
+  </asx:values>
+ </asx:abap>
+</abapGit>

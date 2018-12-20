@@ -1,0 +1,16 @@
+"! Not found exception
+CLASS zcx_cilib_not_found DEFINITION
+  PUBLIC
+  FINAL
+  INHERITING FROM cx_dynamic_check
+  CREATE PUBLIC.
+
+  PUBLIC SECTION.
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+ENDCLASS.
+
+
+
+CLASS zcx_cilib_not_found IMPLEMENTATION.
+ENDCLASS.
