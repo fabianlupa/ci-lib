@@ -25,7 +25,7 @@ ENDCLASS.
 
 
 CLASS zcl_cilib_abapgit_api IMPLEMENTATION.
-  METHOD zif_cilib_abapgit_api~get_repo_url_for_package.
+  METHOD zif_cilib_abapgit_api~get_repo_url.
     DATA: lo_repo_srv TYPE REF TO object,
           lo_repo     TYPE REF TO object.
 
