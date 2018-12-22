@@ -52,53 +52,26 @@ CLASS zcl_cilib_exit_event_handler IMPLEMENTATION.
       ENDIF.
     ENDLOOP.
 
-    CASE lines( lt_repos ).
-      WHEN 0.
-        RETURN.
-      WHEN 1.
-        DATA(lv_repo_id) = lt_repos[ 1 ].
-        GET BADI lb_exit_repo_tr.
+    IF lines( lt_repos ) > 0.
+      ##TODO. " Think about when lines( lt_repos ) is greater than 1
+      GET BADI lb_exit_repo_tr.
 
+      LOOP AT lt_repos ASSIGNING FIELD-SYMBOL(<lv_repo>).
         CASE iv_event.
           WHEN gc_events-after_import.
             CALL BADI lb_exit_repo_tr->on_transport_imported
               EXPORTING
                 iv_system    = iv_system
                 iv_transport = iv_transport
-                iv_repo_id   = lv_repo_id.
+                iv_repo_id   = <lv_repo>.
           WHEN gc_events-after_export.
             CALL BADI lb_exit_repo_tr->on_transport_released
               EXPORTING
                 iv_system    = iv_system
                 iv_transport = iv_transport
-                iv_repo_id   = lv_repo_id.
+                iv_repo_id   = <lv_repo>.
         ENDCASE.
-*        DATA(lv_repo_url) = li_abapgit->get_repo_url( lt_repos[ 1 ] ).
-*        DATA(li_host) = zcl_cilib_factory=>get_host_for_repo( lv_repo_url ).
-        ##TODO.
-      WHEN OTHERS.
-        " Multiple git projects in one transport
-        ##TODO.
-    ENDCASE.
-
-*    CASE iv_event.
-*      WHEN gc_events-after_export.
-*        DATA(li_abapgit) = zcl_cilib_factory=>get_abapgit_api( ).
-*        IF li_abapgit->is_transport_relevant( trkorr ) = abap_true.
-*          LOOP AT li_abapgit->get_repos_by_transport( trkorr ) INTO DATA(li_repo).
-*            TRY.
-*                DATA(li_bot) = zcl_cilib_factory=>get_bot( li_repo->get_provider( ) ).
-**                li_bot->
-*              catch zcx_cilib_unsupported_provider.
-*
-*            ENDTRY.
-*          ENDLOOP.
-*          IF sy-subrc <> 0.
-*            " ???
-*          ENDIF.
-*        ENDIF.
-*      WHEN gc_events-after_import.
-*
-*    ENDCASE.
+      ENDLOOP.
+    ENDIF.
   ENDMETHOD.
 ENDCLASS.

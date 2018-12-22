@@ -8,7 +8,8 @@ CLASS zcl_cilib_http_url DEFINITION
     METHODS:
       constructor IMPORTING iv_url TYPE csequence,
       get_full_url RETURNING VALUE(rv_full_url) TYPE string,
-      get_host RETURNING VALUE(rv_host) TYPE string.
+      get_host RETURNING VALUE(rv_host) TYPE string,
+      get_path RETURNING VALUE(rv_path) TYPE string.
   PROTECTED SECTION.
   PRIVATE SECTION.
     DATA:
@@ -68,5 +69,9 @@ CLASS zcl_cilib_http_url IMPLEMENTATION.
 
   METHOD get_host.
     rv_host = mv_host.
+  ENDMETHOD.
+
+  METHOD get_path.
+    rv_path = mv_path.
   ENDMETHOD.
 ENDCLASS.

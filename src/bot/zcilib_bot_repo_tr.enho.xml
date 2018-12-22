@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_ENHO" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <TOOL>BADI_IMPL</TOOL>
+   <SHORTTEXT>Bot repo transport listener</SHORTTEXT>
+   <SPOT_NAME>ZCILIB_EXIT_REPO_TR</SPOT_NAME>
+   <IMPL>
+    <ENH_BADI_IMPL_DATA>
+     <SPOT_NAME>ZCILIB_EXIT_REPO_TR</SPOT_NAME>
+     <BADI_NAME>ZCILIB_EXIT_REPO_TR</BADI_NAME>
+     <IMPL_NAME>ZCILIB_BOT_REPO_TR</IMPL_NAME>
+     <IMPL_CLASS>ZCL_CILIB_BOT_REPO_TR_LISTENER</IMPL_CLASS>
+     <ACTIVE>X</ACTIVE>
+     <IMPL_SHORTTEXT>Bot repo transport listener</IMPL_SHORTTEXT>
+     <IMPL_SHORTTEXT_ID>00155D54EF071EE981C2265EF5709682</IMPL_SHORTTEXT_ID>
+    </ENH_BADI_IMPL_DATA>
+   </IMPL>
+  </asx:values>
+ </asx:abap>
+</abapGit>

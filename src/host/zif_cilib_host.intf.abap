@@ -43,7 +43,10 @@ INTERFACE zif_cilib_host PUBLIC.
                                 iv_content        TYPE string
                       RETURNING VALUE(rv_comment) TYPE i
                       RAISING   zcx_cilib_not_found
-                                zcx_cilib_http_comm_error.
+                                zcx_cilib_http_comm_error,
+    get_repo_name_from_url IMPORTING iv_url               TYPE string
+                           RETURNING VALUE(rv_repository) TYPE string
+                           RAISING   zcx_cilib_illegal_argument.
   DATA:
     mv_is_authenticated TYPE abap_bool READ-ONLY.
 ENDINTERFACE.

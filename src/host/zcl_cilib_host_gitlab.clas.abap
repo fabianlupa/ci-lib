@@ -12,8 +12,7 @@
 CLASS zcl_cilib_host_gitlab DEFINITION
   PUBLIC
   FINAL
-  CREATE PUBLIC
-*  CREATE PRIVATE
+  CREATE PRIVATE
   GLOBAL FRIENDS zcl_cilib_factory.
 
   PUBLIC SECTION.
@@ -465,5 +464,20 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
 
   METHOD get_last_error_text.
     mi_http_client->get_last_error( IMPORTING message = rv_text ).
+  ENDMETHOD.
+
+  METHOD zif_cilib_host~get_repo_name_from_url.
+    DATA(lo_url) = NEW zcl_cilib_http_url( iv_url ).
+    DATA(lv_path) = lo_url->get_path( ).
+
+    IF lv_path(1) = '/'.
+      SHIFT lv_path LEFT BY 1 PLACES.
+    ENDIF.
+
+    IF lv_path CP '*.git'.
+      SHIFT lv_path RIGHT BY 4 PLACES.
+    ENDIF.
+
+    rv_repository = condense( lv_path ).
   ENDMETHOD.
 ENDCLASS.
