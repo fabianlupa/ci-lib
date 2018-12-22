@@ -25,8 +25,9 @@ ENDCLASS.
 
 CLASS zcl_cilib_exit_event_handler IMPLEMENTATION.
   METHOD handle_tr_feedback.
-    DATA: lt_repos    TYPE SORTED TABLE OF zif_cilib_abapgit_api=>gty_repo_key WITH UNIQUE KEY table_line,
-          lv_repo_key TYPE zif_cilib_abapgit_api=>gty_repo_key.
+    DATA: lt_repos        TYPE SORTED TABLE OF zif_cilib_abapgit_api=>gty_repo_key WITH UNIQUE KEY table_line,
+          lv_repo_key     TYPE zif_cilib_abapgit_api=>gty_repo_key,
+          lb_exit_repo_tr TYPE REF TO zcilib_exit_repo_tr.
 
     IF iv_event NA gc_events.
       RAISE EXCEPTION TYPE zcx_cilib_illegal_argument.
@@ -55,8 +56,25 @@ CLASS zcl_cilib_exit_event_handler IMPLEMENTATION.
       WHEN 0.
         RETURN.
       WHEN 1.
-        DATA(lv_repo_url) = li_abapgit->get_repo_url( lt_repos[ 1 ] ).
-        DATA(li_host) = zcl_cilib_factory=>get_host_for_repo( lv_repo_url ).
+        DATA(lv_repo_id) = lt_repos[ 1 ].
+        GET BADI lb_exit_repo_tr.
+
+        CASE iv_event.
+          WHEN gc_events-after_import.
+            CALL BADI lb_exit_repo_tr->on_transport_imported
+              EXPORTING
+                iv_system    = iv_system
+                iv_transport = iv_transport
+                iv_repo_id   = lv_repo_id.
+          WHEN gc_events-after_export.
+            CALL BADI lb_exit_repo_tr->on_transport_released
+              EXPORTING
+                iv_system    = iv_system
+                iv_transport = iv_transport
+                iv_repo_id   = lv_repo_id.
+        ENDCASE.
+*        DATA(lv_repo_url) = li_abapgit->get_repo_url( lt_repos[ 1 ] ).
+*        DATA(li_host) = zcl_cilib_factory=>get_host_for_repo( lv_repo_url ).
         ##TODO.
       WHEN OTHERS.
         " Multiple git projects in one transport
