@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "test": "abaplint src/*.abap"
+  },
+  "devDependencies": {
+    "abaplint": ">=1.5.4"
+  }
+}
