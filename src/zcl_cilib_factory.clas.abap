@@ -32,7 +32,7 @@ ENDCLASS.
 CLASS zcl_cilib_factory IMPLEMENTATION.
   METHOD get_abapgit_api.
     IF gi_abapgit_api IS NOT BOUND.
-*      gi_abapgit_api = NEW zcl_cilib_abapgit_api( ).
+      gi_abapgit_api = NEW zcl_cilib_abapgit_api( ).
     ENDIF.
     ri_abapgit_api = gi_abapgit_api.
   ENDMETHOD.
