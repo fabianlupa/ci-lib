@@ -10,7 +10,8 @@ CLASS zcl_cilib_factory DEFINITION
       get_abapgit_api RETURNING VALUE(ri_abapgit_api) TYPE REF TO zif_cilib_abapgit_api,
       get_host_for_repo IMPORTING iv_repo_url    TYPE string
                         RETURNING VALUE(ri_host) TYPE REF TO zif_cilib_host,
-      get_cts_api RETURNING VALUE(ri_cts_api) TYPE REF TO zif_cilib_cts_api.
+      get_cts_api RETURNING VALUE(ri_cts_api) TYPE REF TO zif_cilib_cts_api,
+      get_logger RETURNING VALUE(ri_logger) TYPE REF TO zif_cilib_util_logger.
   PROTECTED SECTION.
   PRIVATE SECTION.
     TYPES:
@@ -21,6 +22,7 @@ CLASS zcl_cilib_factory DEFINITION
     CLASS-DATA:
       gi_abapgit_api          TYPE REF TO zif_cilib_abapgit_api,
       gi_cts_api              TYPE REF TO zif_cilib_cts_api,
+      gi_logger               TYPE REF TO zif_cilib_util_logger,
       gi_host_config_provider TYPE REF TO zif_cilib_host_config_provider,
       gt_host_cache           TYPE HASHED TABLE OF gty_host_cache_line WITH UNIQUE KEY repo_url.
 ENDCLASS.
@@ -65,5 +67,13 @@ CLASS zcl_cilib_factory IMPLEMENTATION.
       gi_cts_api = NEW zcl_cilib_cts_api( ).
     ENDIF.
     ri_cts_api = gi_cts_api.
+  ENDMETHOD.
+
+  METHOD get_logger.
+    IF gi_logger IS NOT BOUND.
+      gi_logger = NEW zcl_cilib_util_bal_logger( iv_object = 'ZCILIB' iv_subobject = 'ALL' ) ##TODO. " Add config
+    ENDIF.
+
+    ri_logger = gi_logger.
   ENDMETHOD.
 ENDCLASS.
