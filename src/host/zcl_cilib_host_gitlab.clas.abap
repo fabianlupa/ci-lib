@@ -48,7 +48,7 @@ CLASS zcl_cilib_host_gitlab DEFINITION
         name TYPE string VALUE `NAME`,
       END OF gc_branch_attributes,
       BEGIN OF gc_merge_request_parameters,
-        source_branch TYPE string VALUE `soure_branch`,
+        source_branch TYPE string VALUE `source_branch`,
         target_branch TYPE string VALUE `target_branch`,
       END OF gc_merge_request_parameters,
       BEGIN OF gc_merge_request_attributes,
