@@ -1,6 +1,6 @@
 *---------------------------------------------------------------------*
 *    view related data declarations
-*   generation date: 20.12.2018 at 22:12:58
+*   generation date: 23.12.2018 at 15:37:45
 *   view maintenance generator version: #001407#
 *---------------------------------------------------------------------*
 *...processing: ZCILIB_HOST_V...................................*
@@ -21,5 +21,24 @@ INCLUDE STRUCTURE ZCILIB_HOST_V.
           INCLUDE STRUCTURE VIMFLAGTAB.
 DATA: END OF ZCILIB_HOST_V_TOTAL.
 
+*...processing: ZCILIB_SETT_V...................................*
+TABLES: ZCILIB_SETT_V, *ZCILIB_SETT_V. "view work areas
+CONTROLS: TCTRL_ZCILIB_SETT_V
+TYPE TABLEVIEW USING SCREEN '0002'.
+DATA: BEGIN OF STATUS_ZCILIB_SETT_V. "state vector
+          INCLUDE STRUCTURE VIMSTATUS.
+DATA: END OF STATUS_ZCILIB_SETT_V.
+* Table for entries selected to show on screen
+DATA: BEGIN OF ZCILIB_SETT_V_EXTRACT OCCURS 0010.
+INCLUDE STRUCTURE ZCILIB_SETT_V.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCILIB_SETT_V_EXTRACT.
+* Table for all entries loaded from database
+DATA: BEGIN OF ZCILIB_SETT_V_TOTAL OCCURS 0010.
+INCLUDE STRUCTURE ZCILIB_SETT_V.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCILIB_SETT_V_TOTAL.
+
 *.........table declarations:.................................*
 TABLES: ZCILIB_HOST                    .
+TABLES: ZCILIB_SETTINGS                .

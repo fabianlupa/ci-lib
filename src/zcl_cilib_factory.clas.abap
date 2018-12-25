@@ -11,7 +11,8 @@ CLASS zcl_cilib_factory DEFINITION
       get_host_for_repo IMPORTING iv_repo_url    TYPE string
                         RETURNING VALUE(ri_host) TYPE REF TO zif_cilib_host,
       get_cts_api RETURNING VALUE(ri_cts_api) TYPE REF TO zif_cilib_cts_api,
-      get_logger RETURNING VALUE(ri_logger) TYPE REF TO zif_cilib_util_logger.
+      get_logger RETURNING VALUE(ri_logger) TYPE REF TO zif_cilib_util_logger,
+      get_settings RETURNING VALUE(ro_settings) TYPE REF TO zcl_cilib_settings.
   PROTECTED SECTION.
   PRIVATE SECTION.
     TYPES:
@@ -24,7 +25,8 @@ CLASS zcl_cilib_factory DEFINITION
       gi_cts_api              TYPE REF TO zif_cilib_cts_api,
       gi_logger               TYPE REF TO zif_cilib_util_logger,
       gi_host_config_provider TYPE REF TO zif_cilib_host_config_provider,
-      gt_host_cache           TYPE HASHED TABLE OF gty_host_cache_line WITH UNIQUE KEY repo_url.
+      gt_host_cache           TYPE HASHED TABLE OF gty_host_cache_line WITH UNIQUE KEY repo_url,
+      go_settings             TYPE REF TO zcl_cilib_settings.
 ENDCLASS.
 
 
@@ -71,9 +73,34 @@ CLASS zcl_cilib_factory IMPLEMENTATION.
 
   METHOD get_logger.
     IF gi_logger IS NOT BOUND.
-      gi_logger = NEW zcl_cilib_util_bal_logger( iv_object = 'ZCILIB' iv_subobject = 'ALL' ) ##TODO. " Add config
+      DATA(lo_settings) = get_settings( ).
+      IF lo_settings->is_logging_enabled( ) = abap_true.
+        DATA(lv_delete_date) = COND aldate_del( LET d = lo_settings->get_bal_keep_days( ) IN
+                                                WHEN d IS INITIAL THEN space
+                                                ELSE sy-datum + d ).
+        gi_logger = NEW zcl_cilib_util_bal_logger( iv_object      = lo_settings->get_bal_object( )
+                                                   iv_subobject   = lo_settings->get_bal_subobject( )
+                                                   iv_date_delete = lv_delete_date ).
+      ELSE.
+        gi_logger = NEW zcl_cilib_util_dummy_logger( ).
+      ENDIF.
     ENDIF.
 
     ri_logger = gi_logger.
+  ENDMETHOD.
+
+  METHOD get_settings.
+    IF go_settings IS NOT BOUND.
+      ##TODO. " Abstract away database access
+      SELECT SINGLE * INTO @DATA(ls_settings)
+        FROM zcilib_settings
+        WHERE dummy = @space.
+      IF sy-subrc <> 0.
+        ##TODO. " Provide default fallback settings, now empty
+      ENDIF.
+      go_settings = NEW #( ls_settings-data ).
+    ENDIF.
+
+    ro_settings = go_settings.
   ENDMETHOD.
 ENDCLASS.
