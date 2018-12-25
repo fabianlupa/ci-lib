@@ -74,7 +74,8 @@ CLASS zcl_cilib_host_gitlab DEFINITION
         false TYPE string VALUE `false`,
       END OF gc_parameter_bool.
     METHODS:
-      get_last_error_text RETURNING VALUE(rv_text) TYPE string.
+      get_last_error_text RETURNING VALUE(rv_text) TYPE string,
+      authenticate_if_needed RAISING zcx_cilib_http_comm_error.
     DATA:
       mi_rest_client TYPE REF TO if_rest_client,
       mi_http_client TYPE REF TO if_http_client,
@@ -122,6 +123,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
     DATA: lv_namespace TYPE string,
           lv_repo_name TYPE string.
     " https://docs.gitlab.com/ce/api/projects.html#list-all-projects
+
+    authenticate_if_needed( ).
 
     " The API does not seem to allow searching for the fully qualified repo name including the user / group directly.
     " -> Search for repository name only and filter afterwards
@@ -176,6 +179,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
   METHOD zif_cilib_host~get_pull_request_for_branch.
     " https://docs.gitlab.com/ce/api/merge_requests.html
 
+    authenticate_if_needed( ).
+
     TRY.
         DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
           )->append_path_component( gc_endpoints-projects
@@ -222,6 +227,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
   METHOD zif_cilib_host~create_pr_comment.
     " https://docs.gitlab.com/ce/api/notes.html#create-new-merge-request-note
 
+    authenticate_if_needed( ).
+
     TRY.
         DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
           )->append_path_component( gc_endpoints-projects
@@ -256,6 +263,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
 
   METHOD zif_cilib_host~get_comments_for_pull_request.
     " https://docs.gitlab.com/ce/api/notes.html#list-all-merge-request-notes
+
+    authenticate_if_needed( ).
 
     TRY.
         DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
@@ -308,6 +317,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
   METHOD zif_cilib_host~get_pr_comment_content.
     " https://docs.gitlab.com/ce/api/notes.html#get-single-merge-request-note
 
+    authenticate_if_needed( ).
+
     TRY.
         DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
           )->append_path_component( gc_endpoints-projects
@@ -350,6 +361,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
   METHOD zif_cilib_host~get_repo_branches.
     " https://docs.gitlab.com/ce/api/branches.html
 
+    authenticate_if_needed( ).
+
     TRY.
         DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
           )->append_path_component( gc_endpoints-projects
@@ -391,6 +404,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
 
   METHOD zif_cilib_host~set_pr_comment_content.
     " https://docs.gitlab.com/ce/api/notes.html#modify-existing-merge-request-note
+
+    authenticate_if_needed( ).
 
     TRY.
         DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
@@ -485,5 +500,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
     ENDIF.
 
     rv_repository = condense( lv_path ).
+  ENDMETHOD.
+
+  METHOD authenticate_if_needed.
+    IF zif_cilib_host~mv_is_authenticated = abap_false ##TODO. " Is 'lazy authentication' a good idea?
+      zif_cilib_host~authenticate( ).
+    ENDIF.
   ENDMETHOD.
 ENDCLASS.
