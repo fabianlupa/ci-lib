@@ -467,6 +467,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD zif_cilib_host~get_repo_name_from_url.
+    CONSTANTS: lc_git_suffix_pattern TYPE string VALUE `^.*(\.git)$`.
+
     DATA(lo_url) = NEW zcl_cilib_http_url( iv_url ).
     DATA(lv_path) = lo_url->get_path( ).
 
@@ -474,8 +476,12 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
       SHIFT lv_path LEFT BY 1 PLACES.
     ENDIF.
 
-    IF lv_path CP '*.git'.
-      SHIFT lv_path RIGHT BY 4 PLACES.
+    CONDENSE lv_path.
+
+    DATA(lo_regex) = NEW cl_abap_regex( lc_git_suffix_pattern ).
+    DATA(lo_matcher) = lo_regex->create_matcher( text = lv_path ).
+    IF lo_matcher->match( ) = abap_true.
+      REPLACE SECTION OFFSET lo_matcher->get_offset( 1 ) LENGTH lo_matcher->get_length( 1 ) OF lv_path WITH space.
     ENDIF.
 
     rv_repository = condense( lv_path ).
