@@ -52,7 +52,7 @@ CLASS zcl_cilib_host_gitlab DEFINITION
         target_branch TYPE string VALUE `target_branch`,
       END OF gc_merge_request_parameters,
       BEGIN OF gc_merge_request_attributes,
-        id TYPE string VALUE `ID`,
+        iid TYPE string VALUE `IID`,
       END OF gc_merge_request_attributes,
       BEGIN OF gc_merge_request_subpaths,
         notes TYPE string VALUE `notes`,
@@ -230,7 +230,7 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         ENDIF.
 
         DATA(lo_child) = CAST zcl_cilib_util_json_object( lo_json->get_element_at( 1 ) ).
-        rv_pull_request = lo_child->get_int( gc_merge_request_attributes-id ).
+        rv_pull_request = lo_child->get_int( gc_merge_request_attributes-iid ).
 
       CATCH cx_rest_client_exception INTO DATA(lx_ex).
         RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
