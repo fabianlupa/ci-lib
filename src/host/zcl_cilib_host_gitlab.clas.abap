@@ -131,7 +131,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
     IF iv_repository CS '/'.
       SPLIT iv_repository AT '/' INTO lv_namespace lv_repo_name.
     ELSE.
-      RAISE EXCEPTION TYPE zcx_cilib_not_found.
+      RAISE EXCEPTION TYPE zcx_cilib_not_found
+        EXPORTING
+          is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+          iv_type_name = 'Repository'
+          iv_key       = iv_repository.
     ENDIF.
 
     TRY.
@@ -159,7 +163,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         ).
 
         IF lo_json->get_count( ) <> 1.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Repository'
+              iv_key       = iv_repository.
         ENDIF.
 
         DATA(lo_child) = CAST zcl_cilib_util_json_object( lo_json->get_element_at( 1 ) ).
@@ -195,7 +203,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         DATA(lv_status) = mi_rest_client->get_status( ).
 
         IF lv_status = 404.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Repository'
+              iv_key       = iv_repository.
         ELSEIF lv_status <> 200.
           RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
             EXPORTING
@@ -210,7 +222,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         ).
 
         IF lo_json->get_count( ) <> 1.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Pull Request'
+              it_keys      = VALUE #( ( iv_repository ) ( iv_branch ) ( `master` ) ).
         ENDIF.
 
         DATA(lo_child) = CAST zcl_cilib_util_json_object( lo_json->get_element_at( 1 ) ).
@@ -244,7 +260,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         DATA(lv_status) = mi_rest_client->get_status( ).
 
         IF lv_status = 404.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Pull Request'
+              it_keys      = VALUE #( ( iv_repository ) ( CONV #( iv_pull_request ) ) ).
         ELSEIF lv_status <> 201.
           RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
             EXPORTING
@@ -280,7 +300,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         DATA(lv_status) = mi_rest_client->get_status( ).
 
         IF lv_status = 404.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Pull Request'
+              it_keys      = VALUE #( ( iv_repository ) ( CONV #( iv_pull_request ) ) ).
         ELSEIF lv_status <> 200.
           RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
             EXPORTING
@@ -334,7 +358,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         DATA(lv_status) = mi_rest_client->get_status( ).
 
         IF lv_status = 404.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'PR Comment'
+              it_keys      = VALUE #( ( iv_repository ) ( CONV #( iv_pull_request ) ) ( CONV #( iv_comment ) ) ).
         ELSEIF lv_status <> 200.
           RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
             EXPORTING
@@ -375,7 +403,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         DATA(lv_status) = mi_rest_client->get_status( ).
 
         IF lv_status = 404.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Repository'
+              iv_key       = iv_repository.
         ELSEIF lv_status <> 200.
           RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
             EXPORTING
@@ -423,7 +455,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         DATA(lv_status) = mi_rest_client->get_status( ).
 
         IF lv_status = 404.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'PR Comment'
+              it_keys      = VALUE #( ( iv_repository ) ( CONV #( iv_pull_request ) ) ( CONV #( iv_comment ) ) ).
         ELSEIF lv_status <> 200.
           RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
             EXPORTING
