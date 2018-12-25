@@ -44,7 +44,7 @@
          "enabled":true
       },
       "empty_statement":{
-         "enabled":true
+         "enabled":false
       },
       "sequential_blank":{
          "enabled":true,

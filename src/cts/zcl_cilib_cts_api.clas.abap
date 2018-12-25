@@ -33,8 +33,13 @@ CLASS zcl_cilib_cts_api IMPLEMENTATION.
           is_msg = zcl_cilib_util_msg_tools=>get_msg_from_sy( ).
     ENDIF.
 
-    LOOP AT lt_objects ASSIGNING FIELD-SYMBOL(<ls_object>) WHERE lockflag = abap_true.
-      INSERT VALUE #( type = <ls_object>-object name = <ls_object>-obj_name ) INTO TABLE rt_objects.
+    LOOP AT lt_objects ASSIGNING FIELD-SYMBOL(<ls_object>).
+      IF <ls_object>-pgmid = 'LIMU' AND <ls_object>-object = 'METH'.
+        INSERT VALUE #( type = 'CLAS' name = <ls_object>-obj_name(30) ) INTO TABLE rt_objects.
+        ##TODO.
+      ELSEIF <ls_object>-pgmid = 'R3TR'.
+        INSERT VALUE #( type = <ls_object>-object name = <ls_object>-obj_name ) INTO TABLE rt_objects.
+      ENDIF.
     ENDLOOP.
   ENDMETHOD.
 

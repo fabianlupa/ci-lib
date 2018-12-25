@@ -48,11 +48,11 @@ CLASS zcl_cilib_host_gitlab DEFINITION
         name TYPE string VALUE `NAME`,
       END OF gc_branch_attributes,
       BEGIN OF gc_merge_request_parameters,
-        source_branch TYPE string VALUE `soure_branch`,
+        source_branch TYPE string VALUE `source_branch`,
         target_branch TYPE string VALUE `target_branch`,
       END OF gc_merge_request_parameters,
       BEGIN OF gc_merge_request_attributes,
-        id TYPE string VALUE `ID`,
+        iid TYPE string VALUE `IID`,
       END OF gc_merge_request_attributes,
       BEGIN OF gc_merge_request_subpaths,
         notes TYPE string VALUE `notes`,
@@ -74,7 +74,8 @@ CLASS zcl_cilib_host_gitlab DEFINITION
         false TYPE string VALUE `false`,
       END OF gc_parameter_bool.
     METHODS:
-      get_last_error_text RETURNING VALUE(rv_text) TYPE string.
+      get_last_error_text RETURNING VALUE(rv_text) TYPE string,
+      authenticate_if_needed RAISING zcx_cilib_http_comm_error.
     DATA:
       mi_rest_client TYPE REF TO if_rest_client,
       mi_http_client TYPE REF TO if_http_client,
@@ -123,12 +124,18 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
           lv_repo_name TYPE string.
     " https://docs.gitlab.com/ce/api/projects.html#list-all-projects
 
+    authenticate_if_needed( ).
+
     " The API does not seem to allow searching for the fully qualified repo name including the user / group directly.
     " -> Search for repository name only and filter afterwards
     IF iv_repository CS '/'.
       SPLIT iv_repository AT '/' INTO lv_namespace lv_repo_name.
     ELSE.
-      RAISE EXCEPTION TYPE zcx_cilib_not_found.
+      RAISE EXCEPTION TYPE zcx_cilib_not_found
+        EXPORTING
+          is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+          iv_type_name = 'Repository'
+          iv_key       = iv_repository.
     ENDIF.
 
     TRY.
@@ -156,7 +163,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         ).
 
         IF lo_json->get_count( ) <> 1.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Repository'
+              iv_key       = iv_repository.
         ENDIF.
 
         DATA(lo_child) = CAST zcl_cilib_util_json_object( lo_json->get_element_at( 1 ) ).
@@ -176,6 +187,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
   METHOD zif_cilib_host~get_pull_request_for_branch.
     " https://docs.gitlab.com/ce/api/merge_requests.html
 
+    authenticate_if_needed( ).
+
     TRY.
         DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
           )->append_path_component( gc_endpoints-projects
@@ -190,7 +203,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         DATA(lv_status) = mi_rest_client->get_status( ).
 
         IF lv_status = 404.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Repository'
+              iv_key       = iv_repository.
         ELSEIF lv_status <> 200.
           RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
             EXPORTING
@@ -205,11 +222,15 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         ).
 
         IF lo_json->get_count( ) <> 1.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Pull Request'
+              it_keys      = VALUE #( ( iv_repository ) ( iv_branch ) ( `master` ) ).
         ENDIF.
 
         DATA(lo_child) = CAST zcl_cilib_util_json_object( lo_json->get_element_at( 1 ) ).
-        rv_pull_request = lo_child->get_int( gc_merge_request_attributes-id ).
+        rv_pull_request = lo_child->get_int( gc_merge_request_attributes-iid ).
 
       CATCH cx_rest_client_exception INTO DATA(lx_ex).
         RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
@@ -221,6 +242,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
 
   METHOD zif_cilib_host~create_pr_comment.
     " https://docs.gitlab.com/ce/api/notes.html#create-new-merge-request-note
+
+    authenticate_if_needed( ).
 
     TRY.
         DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
@@ -237,7 +260,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         DATA(lv_status) = mi_rest_client->get_status( ).
 
         IF lv_status = 404.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Pull Request'
+              it_keys      = VALUE #( ( iv_repository ) ( CONV #( iv_pull_request ) ) ).
         ELSEIF lv_status <> 201.
           RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
             EXPORTING
@@ -257,6 +284,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
   METHOD zif_cilib_host~get_comments_for_pull_request.
     " https://docs.gitlab.com/ce/api/notes.html#list-all-merge-request-notes
 
+    authenticate_if_needed( ).
+
     TRY.
         DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
           )->append_path_component( gc_endpoints-projects
@@ -271,7 +300,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         DATA(lv_status) = mi_rest_client->get_status( ).
 
         IF lv_status = 404.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Pull Request'
+              it_keys      = VALUE #( ( iv_repository ) ( CONV #( iv_pull_request ) ) ).
         ELSEIF lv_status <> 200.
           RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
             EXPORTING
@@ -308,6 +341,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
   METHOD zif_cilib_host~get_pr_comment_content.
     " https://docs.gitlab.com/ce/api/notes.html#get-single-merge-request-note
 
+    authenticate_if_needed( ).
+
     TRY.
         DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
           )->append_path_component( gc_endpoints-projects
@@ -323,7 +358,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         DATA(lv_status) = mi_rest_client->get_status( ).
 
         IF lv_status = 404.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'PR Comment'
+              it_keys      = VALUE #( ( iv_repository ) ( CONV #( iv_pull_request ) ) ( CONV #( iv_comment ) ) ).
         ELSEIF lv_status <> 200.
           RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
             EXPORTING
@@ -350,6 +389,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
   METHOD zif_cilib_host~get_repo_branches.
     " https://docs.gitlab.com/ce/api/branches.html
 
+    authenticate_if_needed( ).
+
     TRY.
         DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
           )->append_path_component( gc_endpoints-projects
@@ -362,7 +403,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         DATA(lv_status) = mi_rest_client->get_status( ).
 
         IF lv_status = 404.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Repository'
+              iv_key       = iv_repository.
         ELSEIF lv_status <> 200.
           RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
             EXPORTING
@@ -392,6 +437,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
   METHOD zif_cilib_host~set_pr_comment_content.
     " https://docs.gitlab.com/ce/api/notes.html#modify-existing-merge-request-note
 
+    authenticate_if_needed( ).
+
     TRY.
         DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
           )->append_path_component( gc_endpoints-projects
@@ -408,7 +455,11 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         DATA(lv_status) = mi_rest_client->get_status( ).
 
         IF lv_status = 404.
-          RAISE EXCEPTION TYPE zcx_cilib_not_found.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'PR Comment'
+              it_keys      = VALUE #( ( iv_repository ) ( CONV #( iv_pull_request ) ) ( CONV #( iv_comment ) ) ).
         ELSEIF lv_status <> 200.
           RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
             EXPORTING
@@ -467,6 +518,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD zif_cilib_host~get_repo_name_from_url.
+    CONSTANTS: lc_git_suffix_pattern TYPE string VALUE `^.*(\.git)$`.
+
     DATA(lo_url) = NEW zcl_cilib_http_url( iv_url ).
     DATA(lv_path) = lo_url->get_path( ).
 
@@ -474,10 +527,20 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
       SHIFT lv_path LEFT BY 1 PLACES.
     ENDIF.
 
-    IF lv_path CP '*.git'.
-      SHIFT lv_path RIGHT BY 4 PLACES.
+    CONDENSE lv_path.
+
+    DATA(lo_regex) = NEW cl_abap_regex( lc_git_suffix_pattern ).
+    DATA(lo_matcher) = lo_regex->create_matcher( text = lv_path ).
+    IF lo_matcher->match( ) = abap_true.
+      REPLACE SECTION OFFSET lo_matcher->get_offset( 1 ) LENGTH lo_matcher->get_length( 1 ) OF lv_path WITH space.
     ENDIF.
 
     rv_repository = condense( lv_path ).
+  ENDMETHOD.
+
+  METHOD authenticate_if_needed.
+    IF zif_cilib_host~mv_is_authenticated = abap_false ##TODO. " Is 'lazy authentication' a good idea?
+      zif_cilib_host~authenticate( ).
+    ENDIF.
   ENDMETHOD.
 ENDCLASS.
