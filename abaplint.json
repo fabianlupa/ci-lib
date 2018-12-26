@@ -1,4 +1,7 @@
 {
+   "global":{
+      "skipGeneratedFunctionGroups": true
+   },
    "rules":{
       "7bit_ascii":{
          "enabled":true
