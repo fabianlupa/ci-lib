@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "abaplint src/*.abap"
+    "test": "abaplint src/**/*.*"
   },
   "devDependencies": {
     "abaplint": ">=1.5.4"
