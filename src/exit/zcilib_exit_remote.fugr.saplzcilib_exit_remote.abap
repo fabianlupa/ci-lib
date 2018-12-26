@@ -1,8 +1,8 @@
 *******************************************************************
 *   System-defined Include-files.                                 *
 *******************************************************************
-  INCLUDE LZCILIB_EXIT_REMOTETOP.            " Global Declarations
-  INCLUDE LZCILIB_EXIT_REMOTEUXX.            " Function Modules
+INCLUDE lzcilib_exit_remotetop.            " Global Declarations
+INCLUDE lzcilib_exit_remoteuxx.            " Function Modules
 
 *******************************************************************
 *   User-defined Include-files (if necessary).                    *

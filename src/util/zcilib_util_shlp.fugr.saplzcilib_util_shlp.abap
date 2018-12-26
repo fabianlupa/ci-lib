@@ -1,8 +1,8 @@
 *******************************************************************
 *   System-defined Include-files.                                 *
 *******************************************************************
-  INCLUDE LZCILIB_UTIL_SHLPTOP.              " Global Declarations
-  INCLUDE LZCILIB_UTIL_SHLPUXX.              " Function Modules
+INCLUDE lzcilib_util_shlptop.              " Global Declarations
+INCLUDE lzcilib_util_shlpuxx.              " Function Modules
 
 *******************************************************************
 *   User-defined Include-files (if necessary).                    *

@@ -1,36 +1,34 @@
-class ZCL_IM_CILIB_TR_CHECK definition
-  public
-  final
-  create public .
+CLASS zcl_im_cilib_tr_check DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC.
 
-public section.
-
-  interfaces IF_EX_CTS_REQUEST_CHECK .
-protected section.
-private section.
+  PUBLIC SECTION.
+    INTERFACES:
+      if_ex_cts_request_check.
+  PROTECTED SECTION.
+  PRIVATE SECTION.
 ENDCLASS.
 
 
 
-CLASS ZCL_IM_CILIB_TR_CHECK IMPLEMENTATION.
+CLASS zcl_im_cilib_tr_check IMPLEMENTATION.
+  METHOD if_ex_cts_request_check~check_before_add_objects.
+  ENDMETHOD.
 
 
-  method IF_EX_CTS_REQUEST_CHECK~CHECK_BEFORE_ADD_OBJECTS.
-  endmethod.
+  METHOD if_ex_cts_request_check~check_before_changing_owner.
+  ENDMETHOD.
 
 
-  method IF_EX_CTS_REQUEST_CHECK~CHECK_BEFORE_CHANGING_OWNER.
-  endmethod.
+  METHOD if_ex_cts_request_check~check_before_creation.
+  ENDMETHOD.
 
 
-  method IF_EX_CTS_REQUEST_CHECK~CHECK_BEFORE_CREATION.
-  endmethod.
+  METHOD if_ex_cts_request_check~check_before_release.
+  ENDMETHOD.
 
 
-  method IF_EX_CTS_REQUEST_CHECK~CHECK_BEFORE_RELEASE.
-  endmethod.
-
-
-  method IF_EX_CTS_REQUEST_CHECK~CHECK_BEFORE_RELEASE_SLIN.
-  endmethod.
+  METHOD if_ex_cts_request_check~check_before_release_slin.
+  ENDMETHOD.
 ENDCLASS.

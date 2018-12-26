@@ -1,20 +1,18 @@
-class ZCL_IM_CILIB_TR_IMP_LISTENER definition
-  public
-  final
-  create public .
+CLASS zcl_im_cilib_tr_imp_listener DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC.
 
-public section.
-
-  interfaces IF_EX_CTS_IMPORT_FEEDBACK .
-protected section.
-private section.
+  PUBLIC SECTION.
+    INTERFACES:
+      if_ex_cts_import_feedback.
+  PROTECTED SECTION.
+  PRIVATE SECTION.
 ENDCLASS.
 
 
 
-CLASS ZCL_IM_CILIB_TR_IMP_LISTENER IMPLEMENTATION.
-
-
-  method IF_EX_CTS_IMPORT_FEEDBACK~FEEDBACK_AFTER_IMPORT.
-  endmethod.
+CLASS zcl_im_cilib_tr_imp_listener IMPLEMENTATION.
+  METHOD if_ex_cts_import_feedback~feedback_after_import.
+  ENDMETHOD.
 ENDCLASS.
