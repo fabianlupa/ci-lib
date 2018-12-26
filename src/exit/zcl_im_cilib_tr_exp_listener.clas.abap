@@ -18,10 +18,7 @@ CLASS zcl_im_cilib_tr_exp_listener IMPLEMENTATION.
 
     CHECK type = 'K'.
 
-*    DATA(lo_config) = zcl_cilib_factory=>get_exit_config( ).
-*    DATA(lv_destination) = lo_config->get_exit_rfc_destination( ).
-
-    DATA(lv_destination) = space ##TODO.
+    DATA(lv_destination) = zcl_cilib_factory=>get_settings( )->get_exit_event_destination( ).
 
     CALL FUNCTION 'ZCILIB_EXIT_RAISE_EVENT'
       DESTINATION lv_destination
@@ -42,7 +39,8 @@ CLASS zcl_im_cilib_tr_exp_listener IMPLEMENTATION.
           " Errors here should never stop CTS processes, fallback to syslog
           cl_syslog_writer=>write_entry_with_words(
             iv_message_id = 'TR1'
-            iv_word1      = |ci-lib: Error logging error, { lx_ex->get_text( ) }| ).
+            iv_word1      = |ci-lib: Error logging error, { lx_ex->get_text( ) }|
+          ).
           cl_syslog_writer=>write_entry_with_words(
             iv_message_id = 'TR1'
             iv_word1      = |ci-lib: { lv_error_message }|
