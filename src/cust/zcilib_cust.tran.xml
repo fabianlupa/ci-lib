@@ -4,7 +4,7 @@
   <asx:values>
    <TSTC>
     <TCODE>ZCILIB_CUST</TCODE>
-    <CINFO>Ag==</CINFO>
+    <CINFO>CA==</CINFO>
    </TSTC>
    <TSTCC>
     <TCODE>ZCILIB_CUST</TCODE>
@@ -19,7 +19,7 @@
    </TSTCT>
    <TSTCP>
     <TCODE>ZCILIB_CUST</TCODE>
-    <PARAM>/*SM34 VCLDIR-VCLNAME=ZCILIB_CFG_VC;SHOW=X;</PARAM>
+    <PARAM>\CLASS=ZCL_CILIB_CUST_UI\METHOD=CALL_MAINTENANCE</PARAM>
    </TSTCP>
   </asx:values>
  </asx:abap>
