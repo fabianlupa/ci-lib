@@ -94,9 +94,12 @@ CLASS zcl_cilib_factory IMPLEMENTATION.
       ##TODO. " Abstract away database access
       SELECT SINGLE * INTO @DATA(ls_settings)
         FROM zcilib_settings
-        WHERE dummy = @space.
+        WHERE version = '000'.
       IF sy-subrc <> 0.
-        ##TODO. " Provide default fallback settings, now empty
+        ls_settings = VALUE #( version = '000' ).
+        INSERT zcilib_settings FROM @ls_settings.
+        ASSERT sy-subrc = 0.
+        COMMIT WORK AND WAIT.
       ENDIF.
       go_settings = NEW #( ls_settings-data ).
     ENDIF.
