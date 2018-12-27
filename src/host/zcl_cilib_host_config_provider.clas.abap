@@ -3,7 +3,7 @@ CLASS zcl_cilib_host_config_provider DEFINITION
   PUBLIC
   FINAL
   CREATE PRIVATE
-  GLOBAL FRIENDS zcl_cilib_factory.
+  GLOBAL FRIENDS zcl_cilib_cust_factory.
 
   PUBLIC SECTION.
     INTERFACES:
