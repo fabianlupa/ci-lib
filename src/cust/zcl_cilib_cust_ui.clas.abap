@@ -15,17 +15,11 @@ ENDCLASS.
 
 CLASS zcl_cilib_cust_ui IMPLEMENTATION.
   METHOD call_maintenance.
-    DATA: lt_selection TYPE STANDARD TABLE OF vimsellist.
-
-    lt_selection = VALUE #( ( viewfield = 'VERSION' operator = 'EQ' value = '000' ) ).
-
     CALL FUNCTION 'VIEWCLUSTER_MAINTENANCE_CALL'
       EXPORTING
         viewcluster_name             = 'ZCILIB_CFG_VC'
-        maintenance_action           = 'S'    " Action (Display/Change/Transport: S/U/T/C)
+        maintenance_action           = 'U'
         no_warning_for_clientindep   = abap_true
-      TABLES
-        dba_sellist                  = lt_selection
       EXCEPTIONS
         client_reference             = 1
         foreign_lock                 = 2

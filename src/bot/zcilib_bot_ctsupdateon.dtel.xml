@@ -3,18 +3,18 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <DD04V>
-    <ROLLNAME>ZCILIB_HOST_HOSTPATH</ROLLNAME>
+    <ROLLNAME>ZCILIB_BOT_CTSUPDATEON</ROLLNAME>
     <DDLANGUAGE>E</DDLANGUAGE>
-    <DOMNAME>ZCILIB_HOST_HOSTPATH</DOMNAME>
+    <DOMNAME>XFELD</DOMNAME>
     <HEADLEN>55</HEADLEN>
     <SCRLEN1>10</SCRLEN1>
     <SCRLEN2>20</SCRLEN2>
     <SCRLEN3>40</SCRLEN3>
-    <DDTEXT>Host</DDTEXT>
-    <REPTEXT>Host</REPTEXT>
-    <SCRTEXT_S>Host</SCRTEXT_S>
-    <SCRTEXT_M>Host</SCRTEXT_M>
-    <SCRTEXT_L>Host</SCRTEXT_L>
+    <DDTEXT>CTS Update comments enabled</DDTEXT>
+    <REPTEXT>CTS Update comments enabled</REPTEXT>
+    <SCRTEXT_S>CTS Update</SCRTEXT_S>
+    <SCRTEXT_M>CTS Update enabled</SCRTEXT_M>
+    <SCRTEXT_L>CTS Update comments enabled</SCRTEXT_L>
     <DTELMASTER>E</DTELMASTER>
     <REFKIND>D</REFKIND>
    </DD04V>

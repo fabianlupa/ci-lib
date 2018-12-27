@@ -1,8 +1,26 @@
 *---------------------------------------------------------------------*
 *    view related data declarations
-*   generation date: 26.12.2018 at 21:12:28
+*   generation date: 27.12.2018 at 10:28:24
 *   view maintenance generator version: #001407#
 *---------------------------------------------------------------------*
+*...processing: ZCILIB_BOT_V....................................*
+TABLES: ZCILIB_BOT_V, *ZCILIB_BOT_V. "view work areas
+CONTROLS: TCTRL_ZCILIB_BOT_V
+TYPE TABLEVIEW USING SCREEN '0005'.
+DATA: BEGIN OF STATUS_ZCILIB_BOT_V. "state vector
+          INCLUDE STRUCTURE VIMSTATUS.
+DATA: END OF STATUS_ZCILIB_BOT_V.
+* Table for entries selected to show on screen
+DATA: BEGIN OF ZCILIB_BOT_V_EXTRACT OCCURS 0010.
+INCLUDE STRUCTURE ZCILIB_BOT_V.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCILIB_BOT_V_EXTRACT.
+* Table for all entries loaded from database
+DATA: BEGIN OF ZCILIB_BOT_V_TOTAL OCCURS 0010.
+INCLUDE STRUCTURE ZCILIB_BOT_V.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCILIB_BOT_V_TOTAL.
+
 *...processing: ZCILIB_HOST_V...................................*
 TABLES: ZCILIB_HOST_V, *ZCILIB_HOST_V. "view work areas
 CONTROLS: TCTRL_ZCILIB_HOST_V
@@ -20,6 +38,24 @@ DATA: BEGIN OF ZCILIB_HOST_V_TOTAL OCCURS 0010.
 INCLUDE STRUCTURE ZCILIB_HOST_V.
           INCLUDE STRUCTURE VIMFLAGTAB.
 DATA: END OF ZCILIB_HOST_V_TOTAL.
+
+*...processing: ZCILIB_REPO_V...................................*
+TABLES: ZCILIB_REPO_V, *ZCILIB_REPO_V. "view work areas
+CONTROLS: TCTRL_ZCILIB_REPO_V
+TYPE TABLEVIEW USING SCREEN '0004'.
+DATA: BEGIN OF STATUS_ZCILIB_REPO_V. "state vector
+          INCLUDE STRUCTURE VIMSTATUS.
+DATA: END OF STATUS_ZCILIB_REPO_V.
+* Table for entries selected to show on screen
+DATA: BEGIN OF ZCILIB_REPO_V_EXTRACT OCCURS 0010.
+INCLUDE STRUCTURE ZCILIB_REPO_V.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCILIB_REPO_V_EXTRACT.
+* Table for all entries loaded from database
+DATA: BEGIN OF ZCILIB_REPO_V_TOTAL OCCURS 0010.
+INCLUDE STRUCTURE ZCILIB_REPO_V.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCILIB_REPO_V_TOTAL.
 
 *...processing: ZCILIB_SETT_V...................................*
 TABLES: ZCILIB_SETT_V, *ZCILIB_SETT_V. "view work areas
@@ -40,5 +76,7 @@ INCLUDE STRUCTURE ZCILIB_SETT_V.
 DATA: END OF ZCILIB_SETT_V_TOTAL.
 
 *.........table declarations:.................................*
+TABLES: ZCILIB_BOT                     .
 TABLES: ZCILIB_HOST                    .
+TABLES: ZCILIB_REPO                    .
 TABLES: ZCILIB_SETTINGS                .

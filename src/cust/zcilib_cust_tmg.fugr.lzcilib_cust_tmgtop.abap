@@ -1,4 +1,4 @@
-* regenerated at 26.12.2018 14:44:16
+* regenerated at 27.12.2018 10:12:54
 FUNCTION-POOL ZCILIB_CUST_TMG            MESSAGE-ID SV.
 
 * INCLUDE LZCILIB_CUST_TMGD...               " Local class definition

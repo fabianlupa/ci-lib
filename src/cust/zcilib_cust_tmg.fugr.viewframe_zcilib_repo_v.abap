@@ -1,9 +1,9 @@
 *---------------------------------------------------------------------*
-*    program for:   VIEWFRAME_ZCILIB_SETT_V
-*   generation date: 27.12.2018 at 10:11:42
+*    program for:   VIEWFRAME_ZCILIB_REPO_V
+*   generation date: 27.12.2018 at 10:12:53
 *   view maintenance generator version: #001407#
 *---------------------------------------------------------------------*
-FUNCTION VIEWFRAME_ZCILIB_SETT_V       .
+FUNCTION VIEWFRAME_ZCILIB_REPO_V       .
 
   DATA: ENQUEUE_PROCESSED TYPE C. "flag: view enqueued by VIEWFRAME_...
 
@@ -14,15 +14,15 @@ FUNCTION VIEWFRAME_ZCILIB_SETT_V       .
 *----------------------------------------------------------------------*
 * Select data from database                                            *
 *----------------------------------------------------------------------*
-CALL FUNCTION 'VIEWPROC_ZCILIB_SETT_V'
+CALL FUNCTION 'VIEWPROC_ZCILIB_REPO_V'
          EXPORTING
               FCODE          = READ
               VIEW_ACTION    = VIEW_ACTION
               VIEW_NAME      = VIEW_NAME
          TABLES
               EXCL_CUA_FUNCT = EXCL_CUA_FUNCT
-EXTRACT = ZCILIB_SETT_V_EXTRACT
-TOTAL = ZCILIB_SETT_V_TOTAL
+EXTRACT = ZCILIB_REPO_V_EXTRACT
+TOTAL = ZCILIB_REPO_V_TOTAL
               X_HEADER       = X_HEADER
               X_NAMTAB       = X_NAMTAB
               DBA_SELLIST    = DBA_SELLIST
@@ -46,7 +46,7 @@ TOTAL = ZCILIB_SETT_V_TOTAL
 * Edit data                                                            *
 *----------------------------------------------------------------------*
       DO.
-CALL FUNCTION 'VIEWPROC_ZCILIB_SETT_V'
+CALL FUNCTION 'VIEWPROC_ZCILIB_REPO_V'
              EXPORTING
                   FCODE           = EDIT
                   VIEW_ACTION     = MAINT_MODE
@@ -54,11 +54,11 @@ CALL FUNCTION 'VIEWPROC_ZCILIB_SETT_V'
                   CORR_NUMBER     = CORR_NUMBER
              IMPORTING
                   UCOMM           = FUNCTION
-UPDATE_REQUIRED = STATUS_ZCILIB_SETT_V-UPD_FLAG
+UPDATE_REQUIRED = STATUS_ZCILIB_REPO_V-UPD_FLAG
              TABLES
                   EXCL_CUA_FUNCT  = EXCL_CUA_FUNCT
-EXTRACT = ZCILIB_SETT_V_EXTRACT
-TOTAL = ZCILIB_SETT_V_TOTAL
+EXTRACT = ZCILIB_REPO_V_EXTRACT
+TOTAL = ZCILIB_REPO_V_TOTAL
                   X_HEADER        = X_HEADER
                   X_NAMTAB        = X_NAMTAB
                   DBA_SELLIST     = DBA_SELLIST
@@ -91,22 +91,22 @@ TOTAL = ZCILIB_SETT_V_TOTAL
            FUNCTION EQ GET_ANOTHER_VIEW    OR
            FUNCTION EQ SWITCH_TRANSP_TO_UPD_MODE OR
            FUNCTION EQ END ) AND
-STATUS_ZCILIB_SETT_V-UPD_FLAG NE SPACE.
+STATUS_ZCILIB_REPO_V-UPD_FLAG NE SPACE.
         PERFORM BEENDEN.
         CASE SY-SUBRC.
           WHEN 0.
-CALL FUNCTION 'VIEWPROC_ZCILIB_SETT_V'
+CALL FUNCTION 'VIEWPROC_ZCILIB_REPO_V'
                   EXPORTING
                       FCODE           = SAVE
                       VIEW_ACTION     = MAINT_MODE
                       VIEW_NAME       = VIEW_NAME
                       CORR_NUMBER     = CORR_NUMBER
                   IMPORTING
-UPDATE_REQUIRED = STATUS_ZCILIB_SETT_V-UPD_FLAG
+UPDATE_REQUIRED = STATUS_ZCILIB_REPO_V-UPD_FLAG
                   TABLES
                       EXCL_CUA_FUNCT  = EXCL_CUA_FUNCT
-EXTRACT = ZCILIB_SETT_V_EXTRACT
-TOTAL = ZCILIB_SETT_V_TOTAL
+EXTRACT = ZCILIB_REPO_V_EXTRACT
+TOTAL = ZCILIB_REPO_V_TOTAL
                       X_HEADER        = X_HEADER
                       X_NAMTAB        = X_NAMTAB
                       DBA_SELLIST     = DBA_SELLIST
@@ -118,7 +118,7 @@ TOTAL = ZCILIB_SETT_V_TOTAL
                       SAVING_CORRECTION_FAILED  = 3.
             CASE SY-SUBRC.
               WHEN 0.
-IF STATUS_ZCILIB_SETT_V-UPD_FLAG EQ SPACE. EXIT. ENDIF.
+IF STATUS_ZCILIB_REPO_V-UPD_FLAG EQ SPACE. EXIT. ENDIF.
               WHEN 1. RAISE MISSING_CORR_NUMBER.
               WHEN 2. RAISE NO_VALUE_FOR_SUBSET_IDENT.
               WHEN 3.
@@ -130,11 +130,11 @@ IF STATUS_ZCILIB_SETT_V-UPD_FLAG EQ SPACE. EXIT. ENDIF.
 *  ...2nd: transport request                                           *
 *----------------------------------------------------------------------*
       ELSEIF FUNCTION EQ TRANSPORT.
-IF STATUS_ZCILIB_SETT_V-UPD_FLAG NE SPACE.
+IF STATUS_ZCILIB_REPO_V-UPD_FLAG NE SPACE.
           PERFORM TRANSPORTIEREN.
           CASE SY-SUBRC.
             WHEN 0.
-CALL FUNCTION 'VIEWPROC_ZCILIB_SETT_V'
+CALL FUNCTION 'VIEWPROC_ZCILIB_REPO_V'
                     EXPORTING
                         FCODE           = SAVE
                         VIEW_ACTION     = MAINT_MODE
@@ -142,11 +142,11 @@ CALL FUNCTION 'VIEWPROC_ZCILIB_SETT_V'
                         CORR_NUMBER     = CORR_NUMBER
                     IMPORTING
                               UPDATE_REQUIRED =
-STATUS_ZCILIB_SETT_V-UPD_FLAG
+STATUS_ZCILIB_REPO_V-UPD_FLAG
                     TABLES
                         EXCL_CUA_FUNCT  = EXCL_CUA_FUNCT
-EXTRACT = ZCILIB_SETT_V_EXTRACT
-TOTAL = ZCILIB_SETT_V_TOTAL
+EXTRACT = ZCILIB_REPO_V_EXTRACT
+TOTAL = ZCILIB_REPO_V_TOTAL
                         X_HEADER        = X_HEADER
                         X_NAMTAB        = X_NAMTAB
                         DBA_SELLIST     = DBA_SELLIST
@@ -178,18 +178,18 @@ TOTAL = ZCILIB_SETT_V_TOTAL
 *----------------------------------------------------------------------*
 *  Refresh selected entries from database or save data into database   *
 *----------------------------------------------------------------------*
-CALL FUNCTION 'VIEWPROC_ZCILIB_SETT_V'
+CALL FUNCTION 'VIEWPROC_ZCILIB_REPO_V'
              EXPORTING
                   FCODE               = FUNCTION
                   VIEW_ACTION         = MAINT_MODE
                   VIEW_NAME           = VIEW_NAME
                   CORR_NUMBER         = CORR_NUMBER
              IMPORTING
-UPDATE_REQUIRED = STATUS_ZCILIB_SETT_V-UPD_FLAG
+UPDATE_REQUIRED = STATUS_ZCILIB_REPO_V-UPD_FLAG
              TABLES
                   EXCL_CUA_FUNCT      = EXCL_CUA_FUNCT
-EXTRACT = ZCILIB_SETT_V_EXTRACT
-TOTAL = ZCILIB_SETT_V_TOTAL
+EXTRACT = ZCILIB_REPO_V_EXTRACT
+TOTAL = ZCILIB_REPO_V_TOTAL
                   X_HEADER            = X_HEADER
                   X_NAMTAB            = X_NAMTAB
                   DBA_SELLIST         = DBA_SELLIST
