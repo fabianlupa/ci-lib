@@ -10,7 +10,7 @@ ENDCLASS.
 
 CLASS lcl_main IMPLEMENTATION.
   METHOD run.
-    DATA(li_host) = zcl_cilib_factory=>get_host_for_repo( 'https://gitlab.dummy.nodomain/department-a/test-project' ).
+    DATA(li_host) = zcl_cilib_factory=>get_host_for_repo_url( 'https://gitlab.dummy.nodomain/department-a/test-project' ).
 *    DATA(li_host) = CAST zif_cilib_host(
 *      NEW zcl_cilib_host_gitlab( NEW #( VALUE #( destination = 'GITLAB' api_token = 'n6ER2bx8odvTAMhox33y' ) ) )
 *    ).

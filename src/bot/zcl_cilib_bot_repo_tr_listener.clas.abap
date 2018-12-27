@@ -26,7 +26,7 @@ CLASS zcl_cilib_bot_repo_tr_listener IMPLEMENTATION.
 
     DATA(li_abapgit) = zcl_cilib_factory=>get_abapgit_api( ).
     DATA(lv_repo_url) = li_abapgit->get_repo_url( iv_repo_id ).
-    DATA(li_host) = zcl_cilib_factory=>get_host_for_repo( lv_repo_url ).
+    DATA(li_host) = zcl_cilib_factory=>get_host_for_repo_url( lv_repo_url ).
     DATA(lv_repo_name) = li_host->get_repo_name_from_url( lv_repo_url ).
 
     TRY.

@@ -8,8 +8,8 @@ CLASS zcl_cilib_factory DEFINITION
     CLASS-METHODS:
       get_bot RETURNING VALUE(ri_bot) TYPE REF TO zif_cilib_bot,
       get_abapgit_api RETURNING VALUE(ri_abapgit_api) TYPE REF TO zif_cilib_abapgit_api,
-      get_host_for_repo IMPORTING iv_repo_url    TYPE string
-                        RETURNING VALUE(ri_host) TYPE REF TO zif_cilib_host,
+      get_host_for_repo_url IMPORTING iv_repo_url    TYPE string
+                            RETURNING VALUE(ri_host) TYPE REF TO zif_cilib_host,
       get_cts_api RETURNING VALUE(ri_cts_api) TYPE REF TO zif_cilib_cts_api,
       get_logger RETURNING VALUE(ri_logger) TYPE REF TO zif_cilib_util_logger,
       get_settings RETURNING VALUE(ro_settings) TYPE REF TO zcl_cilib_settings.
@@ -43,7 +43,7 @@ CLASS zcl_cilib_factory IMPLEMENTATION.
 
   ENDMETHOD.
 
-  METHOD get_host_for_repo.
+  METHOD get_host_for_repo_url.
     IF gi_host_config_provider IS NOT BOUND.
       gi_host_config_provider = NEW zcl_cilib_host_config_provider( ).
     ENDIF.
