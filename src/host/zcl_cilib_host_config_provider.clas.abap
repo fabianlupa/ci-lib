@@ -33,9 +33,17 @@ CLASS zcl_cilib_host_config_provider IMPLEMENTATION.
         IF sy-subrc <> 0.
           RAISE EXCEPTION TYPE zcx_cilib_not_found.
         ELSE.
+          SELECT * INTO TABLE @DATA(lt_repo_configs)
+            FROM zcilib_repo
+            WHERE host = @lv_host.
           INSERT VALUE #(
             host     = ls_config-host
-            instance = NEW #( ls_config-data )
+            instance = NEW #( iv_host  = ls_config-host
+                              is_data  = ls_config-data
+                              it_repos = VALUE #( FOR r IN lt_repo_configs (
+                                                    repo = r-repo instance = NEW #( iv_repo = r-repo
+                                                                                    is_data = r-data )
+                                                  ) ) )
           ) INTO TABLE mt_cache REFERENCE INTO DATA(lr_new).
           ro_config = lr_new->instance.
         ENDIF.
