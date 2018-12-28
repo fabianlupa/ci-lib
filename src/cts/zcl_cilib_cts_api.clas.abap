@@ -59,4 +59,18 @@ CLASS zcl_cilib_cts_api IMPLEMENTATION.
       RAISE EXCEPTION TYPE zcx_cilib_not_found.
     ENDIF.
   ENDMETHOD.
+
+  METHOD zif_cilib_cts_api~get_cts_organizer_web_ui_url.
+    CALL FUNCTION 'CTS_CFG_GET_ORGANIZER_URL'
+      EXPORTING
+        sysname = iv_system
+        request = iv_transport
+        view    = COND char20( WHEN iv_transport IS NOT INITIAL THEN 'PROCESS_REQUEST' ELSE 'MANAGE_REQUESTS' )
+      IMPORTING
+        url     = rv_url.
+
+    IF rv_url IS INITIAL.
+      RAISE EXCEPTION TYPE zcx_cilib_illegal_argument.
+    ENDIF.
+  ENDMETHOD.
 ENDCLASS.

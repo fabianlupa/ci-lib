@@ -11,5 +11,9 @@ INTERFACE zif_cilib_cts_api PUBLIC.
                            RAISING   zcx_cilib_not_found,
     get_packages_for_objects IMPORTING it_objects         TYPE zif_cilib_constants=>gty_object_tab
                              RETURNING VALUE(rt_packages) TYPE gty_package_tab
-                             RAISING   zcx_cilib_not_found.
+                             RAISING   zcx_cilib_not_found,
+    get_cts_organizer_web_ui_url IMPORTING iv_system     TYPE syst_sysid DEFAULT sy-sysid
+                                           iv_transport  TYPE trkorr OPTIONAL
+                                 RETURNING VALUE(rv_url) TYPE string
+                                 RAISING   zcx_cilib_illegal_argument.
 ENDINTERFACE.

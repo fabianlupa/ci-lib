@@ -24,7 +24,16 @@
           <tt:loop name="transport" ref=".TRANSPORTS">
             <tr>
               <td>
-                <tt:value ref="$transport.transport"/>
+                <tt:attribute name="title" value-ref="$transport.text"/>
+                <a>
+                  <tt:s-cond s-check="not-initial($transport.cts_url)">
+                    <tt:attribute name="href" value-ref="$transport.cts_url"/>
+                  </tt:s-cond>
+                  <tt:d-cond>
+                    <tt:attribute name="href" value-ref="$transport.cts_url"/>
+                  </tt:d-cond>
+                  <tt:value ref="$transport.transport"/>
+                </a>
               </td>
               <tt:loop name="status" ref="$transport.import_info">
                 <td>

@@ -19,6 +19,7 @@ INTERFACE zif_cilib_bot_status_tmpl PUBLIC.
       text        TYPE string,
       released    TYPE abap_bool,
       import_info TYPE gty_import_info_tab,
+      cts_url     TYPE string,
     END OF gty_transport,
     gty_transport_tab TYPE SORTED TABLE OF gty_transport WITH UNIQUE KEY transport.
   CONSTANTS:
@@ -43,6 +44,7 @@ INTERFACE zif_cilib_bot_status_tmpl PUBLIC.
     add_transport IMPORTING iv_transport   TYPE trkorr
                             iv_text        TYPE csequence OPTIONAL
                             iv_released    TYPE abap_bool
+                            iv_cts_url     TYPE string OPTIONAL
                             it_import_info TYPE gty_import_info_tab,
     add_history_entry IMPORTING iv_entry TYPE csequence.
 ENDINTERFACE.

@@ -45,12 +45,13 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD zif_cilib_bot_status_tmpl~add_transport.
-    APPEND VALUE #(
+    INSERT VALUE #(
       transport   = iv_transport
       text        = iv_text
       released    = iv_released
+      cts_url     = iv_cts_url
       import_info = it_import_info
-    ) TO mt_transports.
+    ) INTO TABLE mt_transports.
   ENDMETHOD.
 
   METHOD zif_cilib_bot_status_tmpl~get_systems.
