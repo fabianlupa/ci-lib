@@ -1,6 +1,6 @@
 *---------------------------------------------------------------------*
 *    view related data declarations
-*   generation date: 28.12.2018 at 13:34:31
+*   generation date: 28.12.2018 at 16:02:27
 *   view maintenance generator version: #001407#
 *---------------------------------------------------------------------*
 *...processing: ZCILIB_BOT_V....................................*
@@ -75,8 +75,46 @@ INCLUDE STRUCTURE ZCILIB_SETT_V.
           INCLUDE STRUCTURE VIMFLAGTAB.
 DATA: END OF ZCILIB_SETT_V_TOTAL.
 
+*...processing: ZCILIB_SYSGRP_V.................................*
+TABLES: ZCILIB_SYSGRP_V, *ZCILIB_SYSGRP_V. "view work areas
+CONTROLS: TCTRL_ZCILIB_SYSGRP_V
+TYPE TABLEVIEW USING SCREEN '0007'.
+DATA: BEGIN OF STATUS_ZCILIB_SYSGRP_V. "state vector
+          INCLUDE STRUCTURE VIMSTATUS.
+DATA: END OF STATUS_ZCILIB_SYSGRP_V.
+* Table for entries selected to show on screen
+DATA: BEGIN OF ZCILIB_SYSGRP_V_EXTRACT OCCURS 0010.
+INCLUDE STRUCTURE ZCILIB_SYSGRP_V.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCILIB_SYSGRP_V_EXTRACT.
+* Table for all entries loaded from database
+DATA: BEGIN OF ZCILIB_SYSGRP_V_TOTAL OCCURS 0010.
+INCLUDE STRUCTURE ZCILIB_SYSGRP_V.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCILIB_SYSGRP_V_TOTAL.
+
+*...processing: ZCILIB_SYSTEM_V.................................*
+TABLES: ZCILIB_SYSTEM_V, *ZCILIB_SYSTEM_V. "view work areas
+CONTROLS: TCTRL_ZCILIB_SYSTEM_V
+TYPE TABLEVIEW USING SCREEN '0008'.
+DATA: BEGIN OF STATUS_ZCILIB_SYSTEM_V. "state vector
+          INCLUDE STRUCTURE VIMSTATUS.
+DATA: END OF STATUS_ZCILIB_SYSTEM_V.
+* Table for entries selected to show on screen
+DATA: BEGIN OF ZCILIB_SYSTEM_V_EXTRACT OCCURS 0010.
+INCLUDE STRUCTURE ZCILIB_SYSTEM_V.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCILIB_SYSTEM_V_EXTRACT.
+* Table for all entries loaded from database
+DATA: BEGIN OF ZCILIB_SYSTEM_V_TOTAL OCCURS 0010.
+INCLUDE STRUCTURE ZCILIB_SYSTEM_V.
+          INCLUDE STRUCTURE VIMFLAGTAB.
+DATA: END OF ZCILIB_SYSTEM_V_TOTAL.
+
 *.........table declarations:.................................*
 TABLES: ZCILIB_BOT                     .
 TABLES: ZCILIB_HOST                    .
 TABLES: ZCILIB_REPO                    .
 TABLES: ZCILIB_SETTINGS                .
+TABLES: ZCILIB_SYSGRP                  .
+TABLES: ZCILIB_SYSTEM                  .
