@@ -3241,11 +3241,11 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>FRAME_TMPL</TYPE>
        <NAME>VIM_FRAME_FIELD</NAME>
-       <TEXT>________________________________________________</TEXT>
+       <TEXT>_____________________________________________________</TEXT>
        <LINE>003</LINE>
        <COLUMN>001</COLUMN>
-       <LENGTH>048</LENGTH>
-       <VISLENGTH>048</VISLENGTH>
+       <LENGTH>053</LENGTH>
+       <VISLENGTH>053</VISLENGTH>
        <HEIGHT>006</HEIGHT>
        <FORMAT>CHAR</FORMAT>
        <UP_LOWER>X</UP_LOWER>
@@ -3276,11 +3276,11 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCILIB_BOT_V-CTS_STATUS_TEMPLATE_IMPL</NAME>
-       <TEXT>CTS_Status_Impl</TEXT>
+       <TEXT>CTS_Status_Impl.____</TEXT>
        <LINE>005</LINE>
        <COLUMN>002</COLUMN>
-       <LENGTH>015</LENGTH>
-       <VISLENGTH>015</VISLENGTH>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
        <HEIGHT>001</HEIGHT>
        <FORMAT>CHAR</FORMAT>
        <FROM_DICT>X</FROM_DICT>
@@ -3295,7 +3295,7 @@
        <NAME>ZCILIB_BOT_V-CTS_STATUS_TEMPLATE_IMPL</NAME>
        <TEXT>______________________________</TEXT>
        <LINE>005</LINE>
-       <COLUMN>018</COLUMN>
+       <COLUMN>023</COLUMN>
        <LENGTH>030</LENGTH>
        <VISLENGTH>030</VISLENGTH>
        <HEIGHT>001</HEIGHT>
@@ -3331,11 +3331,11 @@
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCILIB_BOT_V-CTS_UPDATE_TEMPLATE_IMPL</NAME>
-       <TEXT>CTS_Update_Impl</TEXT>
+       <TEXT>CTS_Update_Impl.____</TEXT>
        <LINE>007</LINE>
        <COLUMN>002</COLUMN>
-       <LENGTH>015</LENGTH>
-       <VISLENGTH>015</VISLENGTH>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
        <HEIGHT>001</HEIGHT>
        <FORMAT>CHAR</FORMAT>
        <FROM_DICT>X</FROM_DICT>
@@ -3350,7 +3350,7 @@
        <NAME>ZCILIB_BOT_V-CTS_UPDATE_TEMPLATE_IMPL</NAME>
        <TEXT>______________________________</TEXT>
        <LINE>007</LINE>
-       <COLUMN>018</COLUMN>
+       <COLUMN>023</COLUMN>
        <LENGTH>030</LENGTH>
        <VISLENGTH>030</VISLENGTH>
        <HEIGHT>001</HEIGHT>
