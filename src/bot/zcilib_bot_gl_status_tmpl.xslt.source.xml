@@ -1,0 +1,52 @@
+<?sap.transform simple?>
+<tt:transform xmlns:tt="http://www.sap.com/transformation-templates">
+
+  <tt:root name="TRANSPORTS"/>
+  <tt:root name="SYSTEMS"/>
+  <tt:root name="HISTORY"/>
+
+  <tt:template>
+    <div>
+      <h4>Transports</h4>
+      <table>
+        <thead>
+          <tr>
+            <td>Transport</td>
+            <tt:loop name="system" ref=".SYSTEMS">
+              <td>
+                <tt:attribute name="title" value-ref="$system.description"/>
+                <tt:value ref="$system.id"/>
+              </td>
+            </tt:loop>
+          </tr>
+        </thead>
+        <tbody>
+          <tt:loop name="transport" ref=".TRANSPORTS">
+            <tr>
+              <td>
+                <tt:value ref="$transport.transport"/>
+              </td>
+              <tt:loop name="status" ref="$transport.import_info">
+                <td>
+                  <tt:attribute name="title" value-ref="$status.system"/>
+                  <tt:value ref="$status.import_status"/>
+                </td>
+              </tt:loop>
+            </tr>
+          </tt:loop>
+        </tbody>
+      </table>
+      <details>
+        <summary>Show history</summary>
+        <pre>
+          <tt:loop name="history_line" ref=".HISTORY">
+            <tt:value ref="$history_line"/>
+            <br/>
+          </tt:loop>
+        </pre>
+      </details>
+    </div>
+
+  </tt:template>
+
+</tt:transform>
