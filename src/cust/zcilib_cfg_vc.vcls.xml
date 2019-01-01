@@ -4,7 +4,6 @@
   <asx:values>
    <VCLDIR>
     <VCLNAME>ZCILIB_CFG_VC</VCLNAME>
-    <CHANGEDATE>2018-12-28</CHANGEDATE>
     <EXITPROG>ZCILIB_CUST_EVENTS</EXITPROG>
     <TEXT>ci-lib configuration</TEXT>
    </VCLDIR>
