@@ -73,4 +73,26 @@ CLASS zcl_cilib_cts_api IMPLEMENTATION.
       RAISE EXCEPTION TYPE zcx_cilib_illegal_argument.
     ENDIF.
   ENDMETHOD.
+
+  METHOD zif_cilib_cts_api~get_transport_text.
+    DATA: ls_request TYPE trwbo_request.
+
+    CALL FUNCTION 'TR_READ_REQUEST'
+      EXPORTING
+        iv_read_e07t     = abap_true
+        iv_trkorr        = iv_transport
+      CHANGING
+        cs_request       = ls_request
+      EXCEPTIONS
+        error_occured    = 1
+        no_authorization = 2
+        OTHERS           = 3.
+    IF sy-subrc <> 0.
+      RAISE EXCEPTION TYPE zcx_cilib_not_found
+        EXPORTING
+          is_msg = zcl_cilib_util_msg_tools=>get_msg_from_sy( ).
+    ENDIF.
+
+    rv_text = ls_request-h-as4text.
+  ENDMETHOD.
 ENDCLASS.

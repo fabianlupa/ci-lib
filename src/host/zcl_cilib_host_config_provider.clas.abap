@@ -23,13 +23,14 @@ ENDCLASS.
 
 CLASS zcl_cilib_host_config_provider IMPLEMENTATION.
   METHOD zif_cilib_host_config_provider~get_config_for_host.
-    DATA(lv_host) = to_upper( iv_host ).
+    DATA(lv_host) = to_lower( iv_host ).
     TRY.
         ro_config = mt_cache[ KEY primary_key host = lv_host ]-instance.
       CATCH cx_sy_itab_line_not_found.
-        SELECT SINGLE * INTO @DATA(ls_config)
+        SELECT SINGLE *
           FROM zcilib_host
-          WHERE host = @lv_host.
+          WHERE lower( host ) = @lv_host
+          INTO @DATA(ls_config).
         IF sy-subrc <> 0.
           RAISE EXCEPTION TYPE zcx_cilib_not_found.
         ELSE.

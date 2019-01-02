@@ -22,7 +22,8 @@ CLASS zcl_cilib_host_config DEFINITION
                                 iv_no_fallback   TYPE abap_bool DEFAULT abap_false
                       RETURNING VALUE(ro_config) TYPE REF TO zcl_cilib_host_repo_config
                       RAISING   zcx_cilib_not_found,
-      get_default_bot_name RETURNING VALUE(rv_bot) TYPE zcilib_bot_name.
+      get_default_bot_name RETURNING VALUE(rv_bot) TYPE zcilib_bot_name,
+      get_username RETURNING VALUE(rv_username) TYPE string.
   PROTECTED SECTION.
   PRIVATE SECTION.
     METHODS:
@@ -80,5 +81,9 @@ CLASS zcl_cilib_host_config IMPLEMENTATION.
 
   METHOD get_default_bot_name.
     rv_bot = ms_data-default_bot.
+  ENDMETHOD.
+
+  METHOD get_username.
+    rv_username = 'cts-bot' ##TODO.
   ENDMETHOD.
 ENDCLASS.

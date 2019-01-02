@@ -99,4 +99,16 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
   METHOD zif_cilib_bot_status_tmpl~add_history_entry.
     APPEND iv_entry TO mt_history.
   ENDMETHOD.
+
+  METHOD zif_cilib_bot_status_tmpl~get_transports.
+    rt_transports = mt_transports.
+  ENDMETHOD.
+
+  METHOD zif_cilib_bot_status_tmpl~is_comment_parsable.
+    rv_parsable = abap_true ##TODO.
+  ENDMETHOD.
+
+  METHOD zif_cilib_bot_status_tmpl~set_transports.
+    mt_transports = it_transports.
+  ENDMETHOD.
 ENDCLASS.

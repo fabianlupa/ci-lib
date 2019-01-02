@@ -55,7 +55,9 @@ INTERFACE zif_cilib_host PUBLIC.
     get_repo_name_from_url IMPORTING iv_url               TYPE string
                            RETURNING VALUE(rv_repository) TYPE string
                            RAISING   zcx_cilib_illegal_argument
-                                     zcx_cilib_unsupp_operation.
+                                     zcx_cilib_unsupp_operation,
+    get_config RETURNING VALUE(ro_config) TYPE REF TO zcl_cilib_host_config ##TODO, " Should this be included?
+    get_host_path RETURNING VALUE(rv_host_path) TYPE zcilib_host_hostpath.
   DATA:
     mv_is_authenticated TYPE abap_bool READ-ONLY.
 ENDINTERFACE.
