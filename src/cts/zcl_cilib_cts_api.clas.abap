@@ -95,4 +95,16 @@ CLASS zcl_cilib_cts_api IMPLEMENTATION.
 
     rv_text = ls_request-h-as4text.
   ENDMETHOD.
+
+  METHOD zif_cilib_cts_api~get_import_queue_web_ui_url.
+    TRY.
+        rv_url = cl_cts_ui_reuse=>get_import_queue_url( CONV #( iv_system ) ).
+      CATCH cx_cts_ui_reuse INTO DATA(lx_ex).
+        RAISE EXCEPTION TYPE zcx_cilib_not_found
+          EXPORTING
+            is_msg      = zcl_cilib_util_msg_tools=>get_msg_from_exc( lx_ex )
+            ix_previous = lx_ex.
+    ENDTRY.
+  ENDMETHOD.
+
 ENDCLASS.
