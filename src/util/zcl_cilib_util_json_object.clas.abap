@@ -8,8 +8,9 @@ CLASS zcl_cilib_util_json_object DEFINITION
 
   PUBLIC SECTION.
     METHODS:
-      get_string IMPORTING iv_name          TYPE csequence
-                 RETURNING VALUE(rv_string) TYPE string
+      get_string IMPORTING iv_name                     TYPE csequence
+                           iv_replace_unicode_entities TYPE abap_bool DEFAULT abap_false
+                 RETURNING VALUE(rv_string)            TYPE string
                  RAISING   zcx_cilib_not_found,
       get_int IMPORTING iv_name       TYPE csequence
               RETURNING VALUE(rv_int) TYPE i
@@ -85,6 +86,7 @@ CLASS zcl_cilib_util_json_object IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD get_string.
+    DATA: lv_hex TYPE x LENGTH 2.
     FIELD-SYMBOLS: <lv_string> TYPE csequence,
                    <lr_ref>    TYPE REF TO data.
 
@@ -100,6 +102,17 @@ CLASS zcl_cilib_util_json_object IMPLEMENTATION.
     ASSERT sy-subrc = 0.
 
     rv_string = <lv_string>.
+
+    IF iv_replace_unicode_entities = abap_true.
+      " https://stackoverflow.com/questions/52207088/cl-http-utility-not-normalizing-my-url-why
+      FIND ALL OCCURRENCES OF REGEX '\\u....' IN rv_string RESULTS DATA(lt_matches).
+      SORT lt_matches BY offset DESCENDING.
+      LOOP AT lt_matches ASSIGNING FIELD-SYMBOL(<ls_match>).
+        lv_hex = to_upper( substring( val = rv_string+<ls_match>-offset(<ls_match>-length) off = 2 ) ).
+        DATA(lv_uchar) = cl_abap_conv_in_ce=>uccp( lv_hex ).
+        REPLACE SECTION OFFSET <ls_match>-offset LENGTH <ls_match>-length OF rv_string WITH lv_uchar.
+      ENDLOOP.
+    ENDIF.
   ENDMETHOD.
 
   METHOD get_int.

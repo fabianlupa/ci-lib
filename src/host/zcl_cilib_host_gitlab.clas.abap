@@ -379,7 +379,10 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
           zcl_cilib_util_json_parser=>create_from_xstring( li_response->get_binary_data( ) )
         ).
 
-        rv_content = lo_json->get_string( gc_note_attributes-body ).
+        rv_content = lo_json->get_string(
+          iv_name                     = gc_note_attributes-body
+          iv_replace_unicode_entities = abap_true
+        ).
 
       CATCH cx_rest_client_exception INTO DATA(lx_ex).
         RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
