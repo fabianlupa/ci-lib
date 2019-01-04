@@ -24,6 +24,7 @@ INTERFACE zif_cilib_bot_status_tmpl PUBLIC.
     gty_transport_tab TYPE SORTED TABLE OF gty_transport WITH UNIQUE KEY transport.
   CONSTANTS:
     BEGIN OF gc_import_status,
+      released        TYPE gty_import_status VALUE 'R',
       not_imported    TYPE gty_import_status VALUE 'N',
       imported        TYPE gty_import_status VALUE 'I',
       error_on_import TYPE gty_import_status VALUE 'E',

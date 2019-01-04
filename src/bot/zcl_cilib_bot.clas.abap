@@ -110,7 +110,6 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
           li_status_template = instantiate_status_template( ).
         ENDIF.
 
-        li_status_template->add_history_entry( 'New history entry...' ) ##TODO.
         DATA(lt_transports) = li_status_template->get_transports( ).
 
         LOOP AT it_new_info ASSIGNING FIELD-SYMBOL(<ls_info>).
@@ -123,13 +122,30 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
           <ls_transport>-cts_url = mi_cts_api->get_cts_organizer_web_ui_url( <ls_transport>-transport ).
           CASE <ls_info>-event.
             WHEN zif_cilib_bot=>gc_events-released.
+              IF <ls_transport>-released <> abap_true.
+                li_status_template->add_history_entry(
+                  |Released transport { <ls_transport>-transport } on { <ls_info>-system }|
+                ) ##TODO.
+              ENDIF.
               <ls_transport>-released = abap_true.
+              TRY.
+                  MODIFY TABLE <ls_transport>-import_info FROM VALUE #(
+                    system        = <ls_info>-system
+                    import_status = zif_cilib_bot_status_tmpl=>gc_import_status-released
+                  ) USING KEY unique.
+                CATCH cx_sy_itab_duplicate_key.
+                  ##TODO.
+              ENDTRY.
+
             WHEN zif_cilib_bot=>gc_events-imported.
               TRY.
                   INSERT VALUE #(
                     system        = <ls_info>-system
                     import_status = zif_cilib_bot_status_tmpl=>gc_import_status-imported
                   ) INTO TABLE <ls_transport>-import_info.
+                  li_status_template->add_history_entry(
+                    |Imported transport { <ls_transport>-transport } on { <ls_info>-system }|
+                  ) ##TODO.
                 CATCH cx_sy_itab_duplicate_key.
                   ##TODO.
               ENDTRY.
