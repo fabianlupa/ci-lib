@@ -19,3 +19,5 @@
   INCLUDE LSVIMFXX                                . " subprograms
   INCLUDE LSVIMOXX                                . " PBO modules
   INCLUDE LSVIMIXX                                . " PAI modules
+
+INCLUDE lzcilib_cust_tmgf01.

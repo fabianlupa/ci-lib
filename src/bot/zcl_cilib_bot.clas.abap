@@ -138,11 +138,9 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
 
         li_status_template->set_transports( lt_transports ).
 
-        li_status_template->set_systems( VALUE #(
-          ( id = 'NPL' description = 'Development - local' )
-          ( id = 'DEV' description = 'Development' )
-          ( id = 'QAS' description = 'Quality Assurance' )
-          ( id = 'PRD' description = 'Production' )
+        DATA(lo_system_group) = zcl_cilib_cust_factory=>get_system_group( mo_config->get_system_group( ) ).
+        li_status_template->set_systems( VALUE #( FOR s IN lo_system_group->get_systems( )
+          ( id = s-system_id description = s-description )
         ) ).
 
         IF lv_update_comment IS NOT INITIAL.
