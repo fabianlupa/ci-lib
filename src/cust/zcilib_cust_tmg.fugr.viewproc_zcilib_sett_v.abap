@@ -1,6 +1,6 @@
 *---------------------------------------------------------------------*
 *    program for:   VIEWPROC_ZCILIB_SETT_V
-*   generation date: 26.12.2018 at 14:44:16
+*   generation date: 27.12.2018 at 10:11:42
 *   view maintenance generator version: #001407#
 *---------------------------------------------------------------------*
 FUNCTION VIEWPROC_ZCILIB_SETT_V        .

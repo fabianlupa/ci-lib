@@ -1,4 +1,4 @@
-* regenerated at 17.12.2018 19:09:57
+* regenerated at 28.12.2018 16:02:27
 *******************************************************************
 *   System-defined Include-files.                                 *
 *******************************************************************
@@ -19,3 +19,5 @@
   INCLUDE LSVIMFXX                                . " subprograms
   INCLUDE LSVIMOXX                                . " PBO modules
   INCLUDE LSVIMIXX                                . " PAI modules
+
+INCLUDE lzcilib_cust_tmgf01.

@@ -6,6 +6,7 @@
     <NAME>SAPLZCILIB_CUST_TMG</NAME>
     <STATE>A</STATE>
     <SQLX>X</SQLX>
+    <VARCL>X</VARCL>
     <DBAPL>S</DBAPL>
     <DBNA>D$</DBNA>
     <SUBC>F</SUBC>

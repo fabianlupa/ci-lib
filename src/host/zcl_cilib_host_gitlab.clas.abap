@@ -19,7 +19,8 @@ CLASS zcl_cilib_host_gitlab DEFINITION
     INTERFACES:
       zif_cilib_host.
     METHODS:
-      constructor IMPORTING io_host_config TYPE REF TO zcl_cilib_host_config
+      constructor IMPORTING iv_host_path   TYPE zcilib_host_hostpath
+                            io_host_config TYPE REF TO zcl_cilib_host_config
                   RAISING   zcx_cilib_illegal_argument,
       get_repo_id_for_repo IMPORTING iv_repository TYPE csequence
                            RETURNING VALUE(rv_id)  TYPE i
@@ -79,7 +80,8 @@ CLASS zcl_cilib_host_gitlab DEFINITION
     DATA:
       mi_rest_client TYPE REF TO if_rest_client,
       mi_http_client TYPE REF TO if_http_client,
-      mo_config      TYPE REF TO zcl_cilib_host_config.
+      mo_config      TYPE REF TO zcl_cilib_host_config,
+      mv_host_path   TYPE zcilib_host_hostpath.
 ENDCLASS.
 
 
@@ -87,6 +89,7 @@ ENDCLASS.
 CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
   METHOD constructor.
     mo_config = io_host_config.
+    mv_host_path = iv_host_path.
 
     cl_http_client=>create_by_destination(
       EXPORTING
@@ -376,7 +379,10 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
           zcl_cilib_util_json_parser=>create_from_xstring( li_response->get_binary_data( ) )
         ).
 
-        rv_content = lo_json->get_string( gc_note_attributes-body ).
+        rv_content = lo_json->get_string(
+          iv_name                     = gc_note_attributes-body
+          iv_replace_unicode_entities = abap_true
+        ).
 
       CATCH cx_rest_client_exception INTO DATA(lx_ex).
         RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
@@ -542,5 +548,13 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
     IF zif_cilib_host~mv_is_authenticated = abap_false ##TODO. " Is 'lazy authentication' a good idea?
       zif_cilib_host~authenticate( ).
     ENDIF.
+  ENDMETHOD.
+
+  METHOD zif_cilib_host~get_config.
+    ro_config = mo_config.
+  ENDMETHOD.
+
+  METHOD zif_cilib_host~get_host_path.
+    rv_host_path = mv_host_path.
   ENDMETHOD.
 ENDCLASS.

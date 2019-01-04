@@ -59,4 +59,52 @@ CLASS zcl_cilib_cts_api IMPLEMENTATION.
       RAISE EXCEPTION TYPE zcx_cilib_not_found.
     ENDIF.
   ENDMETHOD.
+
+  METHOD zif_cilib_cts_api~get_cts_organizer_web_ui_url.
+    CALL FUNCTION 'CTS_CFG_GET_ORGANIZER_URL'
+      EXPORTING
+        sysname = iv_system
+        request = iv_transport
+        view    = COND char20( WHEN iv_transport IS NOT INITIAL THEN 'PROCESS_REQUEST' ELSE 'MANAGE_REQUESTS' )
+      IMPORTING
+        url     = rv_url.
+
+    IF rv_url IS INITIAL.
+      RAISE EXCEPTION TYPE zcx_cilib_illegal_argument.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD zif_cilib_cts_api~get_transport_text.
+    DATA: ls_request TYPE trwbo_request.
+
+    CALL FUNCTION 'TR_READ_REQUEST'
+      EXPORTING
+        iv_read_e07t     = abap_true
+        iv_trkorr        = iv_transport
+      CHANGING
+        cs_request       = ls_request
+      EXCEPTIONS
+        error_occured    = 1
+        no_authorization = 2
+        OTHERS           = 3.
+    IF sy-subrc <> 0.
+      RAISE EXCEPTION TYPE zcx_cilib_not_found
+        EXPORTING
+          is_msg = zcl_cilib_util_msg_tools=>get_msg_from_sy( ).
+    ENDIF.
+
+    rv_text = ls_request-h-as4text.
+  ENDMETHOD.
+
+  METHOD zif_cilib_cts_api~get_import_queue_web_ui_url.
+    TRY.
+        rv_url = cl_cts_ui_reuse=>get_import_queue_url( CONV #( iv_system ) ).
+      CATCH cx_cts_ui_reuse INTO DATA(lx_ex).
+        RAISE EXCEPTION TYPE zcx_cilib_not_found
+          EXPORTING
+            is_msg      = zcl_cilib_util_msg_tools=>get_msg_from_exc( lx_ex )
+            ix_previous = lx_ex.
+    ENDTRY.
+  ENDMETHOD.
+
 ENDCLASS.
