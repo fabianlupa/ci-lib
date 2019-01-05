@@ -114,7 +114,7 @@ CLASS zcl_cilib_cts_api IMPLEMENTATION.
 
     CALL FUNCTION 'TR_TCE_GET_TRANSPORT_LANDSCAPE'
       EXPORTING
-        iv_sysname            = sy-sysid
+        iv_sysname            = CONV sysname( sy-sysid )
       IMPORTING
         et_landscape          = lt_landscape
         et_systext            = lt_system_texts
