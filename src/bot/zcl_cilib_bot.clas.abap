@@ -15,6 +15,8 @@ CLASS zcl_cilib_bot DEFINITION
   PRIVATE SECTION.
     CONSTANTS:
       gc_status_tmpl_intf_name TYPE abap_intfname VALUE 'ZIF_CILIB_BOT_STATUS_TMPL'.
+    CLASS-METHODS:
+      get_formatted_timestamp RETURNING VALUE(rv_timestamp) TYPE string.
     METHODS:
       call_is_parsable IMPORTING iv_comment         TYPE string
                        RETURNING VALUE(rv_parsable) TYPE abap_bool,
@@ -124,7 +126,8 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
             WHEN zif_cilib_bot=>gc_events-released.
               IF <ls_transport>-released <> abap_true.
                 li_status_template->add_history_entry(
-                  |Released transport { <ls_transport>-transport } on { <ls_info>-system }|
+                  |{ get_formatted_timestamp( ) }: Released transport { <ls_transport>-transport } on | &&
+                  |{ <ls_info>-system }|
                 ) ##TODO.
               ENDIF.
               <ls_transport>-released = abap_true.
@@ -144,7 +147,8 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
                     import_status = zif_cilib_bot_status_tmpl=>gc_import_status-imported
                   ) INTO TABLE <ls_transport>-import_info.
                   li_status_template->add_history_entry(
-                    |Imported transport { <ls_transport>-transport } on { <ls_info>-system }|
+                    |{ get_formatted_timestamp( ) }: Imported transport { <ls_transport>-transport } on | &&
+                    |{ <ls_info>-system }|
                   ) ##TODO.
                 CATCH cx_sy_itab_duplicate_key.
                   ##TODO.
@@ -217,5 +221,9 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
   METHOD instantiate_status_template.
     DATA(lv_class) = mo_config->get_cts_status_impl_classname( ).
     CREATE OBJECT ri_instance TYPE (lv_class).
+  ENDMETHOD.
+
+  METHOD get_formatted_timestamp.
+    rv_timestamp = |{ sy-datum DATE = ISO } { sy-uzeit TIME = ISO }|.
   ENDMETHOD.
 ENDCLASS.
