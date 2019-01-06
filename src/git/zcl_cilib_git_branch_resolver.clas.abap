@@ -36,7 +36,7 @@ CLASS zcl_cilib_git_branch_resolver IMPLEMENTATION.
         ##TODO. " These need more settings
 
       WHEN zif_cilib_git_branch_resolver=>gc_strategies-cts_project.
-         rv_branch = mi_cts_api->get_cts_project_for_transport( iv_transport ).
+        rv_branch = mi_cts_api->get_cts_project_for_transport( iv_transport ).
 
       WHEN OTHERS.
         RAISE EXCEPTION TYPE zcx_cilib_not_implemented.
