@@ -17,7 +17,8 @@ CLASS zcl_cilib_factory DEFINITION
                             RETURNING VALUE(ri_host) TYPE REF TO zif_cilib_host
                             RAISING   zcx_cilib_not_found,
       get_cts_api RETURNING VALUE(ri_cts_api) TYPE REF TO zif_cilib_cts_api,
-      get_logger RETURNING VALUE(ri_logger) TYPE REF TO zif_cilib_util_logger.
+      get_logger RETURNING VALUE(ri_logger) TYPE REF TO zif_cilib_util_logger,
+      get_branch_strategy_resolver RETURNING VALUE(ri_resolver) TYPE REF TO zif_cilib_git_branch_resolver.
   PROTECTED SECTION.
   PRIVATE SECTION.
     TYPES:
@@ -30,11 +31,12 @@ CLASS zcl_cilib_factory DEFINITION
         instance TYPE REF TO zif_cilib_bot,
       END OF gty_bot_cache_line.
     CLASS-DATA:
-      gi_abapgit_api TYPE REF TO zif_cilib_abapgit_api,
-      gi_cts_api     TYPE REF TO zif_cilib_cts_api,
-      gi_logger      TYPE REF TO zif_cilib_util_logger,
-      gt_host_cache  TYPE HASHED TABLE OF gty_host_cache_line WITH UNIQUE KEY host_path,
-      gt_bot_cache   TYPE HASHED TABLE OF gty_bot_cache_line WITH UNIQUE KEY bot_name.
+      gi_abapgit_api     TYPE REF TO zif_cilib_abapgit_api,
+      gi_cts_api         TYPE REF TO zif_cilib_cts_api,
+      gi_logger          TYPE REF TO zif_cilib_util_logger,
+      gt_host_cache      TYPE HASHED TABLE OF gty_host_cache_line WITH UNIQUE KEY host_path,
+      gt_bot_cache       TYPE HASHED TABLE OF gty_bot_cache_line WITH UNIQUE KEY bot_name,
+      gi_branch_resolver TYPE REF TO zif_cilib_git_branch_resolver.
 ENDCLASS.
 
 
@@ -107,5 +109,12 @@ CLASS zcl_cilib_factory IMPLEMENTATION.
     ENDIF.
 
     ri_logger = gi_logger.
+  ENDMETHOD.
+
+  METHOD get_branch_strategy_resolver.
+    IF gi_branch_resolver IS NOT BOUND.
+      gi_branch_resolver = NEW zcl_cilib_git_branch_resolver( get_cts_api( ) ).
+    ENDIF.
+    ri_resolver = gi_branch_resolver.
   ENDMETHOD.
 ENDCLASS.
