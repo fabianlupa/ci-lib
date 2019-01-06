@@ -29,5 +29,8 @@ INTERFACE zif_cilib_cts_api PUBLIC.
                        RETURNING VALUE(rv_text) TYPE trordertxt
                        RAISING   zcx_cilib_not_found,
     get_transport_layer_systems IMPORTING iv_layer          TYPE devlayer
-                                RETURNING VALUE(rt_systems) TYPE gty_system_tab.
+                                RETURNING VALUE(rt_systems) TYPE gty_system_tab,
+    get_cts_project_for_transport IMPORTING iv_transport      TYPE trkorr
+                                  RETURNING VALUE(rv_project) TYPE tr_extpid
+                                  RAISING   zcx_cilib_not_found.
 ENDINTERFACE.

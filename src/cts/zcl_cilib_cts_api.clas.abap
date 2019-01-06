@@ -149,4 +149,18 @@ CLASS zcl_cilib_cts_api IMPLEMENTATION.
         RETURN.
     ENDTRY.
   ENDMETHOD.
+
+  METHOD zif_cilib_cts_api~get_cts_project_for_transport.
+    CALL FUNCTION 'TR_GET_EXTERNAL_PROJECT'
+      EXPORTING
+        iv_trkorr        = iv_transport
+      IMPORTING
+        ev_externalid    = rv_project
+      EXCEPTIONS
+        no_project_found = 1
+        OTHERS           = 2.
+    IF sy-subrc > 1.
+      RAISE EXCEPTION TYPE zcx_cilib_internal_error.
+    ENDIF.
+  ENDMETHOD.
 ENDCLASS.

@@ -25,13 +25,19 @@ CLASS zcl_cilib_bot_repo_tr_listener IMPLEMENTATION.
     DATA(lv_repo_url) = li_abapgit->get_repo_url( iv_repo_id ).
     DATA(li_host) = zcl_cilib_factory=>get_host_for_repo_url( lv_repo_url ).
     DATA(lv_repo_name) = li_host->get_repo_name_from_url( lv_repo_url ).
-    DATA(lv_bot_name) = li_host->get_config( )->get_repo_config( EXACT #( lv_repo_name ) )->get_bot_name( ).
+    DATA(lv_repo_config) = li_host->get_config( )->get_repo_config( EXACT #( lv_repo_name ) ).
+    DATA(lv_bot_name) = lv_repo_config->get_bot_name( ).
+
+    DATA(lv_branch) = zcl_cilib_factory=>get_branch_strategy_resolver( )->get_branch_for_transport(
+      iv_transport = iv_transport
+      iv_strategy  = lv_repo_config->get_branching_strategy( )
+    ).
 
     DATA(li_bot) = zcl_cilib_factory=>get_bot( lv_bot_name ).
     li_bot->add_info_to_cts_comment(
       ii_host     = li_host
       iv_repo     = EXACT #( lv_repo_name )
-      iv_branch   = CONV #( iv_transport )
+      iv_branch   = lv_branch
       it_new_info = VALUE #(
         ( transport = iv_transport
           system    = iv_system
