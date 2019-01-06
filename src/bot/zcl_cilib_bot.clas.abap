@@ -93,7 +93,9 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
             iv_pull_request = lv_pull_request
             iv_by_author    = lv_bot_user
           ).
-          mi_logger->debug( |Found { lines( lt_comments ) NUMBER = USER } comments by bot user '{ lv_bot_user }' on PR| ).
+          mi_logger->debug(
+            |Found { lines( lt_comments ) NUMBER = USER } comments by bot user '{ lv_bot_user }' on PR|
+          ).
 
           LOOP AT lt_comments ASSIGNING FIELD-SYMBOL(<ls_comment>).
             DATA(lv_content) = ii_host->get_pr_comment_content(
