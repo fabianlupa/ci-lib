@@ -1,6 +1,6 @@
 *---------------------------------------------------------------------*
 *    view related FORM routines
-*   generation date: 04.01.2019 at 16:51:03
+*   generation date: 06.01.2019 at 22:18:13
 *   view maintenance generator version: #001407#
 *---------------------------------------------------------------------*
 *...processing: ZCILIB_BOT_V....................................*
@@ -169,8 +169,8 @@ ZCILIB_HOST_V-AUTH_MECHANISM =
 ZCILIB_HOST-AUTH_MECHANISM .
 ZCILIB_HOST_V-API_TOKEN =
 ZCILIB_HOST-API_TOKEN .
-ZCILIB_HOST_V-DEFAULT_BOT =
-ZCILIB_HOST-DEFAULT_BOT .
+ZCILIB_HOST_V-BOT =
+ZCILIB_HOST-BOT .
 <VIM_TOTAL_STRUC> = ZCILIB_HOST_V.
     APPEND TOTAL.
   ENDSELECT.
@@ -235,8 +235,8 @@ ZCILIB_HOST-AUTH_MECHANISM =
 ZCILIB_HOST_V-AUTH_MECHANISM .
 ZCILIB_HOST-API_TOKEN =
 ZCILIB_HOST_V-API_TOKEN .
-ZCILIB_HOST-DEFAULT_BOT =
-ZCILIB_HOST_V-DEFAULT_BOT .
+ZCILIB_HOST-BOT =
+ZCILIB_HOST_V-BOT .
     IF SY-SUBRC = 0.
     UPDATE ZCILIB_HOST ##WARN_OK.
     ELSE.
@@ -269,8 +269,8 @@ ZCILIB_HOST_V-AUTH_MECHANISM =
 ZCILIB_HOST-AUTH_MECHANISM .
 ZCILIB_HOST_V-API_TOKEN =
 ZCILIB_HOST-API_TOKEN .
-ZCILIB_HOST_V-DEFAULT_BOT =
-ZCILIB_HOST-DEFAULT_BOT .
+ZCILIB_HOST_V-BOT =
+ZCILIB_HOST-BOT .
 ENDFORM.
 *---------------------------------------------------------------------*
 FORM CORR_MAINT_ZCILIB_HOST_V USING VALUE(CM_ACTION) RC.
