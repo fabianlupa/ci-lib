@@ -16,13 +16,28 @@ CLASS zcl_cilib_bot DEFINITION
     CONSTANTS:
       gc_status_tmpl_intf_name TYPE abap_intfname VALUE 'ZIF_CILIB_BOT_STATUS_TMPL'.
     CLASS-METHODS:
-      get_formatted_timestamp RETURNING VALUE(rv_timestamp) TYPE string.
+      get_formatted_timestamp RETURNING VALUE(rv_timestamp) TYPE string,
+      format_update_info_into_string IMPORTING is_info          TYPE zif_cilib_bot=>gty_transport_info
+                                     RETURNING VALUE(rv_string) TYPE string.
     METHODS:
       call_is_parsable IMPORTING iv_comment         TYPE string
                        RETURNING VALUE(rv_parsable) TYPE abap_bool,
       call_parse_comment IMPORTING iv_comment         TYPE string
                          RETURNING VALUE(ri_instance) TYPE REF TO zif_cilib_bot_status_tmpl,
-      instantiate_status_template RETURNING VALUE(ri_instance) TYPE REF TO zif_cilib_bot_status_tmpl.
+      instantiate_status_template RETURNING VALUE(ri_instance) TYPE REF TO zif_cilib_bot_status_tmpl,
+      instantiate_update_template RETURNING VALUE(ri_instance) TYPE REF TO zif_cilib_bot_update_tmpl,
+      handle_status_comment IMPORTING ii_host         TYPE REF TO zif_cilib_host
+                                      iv_repo_name    TYPE string
+                                      iv_pull_request TYPE i
+                                      it_new_info     TYPE zif_cilib_bot=>gty_transport_info_tab
+                            RAISING   zcx_cilib_http_comm_error
+                                      zcx_cilib_not_found,
+      handle_update_comment IMPORTING ii_host         TYPE REF TO zif_cilib_host
+                                      iv_repo_name    TYPE string
+                                      iv_pull_request TYPE i
+                                      it_new_info     TYPE zif_cilib_bot=>gty_transport_info_tab
+                            RAISING   zcx_cilib_http_comm_error
+                                      zcx_cilib_not_found.
     DATA:
       mv_name    TYPE zcilib_bot_name,
       mi_logger  TYPE REF TO zif_cilib_util_logger,
@@ -41,9 +56,6 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD zif_cilib_bot~add_info_to_cts_comment.
-    DATA: lv_update_comment  TYPE i,
-          li_status_template TYPE REF TO zif_cilib_bot_status_tmpl.
-
     rv_success = abap_false.
 
     mi_logger->info( |{ mv_name }-{ ii_host->get_host_path( ) }-{ iv_repo }: add_info_to_cts_comment| ).
@@ -83,98 +95,21 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
         ).
         mi_logger->debug( |Found pull request { lv_pull_request }| ).
 
-        DATA(lv_bot_user) = ii_host->get_config( )->get_username( ).
-        DATA(lt_comments) = ii_host->get_comments_for_pull_request(
-          iv_repository   = lv_repo_name
-          iv_pull_request = lv_pull_request
-          iv_by_author    = lv_bot_user
-        ).
-        mi_logger->debug( |Found { lines( lt_comments ) NUMBER = USER } comments by bot user '{ lv_bot_user }' on PR| ).
-
-        LOOP AT lt_comments ASSIGNING FIELD-SYMBOL(<ls_comment>).
-          DATA(lv_content) = ii_host->get_pr_comment_content(
-            iv_repository   = lv_repo_name
+        IF mo_config->is_cts_status_comment_enabled( ) = abap_true.
+          handle_status_comment(
+            ii_host         = ii_host
+            iv_repo_name    = lv_repo_name
             iv_pull_request = lv_pull_request
-            iv_comment      = <ls_comment>-id
+            it_new_info     = it_new_info
           ).
-          IF call_is_parsable( lv_content ) = abap_true.
-            lv_update_comment = <ls_comment>-id.
-            li_status_template = call_parse_comment( lv_content ).
-            EXIT.
-          ENDIF.
-        ENDLOOP.
-
-        IF lv_update_comment IS NOT INITIAL.
-          ASSERT li_status_template IS BOUND.
-          mi_logger->debug( |Found existing PR comment { lv_update_comment }, updating| ).
-        ELSE.
-          mi_logger->debug( |Creating new PR comment| ).
-          li_status_template = instantiate_status_template( ).
         ENDIF.
 
-        DATA(lt_transports) = li_status_template->get_transports( ).
-
-        LOOP AT it_new_info ASSIGNING FIELD-SYMBOL(<ls_info>).
-          READ TABLE lt_transports WITH KEY transport = <ls_info>-transport ASSIGNING FIELD-SYMBOL(<ls_transport>).
-          IF sy-subrc <> 0.
-            INSERT VALUE #( transport = <ls_info>-transport ) INTO TABLE lt_transports ASSIGNING <ls_transport>.
-          ENDIF.
-          ASSERT <ls_transport> IS ASSIGNED.
-          <ls_transport>-text = mi_cts_api->get_transport_text( <ls_transport>-transport ).
-          <ls_transport>-cts_url = mi_cts_api->get_cts_organizer_web_ui_url( <ls_transport>-transport ).
-          CASE <ls_info>-event.
-            WHEN zif_cilib_bot=>gc_events-released.
-              IF <ls_transport>-released <> abap_true.
-                li_status_template->add_history_entry(
-                  |{ get_formatted_timestamp( ) }: Released transport { <ls_transport>-transport } on | &&
-                  |{ <ls_info>-system }|
-                ) ##TODO.
-              ENDIF.
-              <ls_transport>-released = abap_true.
-              TRY.
-                  MODIFY TABLE <ls_transport>-import_info FROM VALUE #(
-                    system        = <ls_info>-system
-                    import_status = zif_cilib_bot_status_tmpl=>gc_import_status-released
-                  ) USING KEY unique.
-                CATCH cx_sy_itab_duplicate_key.
-                  ##TODO.
-              ENDTRY.
-
-            WHEN zif_cilib_bot=>gc_events-imported.
-              TRY.
-                  INSERT VALUE #(
-                    system        = <ls_info>-system
-                    import_status = zif_cilib_bot_status_tmpl=>gc_import_status-imported
-                  ) INTO TABLE <ls_transport>-import_info.
-                  li_status_template->add_history_entry(
-                    |{ get_formatted_timestamp( ) }: Imported transport { <ls_transport>-transport } on | &&
-                    |{ <ls_info>-system }|
-                  ) ##TODO.
-                CATCH cx_sy_itab_duplicate_key.
-                  ##TODO.
-              ENDTRY.
-          ENDCASE.
-        ENDLOOP.
-
-        li_status_template->set_transports( lt_transports ).
-
-        DATA(lo_system_group) = zcl_cilib_cust_factory=>get_system_group( mo_config->get_system_group( ) ).
-        li_status_template->set_systems( VALUE #( FOR s IN lo_system_group->get_systems( )
-          ( id = s-system_id description = s-description )
-        ) ).
-
-        IF lv_update_comment IS NOT INITIAL.
-          ii_host->set_pr_comment_content(
-            iv_repository   = lv_repo_name
+        IF mo_config->are_cts_upd_comments_enabled( ) = abap_true.
+          handle_update_comment(
+            ii_host         = ii_host
+            iv_repo_name    = lv_repo_name
             iv_pull_request = lv_pull_request
-            iv_comment      = lv_update_comment
-            iv_content      = li_status_template->get_comment_as_string( )
-          ).
-        ELSE.
-          ii_host->create_pr_comment(
-            iv_repository   = lv_repo_name
-            iv_pull_request = lv_pull_request
-            iv_content      = li_status_template->get_comment_as_string( )
+            it_new_info     = it_new_info
           ).
         ENDIF.
 
@@ -225,5 +160,133 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
 
   METHOD get_formatted_timestamp.
     rv_timestamp = |{ sy-datum DATE = ISO } { sy-uzeit TIME = ISO }|.
+  ENDMETHOD.
+
+  METHOD instantiate_update_template.
+    DATA(lv_class) = mo_config->get_cts_upd_impl_classname( ).
+    CREATE OBJECT ri_instance TYPE (lv_class).
+  ENDMETHOD.
+
+  METHOD format_update_info_into_string.
+    rv_string = SWITCH #( is_info-event
+      WHEN zif_cilib_bot=>gc_events-imported THEN
+           |Imported transport { is_info-transport } on { is_info-system }.|
+      WHEN zif_cilib_bot=>gc_events-released THEN
+           |Released transport { is_info-transport } on { is_info-system }.|
+    ).
+    ASSERT rv_string IS NOT INITIAL.
+  ENDMETHOD.
+
+  METHOD handle_status_comment.
+    DATA: lv_update_comment  TYPE i,
+          li_status_template TYPE REF TO zif_cilib_bot_status_tmpl.
+
+    DATA(lv_bot_user) = ii_host->get_config( )->get_username( ).
+    DATA(lt_comments) = ii_host->get_comments_for_pull_request(
+      iv_repository   = iv_repo_name
+      iv_pull_request = iv_pull_request
+      iv_by_author    = lv_bot_user
+    ).
+    mi_logger->debug(
+      |Found { lines( lt_comments ) NUMBER = USER } comments by bot user '{ lv_bot_user }' on PR|
+    ).
+
+    LOOP AT lt_comments ASSIGNING FIELD-SYMBOL(<ls_comment>).
+      DATA(lv_content) = ii_host->get_pr_comment_content(
+        iv_repository   = iv_repo_name
+        iv_pull_request = iv_pull_request
+        iv_comment      = <ls_comment>-id
+      ).
+      IF call_is_parsable( lv_content ) = abap_true.
+        lv_update_comment = <ls_comment>-id.
+        li_status_template = call_parse_comment( lv_content ).
+        EXIT.
+      ENDIF.
+    ENDLOOP.
+
+    IF lv_update_comment IS NOT INITIAL.
+      ASSERT li_status_template IS BOUND.
+      mi_logger->debug( |Found existing PR comment { lv_update_comment }, updating| ).
+    ELSE.
+      mi_logger->debug( |Creating new PR comment| ).
+      li_status_template = instantiate_status_template( ).
+    ENDIF.
+
+    DATA(lt_transports) = li_status_template->get_transports( ).
+
+    LOOP AT it_new_info ASSIGNING FIELD-SYMBOL(<ls_info>).
+      READ TABLE lt_transports WITH KEY transport = <ls_info>-transport ASSIGNING FIELD-SYMBOL(<ls_transport>).
+      IF sy-subrc <> 0.
+        INSERT VALUE #( transport = <ls_info>-transport ) INTO TABLE lt_transports ASSIGNING <ls_transport>.
+      ENDIF.
+      ASSERT <ls_transport> IS ASSIGNED.
+      <ls_transport>-text = mi_cts_api->get_transport_text( <ls_transport>-transport ).
+      <ls_transport>-cts_url = mi_cts_api->get_cts_organizer_web_ui_url( <ls_transport>-transport ).
+
+      CASE <ls_info>-event.
+        WHEN zif_cilib_bot=>gc_events-released.
+          IF <ls_transport>-released <> abap_true.
+          ENDIF.
+          <ls_transport>-released = abap_true.
+          TRY.
+              MODIFY TABLE <ls_transport>-import_info FROM VALUE #(
+                system        = <ls_info>-system
+                import_status = zif_cilib_bot_status_tmpl=>gc_import_status-released
+              ) USING KEY unique.
+            CATCH cx_sy_itab_duplicate_key.
+              ##TODO.
+          ENDTRY.
+
+        WHEN zif_cilib_bot=>gc_events-imported.
+          TRY.
+              INSERT VALUE #(
+                system        = <ls_info>-system
+                import_status = zif_cilib_bot_status_tmpl=>gc_import_status-imported
+              ) INTO TABLE <ls_transport>-import_info.
+            CATCH cx_sy_itab_duplicate_key.
+              ##TODO.
+          ENDTRY.
+      ENDCASE.
+
+      li_status_template->add_history_entry(
+        |{ get_formatted_timestamp( ) }: { format_update_info_into_string( <ls_info> ) }|
+      ) ##TODO.
+    ENDLOOP.
+
+    li_status_template->set_transports( lt_transports ).
+
+    DATA(lo_system_group) = zcl_cilib_cust_factory=>get_system_group( mo_config->get_system_group( ) ).
+    li_status_template->set_systems( VALUE #( FOR s IN lo_system_group->get_systems( )
+      ( id = s-system_id description = s-description )
+    ) ).
+
+    IF lv_update_comment IS NOT INITIAL.
+      ii_host->set_pr_comment_content(
+        iv_repository   = iv_repo_name
+        iv_pull_request = iv_pull_request
+        iv_comment      = lv_update_comment
+        iv_content      = li_status_template->get_comment_as_string( )
+      ).
+    ELSE.
+      ii_host->create_pr_comment(
+        iv_repository   = iv_repo_name
+        iv_pull_request = iv_pull_request
+        iv_content      = li_status_template->get_comment_as_string( )
+      ).
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD handle_update_comment.
+    DATA(li_update_template) = instantiate_update_template( ).
+    LOOP AT it_new_info ASSIGNING FIELD-SYMBOL(<ls_info2>).
+      li_update_template->add_update_entry( format_update_info_into_string( <ls_info2> ) ).
+    ENDLOOP.
+    IF sy-subrc = 0.
+      ii_host->create_pr_comment(
+        iv_repository   = iv_repo_name
+        iv_pull_request = iv_pull_request
+        iv_content      = li_update_template->get_comment_as_string( )
+      ).
+    ENDIF.
   ENDMETHOD.
 ENDCLASS.
