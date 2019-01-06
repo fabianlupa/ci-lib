@@ -8,6 +8,12 @@ CLASS zcl_cilib_bot_gl_status_tmpl DEFINITION
       zif_cilib_bot_status_tmpl.
   PROTECTED SECTION.
   PRIVATE SECTION.
+    CLASS-METHODS:
+      deserialize IMPORTING iv_xml        TYPE csequence
+                  EXPORTING et_systems    TYPE zif_cilib_bot_status_tmpl=>gty_system_tab
+                            et_transports TYPE zif_cilib_bot_status_tmpl=>gty_transport_tab
+                            et_history    TYPE stringtab
+                  RAISING   cx_transformation_error.
     METHODS:
       normalize_before_serialization.
     DATA:
@@ -22,11 +28,14 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
   METHOD zif_cilib_bot_status_tmpl~parse_comment.
     DATA(lo_instance) = NEW zcl_cilib_bot_gl_status_tmpl( ).
 
-    CALL TRANSFORMATION zcilib_bot_gl_status_tmpl
-         SOURCE XML iv_comment
-         RESULT systems    = lo_instance->mt_systems
-                transports = lo_instance->mt_transports
-                history    = lo_instance->mt_history.
+    deserialize(
+      EXPORTING
+        iv_xml = iv_comment
+      IMPORTING
+        et_systems    = lo_instance->mt_systems
+        et_transports = lo_instance->mt_transports
+        et_history    = lo_instance->mt_history
+    ).
 
     ri_instance = lo_instance.
   ENDMETHOD.
@@ -105,10 +114,30 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD zif_cilib_bot_status_tmpl~is_comment_parsable.
-    rv_parsable = abap_true ##TODO.
+    TRY.
+        deserialize(
+          EXPORTING
+            iv_xml = iv_comment
+          IMPORTING
+            et_systems    = DATA(lt_systems)
+            et_transports = DATA(lt_transports)
+            et_history    = DATA(lt_history)
+        ).
+        rv_parsable = abap_true.
+      CATCH cx_transformation_error.
+        rv_parsable = abap_false.
+    ENDTRY.
   ENDMETHOD.
 
   METHOD zif_cilib_bot_status_tmpl~set_transports.
     mt_transports = it_transports.
+  ENDMETHOD.
+
+  METHOD deserialize.
+    CALL TRANSFORMATION zcilib_bot_gl_status_tmpl
+         SOURCE XML iv_xml
+         RESULT systems    = et_systems
+                transports = et_transports
+                history    = et_history.
   ENDMETHOD.
 ENDCLASS.
