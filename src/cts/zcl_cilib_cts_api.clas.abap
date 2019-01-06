@@ -107,4 +107,46 @@ CLASS zcl_cilib_cts_api IMPLEMENTATION.
     ENDTRY.
   ENDMETHOD.
 
+
+  METHOD zif_cilib_cts_api~get_transport_layer_systems.
+    DATA: lt_landscape    TYPE tcelandscs,
+          lt_system_texts TYPE triwb_t_systext.
+
+    CALL FUNCTION 'TR_TCE_GET_TRANSPORT_LANDSCAPE'
+      EXPORTING
+        iv_sysname            = CONV sysname( sy-sysid )
+      IMPORTING
+        et_landscape          = lt_landscape
+        et_systext            = lt_system_texts
+      EXCEPTIONS
+        read_landscape_failed = 1
+        OTHERS                = 2.
+    IF sy-subrc <> 0.
+      RAISE EXCEPTION TYPE zcx_cilib_internal_error
+        EXPORTING
+          is_msg = zcl_cilib_util_msg_tools=>get_msg_from_sy( ).
+    ENDIF.
+
+    IF lines( lt_landscape ) <> 1.
+      RETURN.
+    ENDIF.
+
+    TRY.
+        " This needs to be adjusted for any other landscape than DEV->QAS->PRD
+        " Also there needs to be a fallback for the system description regarding languages
+        DATA(lr_landscape) = REF #( lt_landscape[ 1 ] ).
+        DATA(lr_release) = REF #( lr_landscape->release[ translayer = iv_layer ] ).
+        DATA(lv_dev_system) = lr_release->intsys(3).
+        DATA(lv_qas_system) = lr_release->consys(3).
+        DATA(lv_prd_system) = lr_landscape->deliver[ fromsystem = lv_qas_system
+                                                     fromclient = lr_release->consys+4(3) ]-tosystem(3).
+        rt_systems = VALUE #(
+          ( sysid = lv_dev_system text = lt_system_texts[ sysname = lv_dev_system spras = sy-langu ]-ddtext )
+          ( sysid = lv_qas_system text = lt_system_texts[ sysname = lv_qas_system spras = sy-langu ]-ddtext )
+          ( sysid = lv_prd_system text = lt_system_texts[ sysname = lv_prd_system spras = sy-langu ]-ddtext )
+        ).
+      CATCH cx_sy_itab_line_not_found.
+        RETURN.
+    ENDTRY.
+  ENDMETHOD.
 ENDCLASS.
