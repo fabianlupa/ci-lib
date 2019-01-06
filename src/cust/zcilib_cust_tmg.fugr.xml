@@ -2016,6 +2016,23 @@
       <RPY_DYFATC>
        <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
        <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCILIB_HOST_V-BRANCHING_STRATEGY</NAME>
+       <TEXT>Br._strat.______________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>007</COLUMN>
+       <LENGTH>040</LENGTH>
+       <VISLENGTH>030</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>1</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
        <TYPE>CHECK</TYPE>
        <NAME>VIM_MARKED</NAME>
        <LINE>001</LINE>
@@ -2144,6 +2161,26 @@
        <OUTPUT_FLD>X</OUTPUT_FLD>
        <DICT_I_FKY>X</DICT_I_FKY>
       </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCILIB_HOST_V-BRANCHING_STRATEGY</NAME>
+       <TEXT>_</TEXT>
+       <DROPDOWN>L</DROPDOWN>
+       <LINE>001</LINE>
+       <COLUMN>007</COLUMN>
+       <LENGTH>001</LENGTH>
+       <VISLENGTH>030</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <DICT_I_VAL>X</DICT_I_VAL>
+      </RPY_DYFATC>
      </FIELDS>
      <FLOW_LOGIC>
       <RPY_DYFLOW>
@@ -2204,6 +2241,9 @@
        <LINE>FIELD ZCILIB_HOST_V-BOT .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
+       <LINE>FIELD ZCILIB_HOST_V-BRANCHING_STRATEGY .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
        <LINE>MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
@@ -2245,6 +2285,7 @@
       <item>1</item>
       <item>3</item>
       <item>3</item>
+      <item>4</item>
       <item>4</item>
       <item>4</item>
       <item>4</item>
@@ -3223,6 +3264,23 @@
       <RPY_DYFATC>
        <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
        <CONT_NAME>TCTRL_ZCILIB_REPO_V</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>*ZCILIB_REPO_V-BRANCHING_STRATEGY</NAME>
+       <TEXT>Br._strat.______________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>003</COLUMN>
+       <LENGTH>040</LENGTH>
+       <VISLENGTH>030</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>1</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <TC_HEADING>X</TC_HEADING>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCILIB_REPO_V</CONT_NAME>
        <TYPE>CHECK</TYPE>
        <NAME>VIM_MARKED</NAME>
        <LINE>001</LINE>
@@ -3272,6 +3330,26 @@
        <INPUT_FLD>X</INPUT_FLD>
        <OUTPUT_FLD>X</OUTPUT_FLD>
        <DICT_I_FKY>X</DICT_I_FKY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
+       <CONT_NAME>TCTRL_ZCILIB_REPO_V</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCILIB_REPO_V-BRANCHING_STRATEGY</NAME>
+       <TEXT>_</TEXT>
+       <DROPDOWN>L</DROPDOWN>
+       <LINE>001</LINE>
+       <COLUMN>003</COLUMN>
+       <LENGTH>001</LENGTH>
+       <VISLENGTH>030</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <DICT_I_VAL>X</DICT_I_VAL>
       </RPY_DYFATC>
      </FIELDS>
      <FLOW_LOGIC>
@@ -3324,6 +3402,9 @@
        <LINE>FIELD ZCILIB_REPO_V-BOT .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
+       <LINE>FIELD ZCILIB_REPO_V-BRANCHING_STRATEGY .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
        <LINE>MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
@@ -3366,6 +3447,7 @@
       <item>1</item>
       <item>3</item>
       <item>3</item>
+      <item>4</item>
       <item>4</item>
       <item>4</item>
       <item>4</item>
