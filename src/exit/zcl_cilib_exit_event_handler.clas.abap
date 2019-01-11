@@ -13,9 +13,10 @@ CLASS zcl_cilib_exit_event_handler DEFINITION
         after_import TYPE gty_event VALUE 'I',
       END OF gc_events.
     CLASS-METHODS:
-      handle_tr_feedback IMPORTING iv_event     TYPE gty_event
-                                   iv_transport TYPE trkorr
-                                   iv_system    TYPE syst_sysid
+      handle_tr_feedback IMPORTING iv_event       TYPE gty_event
+                                   iv_transport   TYPE trkorr
+                                   iv_system      TYPE syst_sysid
+                                   iv_return_code TYPE trretcode
                          RAISING   zcx_cilib_illegal_argument.
   PROTECTED SECTION.
   PRIVATE SECTION.
@@ -64,19 +65,23 @@ CLASS zcl_cilib_exit_event_handler IMPLEMENTATION.
       GET BADI lb_exit_repo_tr.
 
       LOOP AT lt_repos ASSIGNING FIELD-SYMBOL(<lv_repo>).
+        DATA(lv_repo_url) = li_abapgit->get_repo_url( <lv_repo> ).
         CASE iv_event.
           WHEN gc_events-after_import.
             CALL BADI lb_exit_repo_tr->on_transport_imported
               EXPORTING
-                iv_system    = iv_system
-                iv_transport = iv_transport
-                iv_repo_id   = <lv_repo>.
+                iv_system      = iv_system
+                iv_transport   = iv_transport
+                iv_repo_id     = <lv_repo>
+                iv_repo_url    = lv_repo_url
+                iv_return_code = iv_return_code.
           WHEN gc_events-after_export.
             CALL BADI lb_exit_repo_tr->on_transport_released
               EXPORTING
                 iv_system    = iv_system
                 iv_transport = iv_transport
-                iv_repo_id   = <lv_repo>.
+                iv_repo_id   = <lv_repo>
+                iv_repo_url  = lv_repo_url.
         ENDCASE.
       ENDLOOP.
     ENDIF.

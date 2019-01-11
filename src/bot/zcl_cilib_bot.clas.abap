@@ -169,8 +169,11 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
 
   METHOD format_update_info_into_string.
     rv_string = SWITCH #( is_info-event
-      WHEN zif_cilib_bot=>gc_events-imported THEN
-           |Imported transport { is_info-transport } on { is_info-system }.|
+      WHEN zif_cilib_bot=>gc_events-imported THEN SWITCH #( is_info-return_code
+        WHEN space
+        THEN |Imported transport { is_info-transport } on { is_info-system }.|
+        ELSE |Imported transport { is_info-transport } on { is_info-system }, RC { is_info-return_code }.|
+      )
       WHEN zif_cilib_bot=>gc_events-released THEN
            |Released transport { is_info-transport } on { is_info-system }.|
     ).

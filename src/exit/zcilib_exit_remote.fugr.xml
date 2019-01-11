@@ -25,6 +25,11 @@
        <PARAMETER>IV_SYSTEM</PARAMETER>
        <TYP>SYST_SYSID</TYP>
       </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_RETURN_CODE</PARAMETER>
+       <OPTIONAL>X</OPTIONAL>
+       <TYP>TRRETCODE</TYP>
+      </RSIMP>
      </IMPORT>
      <DOCUMENTATION>
       <RSFDO>
@@ -41,6 +46,11 @@
        <PARAMETER>IV_SYSTEM</PARAMETER>
        <KIND>P</KIND>
        <INDEX> 003</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_RETURN_CODE</PARAMETER>
+       <KIND>P</KIND>
+       <INDEX> 004</INDEX>
       </RSFDO>
      </DOCUMENTATION>
     </item>
