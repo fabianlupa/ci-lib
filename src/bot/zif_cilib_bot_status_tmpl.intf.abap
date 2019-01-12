@@ -11,6 +11,7 @@ INTERFACE zif_cilib_bot_status_tmpl PUBLIC.
     BEGIN OF gty_import_info,
       system        TYPE syst_sysid,
       import_status TYPE gty_import_status,
+      icon          TYPE string,
     END OF gty_import_info,
     gty_import_info_tab TYPE STANDARD TABLE OF gty_import_info WITH EMPTY KEY
                              WITH UNIQUE HASHED KEY unique COMPONENTS system,
@@ -24,12 +25,13 @@ INTERFACE zif_cilib_bot_status_tmpl PUBLIC.
     gty_transport_tab TYPE SORTED TABLE OF gty_transport WITH UNIQUE KEY transport.
   CONSTANTS:
     BEGIN OF gc_import_status,
-      released        TYPE gty_import_status VALUE 'R',
-      not_imported    TYPE gty_import_status VALUE 'N',
-      imported        TYPE gty_import_status VALUE 'I',
-      error_on_import TYPE gty_import_status VALUE 'E',
-      import_planned  TYPE gty_import_status VALUE 'P',
-      no_info         TYPE gty_import_status VALUE '?',
+      released          TYPE gty_import_status VALUE 'R',
+      not_imported      TYPE gty_import_status VALUE 'N',
+      imported          TYPE gty_import_status VALUE 'I',
+      error_on_import   TYPE gty_import_status VALUE 'E',
+      warning_on_import TYPE gty_import_status VALUE 'W',
+      import_planned    TYPE gty_import_status VALUE 'P',
+      no_info           TYPE gty_import_status VALUE '?',
     END OF gc_import_status.
   CLASS-METHODS:
     parse_comment IMPORTING iv_comment         TYPE string

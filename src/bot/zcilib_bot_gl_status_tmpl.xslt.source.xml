@@ -36,8 +36,9 @@
               </td>
               <tt:loop name="status" ref="$transport.import_info">
                 <td>
-                  <tt:attribute name="title" value-ref="$status.system"/>
-                  <tt:value ref="$status.import_status"/>
+                  <tt:attribute name="title" value-ref="$status.import_status"/>
+                  <tt:attribute name="data-system" value-ref="$status.system"/>
+                  <tt:value ref="$status.icon"/>
                 </td>
               </tt:loop>
             </tr>

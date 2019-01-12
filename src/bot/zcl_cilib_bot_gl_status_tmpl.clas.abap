@@ -102,6 +102,19 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
             ) INTO <ls_transport>-import_info INDEX lv_index.
         ENDTRY.
       ENDLOOP.
+
+      " Set icons
+      LOOP AT <ls_transport>-import_info ASSIGNING FIELD-SYMBOL(<ls_info2>).
+        <ls_info2>-icon = SWITCH #( <ls_info2>-import_status
+          WHEN zif_cilib_bot_status_tmpl=>gc_import_status-imported          THEN ':heavy_check_mark:'
+          WHEN zif_cilib_bot_status_tmpl=>gc_import_status-released          THEN ':truck:'
+          WHEN zif_cilib_bot_status_tmpl=>gc_import_status-error_on_import   THEN ':x:'
+          WHEN zif_cilib_bot_status_tmpl=>gc_import_status-warning_on_import THEN ':warning:'
+          WHEN zif_cilib_bot_status_tmpl=>gc_import_status-import_planned    THEN ':clock5:'
+          WHEN zif_cilib_bot_status_tmpl=>gc_import_status-not_imported      THEN ''
+          WHEN zif_cilib_bot_status_tmpl=>gc_import_status-no_info           THEN ''
+        ).
+      ENDLOOP.
     ENDLOOP.
   ENDMETHOD.
 
@@ -134,10 +147,18 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD deserialize.
-    CALL TRANSFORMATION zcilib_bot_gl_status_tmpl
-         SOURCE XML iv_xml
-         RESULT systems    = et_systems
-                transports = et_transports
-                history    = et_history.
+    TRY.
+        CALL TRANSFORMATION zcilib_bot_gl_status_tmpl
+             SOURCE XML iv_xml
+             RESULT systems    = et_systems
+                    transports = et_transports
+                    history    = et_history.
+      CATCH cx_transformation_error INTO DATA(lx_transform_error).
+        RAISE EXCEPTION lx_transform_error.
+*      CATCH cx_root INTO DATA(lx_ex).
+*        RAISE EXCEPTION TYPE cx_transformation_error
+*          EXPORTING
+*            previous = lx_ex.
+    ENDTRY.
   ENDMETHOD.
 ENDCLASS.
