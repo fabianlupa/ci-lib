@@ -1,4 +1,4 @@
-"! abapGit API
+"! abapGit API facade
 "! <p>
 "! https://docs.abapgit.org/development/api.html
 "! </p>
@@ -7,7 +7,7 @@
 "! while abapGit might only be installed in a local package on the development system. Events are redirected to the
 "! development system using RFC.
 "! </p>
-CLASS zcl_cilib_abapgit_api DEFINITION
+CLASS zcl_cilib_git_abapgit DEFINITION
   PUBLIC
   FINAL
   CREATE PRIVATE
@@ -15,7 +15,7 @@ CLASS zcl_cilib_abapgit_api DEFINITION
 
   PUBLIC SECTION.
     INTERFACES:
-      zif_cilib_abapgit_api.
+      zif_cilib_git_abapgit.
     METHODS:
       constructor.
   PROTECTED SECTION.
@@ -24,8 +24,8 @@ ENDCLASS.
 
 
 
-CLASS zcl_cilib_abapgit_api IMPLEMENTATION.
-  METHOD zif_cilib_abapgit_api~get_repo_url.
+CLASS zcl_cilib_git_abapgit IMPLEMENTATION.
+  METHOD zif_cilib_git_abapgit~get_repo_url.
     DATA: lo_repo_srv TYPE REF TO object,
           lo_repo     TYPE REF TO object.
 
@@ -57,7 +57,7 @@ CLASS zcl_cilib_abapgit_api IMPLEMENTATION.
     ENDTRY.
   ENDMETHOD.
 
-  METHOD zif_cilib_abapgit_api~is_object_part_of_online_repo.
+  METHOD zif_cilib_git_abapgit~is_object_part_of_online_repo.
     DATA: lt_package_range TYPE RANGE OF devclass,
           lo_found_repo    TYPE REF TO object,
           lo_repo_srv      TYPE REF TO object,
@@ -125,12 +125,12 @@ CLASS zcl_cilib_abapgit_api IMPLEMENTATION.
 
     ASSIGN (lc_version_attribute) TO <lv_version>.
     IF sy-subrc <> 0.
-      RAISE EXCEPTION TYPE zcx_cilib_abapgit_missing.
+      RAISE EXCEPTION TYPE zcx_cilib_git_abapgit_missing.
     ENDIF.
 
     SPLIT <lv_version> AT '.' INTO DATA(lv_major) DATA(lv_minor) DATA(lv_patch).
     IF lv_major < 1 OR ( lv_major = 1 AND lv_minor < 81 ).
-      RAISE EXCEPTION TYPE zcx_cilib_abapgit_missing.
+      RAISE EXCEPTION TYPE zcx_cilib_git_abapgit_missing.
     ENDIF.
   ENDMETHOD.
 ENDCLASS.

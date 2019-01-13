@@ -1,5 +1,5 @@
 "! abapGit not found / not accessible
-CLASS zcx_cilib_abapgit_missing DEFINITION
+CLASS zcx_cilib_git_abapgit_missing DEFINITION
   PUBLIC
   FINAL
   INHERITING FROM zcx_cilib_no_check
@@ -12,5 +12,5 @@ ENDCLASS.
 
 
 
-CLASS zcx_cilib_abapgit_missing IMPLEMENTATION.
+CLASS zcx_cilib_git_abapgit_missing IMPLEMENTATION.
 ENDCLASS.
