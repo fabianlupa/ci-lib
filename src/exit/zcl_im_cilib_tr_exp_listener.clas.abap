@@ -19,6 +19,7 @@ CLASS zcl_im_cilib_tr_exp_listener IMPLEMENTATION.
     CHECK type = 'K'.
 
     DATA(lv_destination) = zcl_cilib_cust_factory=>get_settings( )->get_exit_event_destination( ).
+    CHECK lv_destination IS NOT INITIAL.
 
     CALL FUNCTION 'ZCILIB_EXIT_RAISE_EVENT'
       DESTINATION lv_destination
