@@ -13,7 +13,7 @@ CLASS zcl_cilib_bot_repo_tr_listener DEFINITION
     METHODS:
       handle_event IMPORTING iv_system      TYPE syst_sysid
                              iv_transport   TYPE trkorr
-                             iv_repo_id     TYPE zif_cilib_abapgit_api=>gty_repo_key
+                             iv_repo_id     TYPE zif_cilib_git_abapgit=>gty_repo_key
                              iv_repo_url    TYPE string
                              iv_event       TYPE zif_cilib_bot=>gty_event
                              iv_return_code TYPE trretcode OPTIONAL.

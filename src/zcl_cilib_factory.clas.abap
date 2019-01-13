@@ -9,7 +9,7 @@ CLASS zcl_cilib_factory DEFINITION
       get_bot IMPORTING iv_bot_name   TYPE zcilib_bot_name
               RETURNING VALUE(ri_bot) TYPE REF TO zif_cilib_bot
               RAISING   zcx_cilib_illegal_argument,
-      get_abapgit_api RETURNING VALUE(ri_abapgit_api) TYPE REF TO zif_cilib_abapgit_api,
+      get_abapgit RETURNING VALUE(ri_abapgit) TYPE REF TO zif_cilib_git_abapgit,
       get_host IMPORTING iv_host        TYPE zcilib_host_hostpath
                RETURNING VALUE(ri_host) TYPE REF TO zif_cilib_host
                RAISING   zcx_cilib_not_found,
@@ -31,7 +31,7 @@ CLASS zcl_cilib_factory DEFINITION
         instance TYPE REF TO zif_cilib_bot,
       END OF gty_bot_cache_line.
     CLASS-DATA:
-      gi_abapgit_api     TYPE REF TO zif_cilib_abapgit_api,
+      gi_abapgit         TYPE REF TO zif_cilib_git_abapgit,
       gi_cts_api         TYPE REF TO zif_cilib_cts_api,
       gi_logger          TYPE REF TO zif_cilib_util_logger,
       gt_host_cache      TYPE HASHED TABLE OF gty_host_cache_line WITH UNIQUE KEY host_path,
@@ -42,11 +42,11 @@ ENDCLASS.
 
 
 CLASS zcl_cilib_factory IMPLEMENTATION.
-  METHOD get_abapgit_api.
-    IF gi_abapgit_api IS NOT BOUND.
-      gi_abapgit_api = NEW zcl_cilib_abapgit_api( ).
+  METHOD get_abapgit.
+    IF gi_abapgit IS NOT BOUND.
+      gi_abapgit = NEW zcl_cilib_git_abapgit( ).
     ENDIF.
-    ri_abapgit_api = gi_abapgit_api.
+    ri_abapgit = gi_abapgit.
   ENDMETHOD.
 
   METHOD get_bot.

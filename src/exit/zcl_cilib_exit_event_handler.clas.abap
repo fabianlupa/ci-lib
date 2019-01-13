@@ -26,8 +26,8 @@ ENDCLASS.
 
 CLASS zcl_cilib_exit_event_handler IMPLEMENTATION.
   METHOD handle_tr_feedback.
-    DATA: lt_repos        TYPE SORTED TABLE OF zif_cilib_abapgit_api=>gty_repo_key WITH UNIQUE KEY table_line,
-          lv_repo_key     TYPE zif_cilib_abapgit_api=>gty_repo_key,
+    DATA: lt_repos        TYPE SORTED TABLE OF zif_cilib_git_abapgit=>gty_repo_key WITH UNIQUE KEY table_line,
+          lv_repo_key     TYPE zif_cilib_git_abapgit=>gty_repo_key,
           lb_exit_repo_tr TYPE REF TO zcilib_exit_repo_tr.
 
     IF iv_event NA gc_events.
@@ -45,7 +45,7 @@ CLASS zcl_cilib_exit_event_handler IMPLEMENTATION.
 
     CHECK lt_objects IS NOT INITIAL.
 
-    DATA(li_abapgit) = zcl_cilib_factory=>get_abapgit_api( ).
+    DATA(li_abapgit) = zcl_cilib_factory=>get_abapgit( ).
 
     LOOP AT lt_packages ASSIGNING FIELD-SYMBOL(<lv_package>).
       IF li_abapgit->is_object_part_of_online_repo(

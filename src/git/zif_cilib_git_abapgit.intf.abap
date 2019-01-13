@@ -1,5 +1,5 @@
 "! abapGit API
-INTERFACE zif_cilib_abapgit_api PUBLIC.
+INTERFACE zif_cilib_git_abapgit PUBLIC.
   TYPES:
     gty_repo_key TYPE c LENGTH 12.
   METHODS:
