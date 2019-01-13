@@ -1830,7 +1830,7 @@
        <ELEMENT_OF>SCREEN</ELEMENT_OF>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
-       <LENGTH>255</LENGTH>
+       <LENGTH>064</LENGTH>
        <HEIGHT>059</HEIGHT>
        <C_RESIZE_V>X</C_RESIZE_V>
        <C_RESIZE_H>X</C_RESIZE_H>
@@ -1931,108 +1931,6 @@
       <RPY_DYFATC>
        <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
        <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_HOST_V-DESTINATION</NAME>
-       <TEXT>RFC_Destination_________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>002</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>032</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>V</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_HOST_V-HOST_IMPL</NAME>
-       <TEXT>Host_implementation_____________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>003</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>030</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>V</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_HOST_V-AUTH_MECHANISM</NAME>
-       <TEXT>Authentic.______________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>004</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>030</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>1</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_HOST_V-API_TOKEN</NAME>
-       <TEXT>API_token_______________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>005</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>050</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>V</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_HOST_V-BOT</NAME>
-       <TEXT>Bot_____________________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>006</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>010</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>1</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_HOST_V-BRANCHING_STRATEGY</NAME>
-       <TEXT>Br._strat.______________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>007</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>030</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>1</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
        <TYPE>CHECK</TYPE>
        <NAME>VIM_MARKED</NAME>
        <LINE>001</LINE>
@@ -2063,123 +1961,6 @@
        <FOREIGNKEY>X</FOREIGNKEY>
        <OUTPUT_FLD>X</OUTPUT_FLD>
        <REQU_ENTRY>N</REQU_ENTRY>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
-       <TYPE>TEMPLATE</TYPE>
-       <NAME>ZCILIB_HOST_V-DESTINATION</NAME>
-       <TEXT>________________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>002</COLUMN>
-       <LENGTH>032</LENGTH>
-       <VISLENGTH>032</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <PARAM_ID>RFC</PARAM_ID>
-       <UP_LOWER>X</UP_LOWER>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_FKY>X</DICT_I_FKY>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
-       <TYPE>TEMPLATE</TYPE>
-       <NAME>ZCILIB_HOST_V-HOST_IMPL</NAME>
-       <TEXT>______________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>003</COLUMN>
-       <LENGTH>030</LENGTH>
-       <VISLENGTH>030</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
-       <TYPE>TEMPLATE</TYPE>
-       <NAME>ZCILIB_HOST_V-AUTH_MECHANISM</NAME>
-       <TEXT>_</TEXT>
-       <DROPDOWN>L</DROPDOWN>
-       <LINE>001</LINE>
-       <COLUMN>004</COLUMN>
-       <LENGTH>001</LENGTH>
-       <VISLENGTH>030</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_VAL>X</DICT_I_VAL>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
-       <TYPE>TEMPLATE</TYPE>
-       <NAME>ZCILIB_HOST_V-API_TOKEN</NAME>
-       <TEXT>__________________________________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>005</COLUMN>
-       <LENGTH>050</LENGTH>
-       <VISLENGTH>050</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <UP_LOWER>X</UP_LOWER>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
-       <TYPE>TEMPLATE</TYPE>
-       <NAME>ZCILIB_HOST_V-BOT</NAME>
-       <TEXT>__________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>006</COLUMN>
-       <LENGTH>010</LENGTH>
-       <VISLENGTH>010</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_FKY>X</DICT_I_FKY>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_HOST_V</CONT_NAME>
-       <TYPE>TEMPLATE</TYPE>
-       <NAME>ZCILIB_HOST_V-BRANCHING_STRATEGY</NAME>
-       <TEXT>_</TEXT>
-       <DROPDOWN>L</DROPDOWN>
-       <LINE>001</LINE>
-       <COLUMN>007</COLUMN>
-       <LENGTH>001</LENGTH>
-       <VISLENGTH>030</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_VAL>X</DICT_I_VAL>
       </RPY_DYFATC>
      </FIELDS>
      <FLOW_LOGIC>
@@ -2226,22 +2007,22 @@
        <LINE>FIELD ZCILIB_HOST_V-HOST .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_HOST_V-DESTINATION .</LINE>
+       <LINE>*    FIELD ZCILIB_HOST_V-DESTINATION .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_HOST_V-HOST_IMPL .</LINE>
+       <LINE>*    FIELD ZCILIB_HOST_V-HOST_IMPL .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_HOST_V-AUTH_MECHANISM .</LINE>
+       <LINE>*    FIELD ZCILIB_HOST_V-AUTH_MECHANISM .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_HOST_V-API_TOKEN .</LINE>
+       <LINE>*    FIELD ZCILIB_HOST_V-API_TOKEN .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_HOST_V-BOT .</LINE>
+       <LINE>*    FIELD ZCILIB_HOST_V-BOT .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_HOST_V-BRANCHING_STRATEGY .</LINE>
+       <LINE>*    FIELD ZCILIB_HOST_V-BRANCHING_STRATEGY .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
        <LINE>MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.</LINE>
@@ -2286,12 +2067,12 @@
       <item>3</item>
       <item>3</item>
       <item>4</item>
-      <item>4</item>
-      <item>4</item>
-      <item>4</item>
-      <item>4</item>
-      <item>4</item>
-      <item>4</item>
+      <item>0</item>
+      <item>0</item>
+      <item>0</item>
+      <item>0</item>
+      <item>0</item>
+      <item>0</item>
       <item>4</item>
       <item>3</item>
       <item>3</item>
@@ -2325,7 +2106,7 @@
        <ELEMENT_OF>SCREEN</ELEMENT_OF>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
-       <LENGTH>255</LENGTH>
+       <LENGTH>020</LENGTH>
        <HEIGHT>059</HEIGHT>
        <C_RESIZE_V>X</C_RESIZE_V>
        <C_RESIZE_H>X</C_RESIZE_H>
@@ -2426,91 +2207,6 @@
       <RPY_DYFATC>
        <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
        <CONT_NAME>TCTRL_ZCILIB_SETT_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_SETT_V-ENABLE_LOGGING</NAME>
-       <TEXT>Enable_log______________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>002</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>010</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>1</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_SETT_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_SETT_V-BAL_OBJECT</NAME>
-       <TEXT>Object__________________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>003</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>020</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>V</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_SETT_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_SETT_V-BAL_SUBOBJECT</NAME>
-       <TEXT>Subobject_______________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>004</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>020</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>V</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_SETT_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_SETT_V-BAL_KEEP_DAYS</NAME>
-       <TEXT>Days_expi.______________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>005</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>010</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>1</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_SETT_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_SETT_V-EXIT_EVENT_DESTINATION</NAME>
-       <TEXT>Exit_Event_RFC_Destination______________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>006</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>032</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>V</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_SETT_V</CONT_NAME>
        <TYPE>CHECK</TYPE>
        <NAME>VIM_MARKED</NAME>
        <LINE>001</LINE>
@@ -2540,106 +2236,6 @@
        <FOREIGNKEY>X</FOREIGNKEY>
        <OUTPUT_FLD>X</OUTPUT_FLD>
        <REQU_ENTRY>N</REQU_ENTRY>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_SETT_V</CONT_NAME>
-       <TYPE>CHECK</TYPE>
-       <NAME>ZCILIB_SETT_V-ENABLE_LOGGING</NAME>
-       <LINE>001</LINE>
-       <COLUMN>002</COLUMN>
-       <LENGTH>001</LENGTH>
-       <VISLENGTH>010</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_VAL>X</DICT_I_VAL>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_SETT_V</CONT_NAME>
-       <TYPE>TEMPLATE</TYPE>
-       <NAME>ZCILIB_SETT_V-BAL_OBJECT</NAME>
-       <TEXT>____________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>003</COLUMN>
-       <LENGTH>020</LENGTH>
-       <VISLENGTH>020</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <PARAM_ID>BALOBJ</PARAM_ID>
-       <SET_PARAM>X</SET_PARAM>
-       <GET_PARAM>X</GET_PARAM>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_FKY>X</DICT_I_FKY>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_SETT_V</CONT_NAME>
-       <TYPE>TEMPLATE</TYPE>
-       <NAME>ZCILIB_SETT_V-BAL_SUBOBJECT</NAME>
-       <TEXT>____________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>004</COLUMN>
-       <LENGTH>020</LENGTH>
-       <VISLENGTH>020</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <PARAM_ID>BALSUBOBJ</PARAM_ID>
-       <SET_PARAM>X</SET_PARAM>
-       <GET_PARAM>X</GET_PARAM>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_FKY>X</DICT_I_FKY>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_SETT_V</CONT_NAME>
-       <TYPE>TEMPLATE</TYPE>
-       <NAME>ZCILIB_SETT_V-BAL_KEEP_DAYS</NAME>
-       <TEXT>____</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>005</COLUMN>
-       <LENGTH>004</LENGTH>
-       <VISLENGTH>010</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>NUMC</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_SETT_V</CONT_NAME>
-       <TYPE>TEMPLATE</TYPE>
-       <NAME>ZCILIB_SETT_V-EXIT_EVENT_DESTINATION</NAME>
-       <TEXT>________________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>006</COLUMN>
-       <LENGTH>032</LENGTH>
-       <VISLENGTH>032</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <UP_LOWER>X</UP_LOWER>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_FKY>X</DICT_I_FKY>
       </RPY_DYFATC>
      </FIELDS>
      <FLOW_LOGIC>
@@ -2686,19 +2282,19 @@
        <LINE>FIELD ZCILIB_SETT_V-VERSION .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_SETT_V-ENABLE_LOGGING .</LINE>
+       <LINE>*    FIELD ZCILIB_SETT_V-ENABLE_LOGGING .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_SETT_V-BAL_OBJECT .</LINE>
+       <LINE>*    FIELD ZCILIB_SETT_V-BAL_OBJECT .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_SETT_V-BAL_SUBOBJECT .</LINE>
+       <LINE>*    FIELD ZCILIB_SETT_V-BAL_SUBOBJECT .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_SETT_V-BAL_KEEP_DAYS .</LINE>
+       <LINE>*    FIELD ZCILIB_SETT_V-BAL_KEEP_DAYS .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_SETT_V-EXIT_EVENT_DESTINATION .</LINE>
+       <LINE>*    FIELD ZCILIB_SETT_V-EXIT_EVENT_DESTINATION .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
        <LINE>MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.</LINE>
@@ -2743,11 +2339,11 @@
       <item>3</item>
       <item>3</item>
       <item>4</item>
-      <item>4</item>
-      <item>4</item>
-      <item>4</item>
-      <item>4</item>
-      <item>4</item>
+      <item>0</item>
+      <item>0</item>
+      <item>0</item>
+      <item>0</item>
+      <item>0</item>
       <item>4</item>
       <item>3</item>
       <item>3</item>
@@ -2792,6 +2388,7 @@
        <FROM_DICT>X</FROM_DICT>
        <MODIFIC>2</MODIFIC>
        <REQU_ENTRY>N</REQU_ENTRY>
+       <INVISIBLE>X</INVISIBLE>
        <LABELLEFT>X</LABELLEFT>
       </RPY_DYFATC>
       <RPY_DYFATC>
@@ -2811,21 +2408,21 @@
        <FOREIGNKEY>X</FOREIGNKEY>
        <OUTPUT_FLD>X</OUTPUT_FLD>
        <REQU_ENTRY>N</REQU_ENTRY>
+       <INVISIBLE>X</INVISIBLE>
       </RPY_DYFATC>
       <RPY_DYFATC>
        <CONT_TYPE>SCREEN</CONT_TYPE>
        <CONT_NAME>SCREEN</CONT_NAME>
-       <TYPE>FRAME_TMPL</TYPE>
+       <TYPE>FRAME</TYPE>
        <NAME>VIM_FRAME_FIELD</NAME>
-       <TEXT>_______________________________________________________</TEXT>
+       <TEXT>Logging_________________________________________________</TEXT>
        <LINE>003</LINE>
        <COLUMN>001</COLUMN>
-       <LENGTH>055</LENGTH>
-       <VISLENGTH>055</VISLENGTH>
-       <HEIGHT>007</HEIGHT>
+       <LENGTH>057</LENGTH>
+       <VISLENGTH>057</VISLENGTH>
+       <HEIGHT>006</HEIGHT>
        <FORMAT>CHAR</FORMAT>
        <UP_LOWER>X</UP_LOWER>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
        <REQU_ENTRY>N</REQU_ENTRY>
       </RPY_DYFATC>
       <RPY_DYFATC>
@@ -2960,10 +2557,24 @@
       <RPY_DYFATC>
        <CONT_TYPE>SCREEN</CONT_TYPE>
        <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>FRAME</TYPE>
+       <NAME>%#AUTOTEXT001</NAME>
+       <TEXT>CTS_events______________________________________________</TEXT>
+       <LINE>009</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>057</LENGTH>
+       <VISLENGTH>057</VISLENGTH>
+       <HEIGHT>003</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>TEXT</TYPE>
        <NAME>ZCILIB_SETT_V-EXIT_EVENT_DESTINATION</NAME>
        <TEXT>Event_Destination___</TEXT>
-       <LINE>008</LINE>
+       <LINE>010</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
        <VISLENGTH>020</VISLENGTH>
@@ -2980,7 +2591,7 @@
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCILIB_SETT_V-EXIT_EVENT_DESTINATION</NAME>
        <TEXT>________________________________</TEXT>
-       <LINE>008</LINE>
+       <LINE>010</LINE>
        <COLUMN>023</COLUMN>
        <LENGTH>032</LENGTH>
        <VISLENGTH>032</VISLENGTH>
@@ -3483,7 +3094,7 @@
        <ELEMENT_OF>SCREEN</ELEMENT_OF>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
-       <LENGTH>255</LENGTH>
+       <LENGTH>023</LENGTH>
        <HEIGHT>059</HEIGHT>
        <C_RESIZE_V>X</C_RESIZE_V>
        <C_RESIZE_H>X</C_RESIZE_H>
@@ -3584,91 +3195,6 @@
       <RPY_DYFATC>
        <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
        <CONT_NAME>TCTRL_ZCILIB_BOT_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_BOT_V-ENABLE_CTS_STATUS</NAME>
-       <TEXT>CTS_Status______________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>002</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>010</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>1</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_BOT_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_BOT_V-CTS_STATUS_TEMPLATE_IMPL</NAME>
-       <TEXT>CTS_Status_Implementation_______________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>003</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>030</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>V</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_BOT_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_BOT_V-ENABLE_CTS_UPDATES</NAME>
-       <TEXT>CTS_Update______________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>004</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>010</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>1</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_BOT_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_BOT_V-CTS_UPDATE_TEMPLATE_IMPL</NAME>
-       <TEXT>CTS_Update_Implementation_______________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>005</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>030</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>V</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_BOT_V</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>*ZCILIB_BOT_V-SYSTEM_GROUP</NAME>
-       <TEXT>System_grp______________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>006</COLUMN>
-       <LENGTH>040</LENGTH>
-       <VISLENGTH>010</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>1</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <TC_HEADING>X</TC_HEADING>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_BOT_V</CONT_NAME>
        <TYPE>CHECK</TYPE>
        <NAME>VIM_MARKED</NAME>
        <LINE>001</LINE>
@@ -3698,101 +3224,6 @@
        <FOREIGNKEY>X</FOREIGNKEY>
        <OUTPUT_FLD>X</OUTPUT_FLD>
        <REQU_ENTRY>N</REQU_ENTRY>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_BOT_V</CONT_NAME>
-       <TYPE>CHECK</TYPE>
-       <NAME>ZCILIB_BOT_V-ENABLE_CTS_STATUS</NAME>
-       <LINE>001</LINE>
-       <COLUMN>002</COLUMN>
-       <LENGTH>001</LENGTH>
-       <VISLENGTH>010</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_VAL>X</DICT_I_VAL>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_BOT_V</CONT_NAME>
-       <TYPE>TEMPLATE</TYPE>
-       <NAME>ZCILIB_BOT_V-CTS_STATUS_TEMPLATE_IMPL</NAME>
-       <TEXT>______________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>003</COLUMN>
-       <LENGTH>030</LENGTH>
-       <VISLENGTH>030</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_FKY>X</DICT_I_FKY>
-       <DICT_I_FKD>X</DICT_I_FKD>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_BOT_V</CONT_NAME>
-       <TYPE>CHECK</TYPE>
-       <NAME>ZCILIB_BOT_V-ENABLE_CTS_UPDATES</NAME>
-       <LINE>001</LINE>
-       <COLUMN>004</COLUMN>
-       <LENGTH>001</LENGTH>
-       <VISLENGTH>010</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_VAL>X</DICT_I_VAL>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_BOT_V</CONT_NAME>
-       <TYPE>TEMPLATE</TYPE>
-       <NAME>ZCILIB_BOT_V-CTS_UPDATE_TEMPLATE_IMPL</NAME>
-       <TEXT>______________________________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>005</COLUMN>
-       <LENGTH>030</LENGTH>
-       <VISLENGTH>030</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_FKY>X</DICT_I_FKY>
-       <DICT_I_FKD>X</DICT_I_FKD>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>TABLE_CTRL</CONT_TYPE>
-       <CONT_NAME>TCTRL_ZCILIB_BOT_V</CONT_NAME>
-       <TYPE>TEMPLATE</TYPE>
-       <NAME>ZCILIB_BOT_V-SYSTEM_GROUP</NAME>
-       <TEXT>__________</TEXT>
-       <LINE>001</LINE>
-       <COLUMN>006</COLUMN>
-       <LENGTH>010</LENGTH>
-       <VISLENGTH>010</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>X</MODIFIC>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_FKY>X</DICT_I_FKY>
       </RPY_DYFATC>
      </FIELDS>
      <FLOW_LOGIC>
@@ -3839,19 +3270,19 @@
        <LINE>FIELD ZCILIB_BOT_V-BOT .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_BOT_V-ENABLE_CTS_STATUS .</LINE>
+       <LINE>*    FIELD ZCILIB_BOT_V-ENABLE_CTS_STATUS .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_BOT_V-CTS_STATUS_TEMPLATE_IMPL .</LINE>
+       <LINE>*    FIELD ZCILIB_BOT_V-CTS_STATUS_TEMPLATE_IMPL .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_BOT_V-ENABLE_CTS_UPDATES .</LINE>
+       <LINE>*    FIELD ZCILIB_BOT_V-ENABLE_CTS_UPDATES .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_BOT_V-CTS_UPDATE_TEMPLATE_IMPL .</LINE>
+       <LINE>*    FIELD ZCILIB_BOT_V-CTS_UPDATE_TEMPLATE_IMPL .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
-       <LINE>FIELD ZCILIB_BOT_V-SYSTEM_GROUP .</LINE>
+       <LINE>*    FIELD ZCILIB_BOT_V-SYSTEM_GROUP .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
        <LINE>MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.</LINE>
@@ -3896,11 +3327,11 @@
       <item>3</item>
       <item>3</item>
       <item>4</item>
-      <item>4</item>
-      <item>4</item>
-      <item>4</item>
-      <item>4</item>
-      <item>4</item>
+      <item>0</item>
+      <item>0</item>
+      <item>0</item>
+      <item>0</item>
+      <item>0</item>
       <item>4</item>
       <item>3</item>
       <item>3</item>
@@ -3968,128 +3399,17 @@
       <RPY_DYFATC>
        <CONT_TYPE>SCREEN</CONT_TYPE>
        <CONT_NAME>SCREEN</CONT_NAME>
-       <TYPE>FRAME_TMPL</TYPE>
+       <TYPE>FRAME</TYPE>
        <NAME>VIM_FRAME_FIELD</NAME>
-       <TEXT>_____________________________________________________</TEXT>
+       <TEXT>CTS_event_handling______________________________________________________________</TEXT>
        <LINE>003</LINE>
        <COLUMN>001</COLUMN>
-       <LENGTH>053</LENGTH>
-       <VISLENGTH>053</VISLENGTH>
-       <HEIGHT>007</HEIGHT>
+       <LENGTH>081</LENGTH>
+       <VISLENGTH>081</VISLENGTH>
+       <HEIGHT>006</HEIGHT>
        <FORMAT>CHAR</FORMAT>
        <UP_LOWER>X</UP_LOWER>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
        <REQU_ENTRY>N</REQU_ENTRY>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>SCREEN</CONT_TYPE>
-       <CONT_NAME>SCREEN</CONT_NAME>
-       <TYPE>CHECK</TYPE>
-       <NAME>ZCILIB_BOT_V-ENABLE_CTS_STATUS</NAME>
-       <TEXT>CTS_Status_enabled__</TEXT>
-       <LINE>004</LINE>
-       <COLUMN>002</COLUMN>
-       <LENGTH>022</LENGTH>
-       <VISLENGTH>022</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>2</MODIFIC>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_VAL>X</DICT_I_VAL>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>SCREEN</CONT_TYPE>
-       <CONT_NAME>SCREEN</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>ZCILIB_BOT_V-CTS_STATUS_TEMPLATE_IMPL</NAME>
-       <TEXT>CTS_Status_Impl.____</TEXT>
-       <LINE>005</LINE>
-       <COLUMN>002</COLUMN>
-       <LENGTH>020</LENGTH>
-       <VISLENGTH>020</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>2</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <LABELLEFT>X</LABELLEFT>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>SCREEN</CONT_TYPE>
-       <CONT_NAME>SCREEN</CONT_NAME>
-       <TYPE>TEMPLATE</TYPE>
-       <NAME>ZCILIB_BOT_V-CTS_STATUS_TEMPLATE_IMPL</NAME>
-       <TEXT>______________________________</TEXT>
-       <LINE>005</LINE>
-       <COLUMN>023</COLUMN>
-       <LENGTH>030</LENGTH>
-       <VISLENGTH>030</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_FKY>X</DICT_I_FKY>
-       <DICT_I_FKD>X</DICT_I_FKD>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>SCREEN</CONT_TYPE>
-       <CONT_NAME>SCREEN</CONT_NAME>
-       <TYPE>CHECK</TYPE>
-       <NAME>ZCILIB_BOT_V-ENABLE_CTS_UPDATES</NAME>
-       <TEXT>CTS_Update_enabled__</TEXT>
-       <LINE>006</LINE>
-       <COLUMN>002</COLUMN>
-       <LENGTH>022</LENGTH>
-       <VISLENGTH>022</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>2</MODIFIC>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_VAL>X</DICT_I_VAL>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>SCREEN</CONT_TYPE>
-       <CONT_NAME>SCREEN</CONT_NAME>
-       <TYPE>TEXT</TYPE>
-       <NAME>ZCILIB_BOT_V-CTS_UPDATE_TEMPLATE_IMPL</NAME>
-       <TEXT>CTS_Update_Impl.____</TEXT>
-       <LINE>007</LINE>
-       <COLUMN>002</COLUMN>
-       <LENGTH>020</LENGTH>
-       <VISLENGTH>020</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <MODIFIC>2</MODIFIC>
-       <REQU_ENTRY>N</REQU_ENTRY>
-       <LABELLEFT>X</LABELLEFT>
-      </RPY_DYFATC>
-      <RPY_DYFATC>
-       <CONT_TYPE>SCREEN</CONT_TYPE>
-       <CONT_NAME>SCREEN</CONT_NAME>
-       <TYPE>TEMPLATE</TYPE>
-       <NAME>ZCILIB_BOT_V-CTS_UPDATE_TEMPLATE_IMPL</NAME>
-       <TEXT>______________________________</TEXT>
-       <LINE>007</LINE>
-       <COLUMN>023</COLUMN>
-       <LENGTH>030</LENGTH>
-       <VISLENGTH>030</VISLENGTH>
-       <HEIGHT>001</HEIGHT>
-       <FORMAT>CHAR</FORMAT>
-       <FROM_DICT>X</FROM_DICT>
-       <FOREIGNKEY>X</FOREIGNKEY>
-       <INPUT_FLD>X</INPUT_FLD>
-       <OUTPUT_FLD>X</OUTPUT_FLD>
-       <DICT_I_FKY>X</DICT_I_FKY>
-       <DICT_I_FKD>X</DICT_I_FKD>
       </RPY_DYFATC>
       <RPY_DYFATC>
        <CONT_TYPE>SCREEN</CONT_TYPE>
@@ -4097,7 +3417,7 @@
        <TYPE>TEXT</TYPE>
        <NAME>ZCILIB_BOT_V-SYSTEM_GROUP</NAME>
        <TEXT>System_group________</TEXT>
-       <LINE>008</LINE>
+       <LINE>004</LINE>
        <COLUMN>002</COLUMN>
        <LENGTH>020</LENGTH>
        <VISLENGTH>020</VISLENGTH>
@@ -4114,8 +3434,8 @@
        <TYPE>TEMPLATE</TYPE>
        <NAME>ZCILIB_BOT_V-SYSTEM_GROUP</NAME>
        <TEXT>__________</TEXT>
-       <LINE>008</LINE>
-       <COLUMN>023</COLUMN>
+       <LINE>004</LINE>
+       <COLUMN>026</COLUMN>
        <LENGTH>010</LENGTH>
        <VISLENGTH>010</VISLENGTH>
        <HEIGHT>001</HEIGHT>
@@ -4125,6 +3445,82 @@
        <INPUT_FLD>X</INPUT_FLD>
        <OUTPUT_FLD>X</OUTPUT_FLD>
        <DICT_I_FKY>X</DICT_I_FKY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>CHECK</TYPE>
+       <NAME>ZCILIB_BOT_V-ENABLE_CTS_STATUS</NAME>
+       <TEXT>CTS_Status_enabled___</TEXT>
+       <LINE>006</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>023</LENGTH>
+       <VISLENGTH>023</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>F</MODIFIC>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <DICT_I_VAL>X</DICT_I_VAL>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCILIB_BOT_V-CTS_STATUS_TEMPLATE_IMPL</NAME>
+       <TEXT>______________________________</TEXT>
+       <LINE>006</LINE>
+       <COLUMN>026</COLUMN>
+       <LENGTH>030</LENGTH>
+       <VISLENGTH>030</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <DICT_I_FKY>X</DICT_I_FKY>
+       <DICT_I_FKD>X</DICT_I_FKD>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>CHECK</TYPE>
+       <NAME>ZCILIB_BOT_V-ENABLE_CTS_UPDATES</NAME>
+       <TEXT>CTS_Update_enabled___</TEXT>
+       <LINE>007</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>023</LENGTH>
+       <VISLENGTH>023</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>F</MODIFIC>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <DICT_I_VAL>X</DICT_I_VAL>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCILIB_BOT_V-CTS_UPDATE_TEMPLATE_IMPL</NAME>
+       <TEXT>______________________________</TEXT>
+       <LINE>007</LINE>
+       <COLUMN>026</COLUMN>
+       <LENGTH>030</LENGTH>
+       <VISLENGTH>030</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <DICT_I_FKY>X</DICT_I_FKY>
+       <DICT_I_FKD>X</DICT_I_FKD>
       </RPY_DYFATC>
       <RPY_DYFATC>
        <CONT_TYPE>SCREEN</CONT_TYPE>
@@ -4838,6 +4234,404 @@
       <item>4</item>
       <item>3</item>
       <item>1</item>
+      <item>1</item>
+     </SPACES>
+    </item>
+    <item>
+     <HEADER>
+      <PROGRAM>SAPLZCILIB_CUST_TMG</PROGRAM>
+      <SCREEN>0010</SCREEN>
+      <LANGUAGE>E</LANGUAGE>
+      <DESCRIPT>View Maintenance: Detail Screen ZCILIB_HOST_V</DESCRIPT>
+      <TYPE>N</TYPE>
+      <NEXTSCREEN>0010</NEXTSCREEN>
+      <LINES>061</LINES>
+      <COLUMNS>255</COLUMNS>
+     </HEADER>
+     <CONTAINERS>
+      <RPY_DYCATT>
+       <TYPE>SCREEN</TYPE>
+       <NAME>SCREEN</NAME>
+      </RPY_DYCATT>
+     </CONTAINERS>
+     <FIELDS>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>ZCILIB_HOST_V-HOST</NAME>
+       <TEXT>Host________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>2</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <LABELLEFT>X</LABELLEFT>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCILIB_HOST_V-HOST</NAME>
+       <TEXT>__________________________________________________</TEXT>
+       <LINE>001</LINE>
+       <COLUMN>022</COLUMN>
+       <LENGTH>050</LENGTH>
+       <VISLENGTH>050</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <GROUP1>KEY</GROUP1>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <UP_LOWER>X</UP_LOWER>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>FRAME</TYPE>
+       <NAME>VIM_FRAME_FIELD</NAME>
+       <TEXT>Communication___________________________________________</TEXT>
+       <LINE>003</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>057</LENGTH>
+       <VISLENGTH>057</VISLENGTH>
+       <HEIGHT>006</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <UP_LOWER>X</UP_LOWER>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>ZCILIB_HOST_V-DESTINATION</NAME>
+       <TEXT>Destination</TEXT>
+       <LINE>004</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>011</LENGTH>
+       <VISLENGTH>011</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>2</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <LABELLEFT>X</LABELLEFT>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCILIB_HOST_V-DESTINATION</NAME>
+       <TEXT>__________________________</TEXT>
+       <LINE>004</LINE>
+       <COLUMN>023</COLUMN>
+       <LENGTH>026</LENGTH>
+       <VISLENGTH>032</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <PARAM_ID>RFC</PARAM_ID>
+       <UP_LOWER>X</UP_LOWER>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <DICT_I_FKY>X</DICT_I_FKY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>ZCILIB_HOST_V-HOST_IMPL</NAME>
+       <TEXT>Host_implementation_</TEXT>
+       <LINE>005</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>2</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <LABELLEFT>X</LABELLEFT>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCILIB_HOST_V-HOST_IMPL</NAME>
+       <TEXT>______________________________________________________</TEXT>
+       <ROLLING>X</ROLLING>
+       <LINE>005</LINE>
+       <COLUMN>023</COLUMN>
+       <LENGTH>054</LENGTH>
+       <VISLENGTH>030</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>ZCILIB_HOST_V-AUTH_MECHANISM</NAME>
+       <TEXT>Auth._mechanism_____</TEXT>
+       <LINE>006</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>2</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <LABELLEFT>X</LABELLEFT>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCILIB_HOST_V-AUTH_MECHANISM</NAME>
+       <TEXT>_</TEXT>
+       <DROPDOWN>L</DROPDOWN>
+       <LINE>006</LINE>
+       <COLUMN>023</COLUMN>
+       <LENGTH>001</LENGTH>
+       <VISLENGTH>032</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <DICT_I_VAL>X</DICT_I_VAL>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>ZCILIB_HOST_V-API_TOKEN</NAME>
+       <TEXT>API_token___________</TEXT>
+       <LINE>007</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>2</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <LABELLEFT>X</LABELLEFT>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCILIB_HOST_V-API_TOKEN</NAME>
+       <TEXT>________________________________</TEXT>
+       <LINE>007</LINE>
+       <COLUMN>023</COLUMN>
+       <LENGTH>032</LENGTH>
+       <VISLENGTH>032</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>X</MODIFIC>
+       <UP_LOWER>X</UP_LOWER>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>FRAME</TYPE>
+       <NAME>%#AUTOTEXT001</NAME>
+       <TEXT>Bot_settings____________________________________________</TEXT>
+       <LINE>009</LINE>
+       <COLUMN>001</COLUMN>
+       <LENGTH>057</LENGTH>
+       <VISLENGTH>057</VISLENGTH>
+       <HEIGHT>004</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <REQU_ENTRY>N</REQU_ENTRY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>ZCILIB_HOST_V-BOT</NAME>
+       <TEXT>Bot_________________</TEXT>
+       <LINE>010</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>2</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <LABELLEFT>X</LABELLEFT>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCILIB_HOST_V-BOT</NAME>
+       <TEXT>__________</TEXT>
+       <LINE>010</LINE>
+       <COLUMN>023</COLUMN>
+       <LENGTH>010</LENGTH>
+       <VISLENGTH>010</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <DICT_I_FKY>X</DICT_I_FKY>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEXT</TYPE>
+       <NAME>ZCILIB_HOST_V-BRANCHING_STRATEGY</NAME>
+       <TEXT>Branching_strategy__</TEXT>
+       <LINE>011</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>2</MODIFIC>
+       <REQU_ENTRY>N</REQU_ENTRY>
+       <LABELLEFT>X</LABELLEFT>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>TEMPLATE</TYPE>
+       <NAME>ZCILIB_HOST_V-BRANCHING_STRATEGY</NAME>
+       <TEXT>_</TEXT>
+       <DROPDOWN>L</DROPDOWN>
+       <LINE>011</LINE>
+       <COLUMN>023</COLUMN>
+       <LENGTH>001</LENGTH>
+       <VISLENGTH>032</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <DICT_I_VAL>X</DICT_I_VAL>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>OKCODE</TYPE>
+       <NAME>OK_CODE</NAME>
+       <TEXT>____________________</TEXT>
+       <LENGTH>020</LENGTH>
+       <VISLENGTH>020</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <INPUT_FLD>X</INPUT_FLD>
+      </RPY_DYFATC>
+     </FIELDS>
+     <FLOW_LOGIC>
+      <RPY_DYFLOW>
+       <LINE>PROCESS BEFORE OUTPUT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>MODULE detail_init.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>*</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>PROCESS AFTER INPUT.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>MODULE DETAIL_EXIT_COMMAND AT EXIT-COMMAND.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>MODULE DETAIL_SET_PFSTATUS.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>CHAIN.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>FIELD ZCILIB_HOST_V-HOST .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>FIELD ZCILIB_HOST_V-DESTINATION .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>FIELD ZCILIB_HOST_V-HOST_IMPL .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>FIELD ZCILIB_HOST_V-AUTH_MECHANISM .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>FIELD ZCILIB_HOST_V-API_TOKEN .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>FIELD ZCILIB_HOST_V-BOT .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>FIELD ZCILIB_HOST_V-BRANCHING_STRATEGY .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>endchain.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>chain.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>FIELD ZCILIB_HOST_V-HOST .</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>module detail_pai.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
+       <LINE>endchain.</LINE>
+      </RPY_DYFLOW>
+     </FLOW_LOGIC>
+     <SPACES>
+      <item>0</item>
+      <item>1</item>
+      <item>0</item>
+      <item>0</item>
+      <item>1</item>
+      <item>1</item>
+      <item>1</item>
+      <item>4</item>
+      <item>4</item>
+      <item>4</item>
+      <item>4</item>
+      <item>4</item>
+      <item>4</item>
+      <item>4</item>
+      <item>2</item>
+      <item>1</item>
+      <item>1</item>
+      <item>4</item>
+      <item>2</item>
       <item>1</item>
      </SPACES>
     </item>

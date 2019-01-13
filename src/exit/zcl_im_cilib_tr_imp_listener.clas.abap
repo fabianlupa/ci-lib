@@ -17,6 +17,7 @@ CLASS zcl_im_cilib_tr_imp_listener IMPLEMENTATION.
     DATA: lv_message TYPE c LENGTH 50.
 
     DATA(lv_destination) = zcl_cilib_cust_factory=>get_settings( )->get_exit_event_destination( ).
+    CHECK lv_destination IS NOT INITIAL.
 
     LOOP AT requests ASSIGNING FIELD-SYMBOL(<ls_request>).
       IF <ls_request>-tarsystem = sy-sysid.
