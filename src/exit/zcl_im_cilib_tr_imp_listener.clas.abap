@@ -26,6 +26,7 @@ CLASS zcl_im_cilib_tr_imp_listener IMPLEMENTATION.
             iv_event              = zcl_cilib_exit_event_handler=>gc_events-after_import
             iv_transport          = <ls_request>-trkorr
             iv_system             = sy-sysid
+            iv_return_code        = <ls_request>-retcode
           EXCEPTIONS
             communication_failure = 1 MESSAGE lv_message
             system_failure        = 2 MESSAGE lv_message

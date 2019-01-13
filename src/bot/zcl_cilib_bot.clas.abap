@@ -248,7 +248,11 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
         WHEN zif_cilib_bot=>gc_events-imported.
           DATA(ls_info_imported) = VALUE zif_cilib_bot_status_tmpl=>gty_import_info(
             system        = <ls_info>-system
-            import_status = zif_cilib_bot_status_tmpl=>gc_import_status-imported
+            import_status = SWITCH #( <ls_info>-return_code
+                              WHEN '0000' THEN zif_cilib_bot_status_tmpl=>gc_import_status-imported
+                              WHEN '0004' THEN zif_cilib_bot_status_tmpl=>gc_import_status-warning_on_import
+                                          ELSE zif_cilib_bot_status_tmpl=>gc_import_status-error_on_import
+                            )
           ).
 
           TRY.
