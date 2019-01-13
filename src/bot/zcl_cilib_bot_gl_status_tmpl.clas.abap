@@ -13,7 +13,8 @@ CLASS zcl_cilib_bot_gl_status_tmpl DEFINITION
                   EXPORTING et_systems    TYPE zif_cilib_bot_status_tmpl=>gty_system_tab
                             et_transports TYPE zif_cilib_bot_status_tmpl=>gty_transport_tab
                             et_history    TYPE stringtab
-                  RAISING   cx_transformation_error.
+                  RAISING   cx_transformation_error
+                            zcx_cilib_unsupp_operation.
     METHODS:
       normalize_before_serialization.
     DATA:
@@ -30,7 +31,7 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
 
     deserialize(
       EXPORTING
-        iv_xml = iv_comment
+        iv_xml        = iv_comment
       IMPORTING
         et_systems    = lo_instance->mt_systems
         et_transports = lo_instance->mt_transports
@@ -47,6 +48,7 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
                 transports = mt_transports
                 history    = mt_history
          RESULT XML rv_comment.
+    rv_comment = rv_comment+40. " Remove byte order mark and XML version
   ENDMETHOD.
 
   METHOD zif_cilib_bot_status_tmpl~add_system.
@@ -102,6 +104,19 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
             ) INTO <ls_transport>-import_info INDEX lv_index.
         ENDTRY.
       ENDLOOP.
+
+      " Set icons
+      LOOP AT <ls_transport>-import_info ASSIGNING FIELD-SYMBOL(<ls_info2>).
+        <ls_info2>-icon = SWITCH #( <ls_info2>-import_status
+          WHEN zif_cilib_bot_status_tmpl=>gc_import_status-imported          THEN ':heavy_check_mark:'
+          WHEN zif_cilib_bot_status_tmpl=>gc_import_status-released          THEN ':truck:'
+          WHEN zif_cilib_bot_status_tmpl=>gc_import_status-error_on_import   THEN ':x:'
+          WHEN zif_cilib_bot_status_tmpl=>gc_import_status-warning_on_import THEN ':warning:'
+          WHEN zif_cilib_bot_status_tmpl=>gc_import_status-import_planned    THEN ':clock5:'
+          WHEN zif_cilib_bot_status_tmpl=>gc_import_status-not_imported      THEN ''
+          WHEN zif_cilib_bot_status_tmpl=>gc_import_status-no_info           THEN ''
+        ).
+      ENDLOOP.
     ENDLOOP.
   ENDMETHOD.
 
@@ -117,14 +132,14 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
     TRY.
         deserialize(
           EXPORTING
-            iv_xml = iv_comment
+            iv_xml        = iv_comment
           IMPORTING
             et_systems    = DATA(lt_systems)
             et_transports = DATA(lt_transports)
             et_history    = DATA(lt_history)
         ).
         rv_parsable = abap_true.
-      CATCH cx_transformation_error.
+      CATCH cx_transformation_error zcx_cilib_unsupp_operation.
         rv_parsable = abap_false.
     ENDTRY.
   ENDMETHOD.
@@ -134,6 +149,13 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD deserialize.
+    CONSTANTS: lc_pattern TYPE string VALUE `<div\s+data-template="(\w+)"\s+data-version="(\d+)">`.
+
+    FIND FIRST OCCURRENCE OF REGEX lc_pattern IN iv_xml SUBMATCHES DATA(lv_template) DATA(lv_version).
+    IF sy-subrc <> 0.
+      RAISE EXCEPTION TYPE zcx_cilib_unsupp_operation.
+    ENDIF.
+
     CALL TRANSFORMATION zcilib_bot_gl_status_tmpl
          SOURCE XML iv_xml
          RESULT systems    = et_systems

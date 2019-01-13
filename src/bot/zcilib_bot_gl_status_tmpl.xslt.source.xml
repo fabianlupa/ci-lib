@@ -6,7 +6,7 @@
   <tt:root name="HISTORY"/>
 
   <tt:template>
-    <div>
+    <div data-template="ZCILIB_BOT_GL_STATUS_TMPL" data-version="1">
       <table>
         <thead>
           <tr>
@@ -36,8 +36,9 @@
               </td>
               <tt:loop name="status" ref="$transport.import_info">
                 <td>
-                  <tt:attribute name="title" value-ref="$status.system"/>
-                  <tt:value ref="$status.import_status"/>
+                  <tt:attribute name="title" value-ref="$status.import_status"/>
+                  <tt:attribute name="data-system" value-ref="$status.system"/>
+                  <tt:value ref="$status.icon"/>
                 </td>
               </tt:loop>
             </tr>

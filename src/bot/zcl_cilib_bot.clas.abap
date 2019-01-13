@@ -169,8 +169,11 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
 
   METHOD format_update_info_into_string.
     rv_string = SWITCH #( is_info-event
-      WHEN zif_cilib_bot=>gc_events-imported THEN
-           |Imported transport { is_info-transport } on { is_info-system }.|
+      WHEN zif_cilib_bot=>gc_events-imported THEN SWITCH #( is_info-return_code
+        WHEN space
+        THEN |Imported transport { is_info-transport } on { is_info-system }.|
+        ELSE |Imported transport { is_info-transport } on { is_info-system }, RC { is_info-return_code }.|
+      )
       WHEN zif_cilib_bot=>gc_events-released THEN
            |Released transport { is_info-transport } on { is_info-system }.|
     ).
@@ -212,6 +215,11 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
       li_status_template = instantiate_status_template( ).
     ENDIF.
 
+    DATA(lo_system_group) = zcl_cilib_cust_factory=>get_system_group( mo_config->get_system_group( ) ).
+    li_status_template->set_systems( VALUE #( FOR s IN lo_system_group->get_systems( )
+      ( id = s-system_id description = s-description )
+    ) ).
+
     DATA(lt_transports) = li_status_template->get_transports( ).
 
     LOOP AT it_new_info ASSIGNING FIELD-SYMBOL(<ls_info>).
@@ -225,27 +233,34 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
 
       CASE <ls_info>-event.
         WHEN zif_cilib_bot=>gc_events-released.
-          IF <ls_transport>-released <> abap_true.
-          ENDIF.
           <ls_transport>-released = abap_true.
+          DATA(ls_info_released) = VALUE zif_cilib_bot_status_tmpl=>gty_import_info(
+            system        = <ls_info>-system
+            import_status = zif_cilib_bot_status_tmpl=>gc_import_status-released
+          ).
+
           TRY.
-              MODIFY TABLE <ls_transport>-import_info FROM VALUE #(
-                system        = <ls_info>-system
-                import_status = zif_cilib_bot_status_tmpl=>gc_import_status-released
-              ) USING KEY unique.
+              INSERT ls_info_released INTO TABLE <ls_transport>-import_info.
             CATCH cx_sy_itab_duplicate_key.
-              ##TODO.
+              MODIFY TABLE <ls_transport>-import_info FROM ls_info_released USING KEY unique.
           ENDTRY.
 
         WHEN zif_cilib_bot=>gc_events-imported.
+          DATA(ls_info_imported) = VALUE zif_cilib_bot_status_tmpl=>gty_import_info(
+            system        = <ls_info>-system
+            import_status = SWITCH #( <ls_info>-return_code
+                              WHEN '0000' THEN zif_cilib_bot_status_tmpl=>gc_import_status-imported
+                              WHEN '0004' THEN zif_cilib_bot_status_tmpl=>gc_import_status-warning_on_import
+                                          ELSE zif_cilib_bot_status_tmpl=>gc_import_status-error_on_import
+                            )
+          ).
+
           TRY.
-              INSERT VALUE #(
-                system        = <ls_info>-system
-                import_status = zif_cilib_bot_status_tmpl=>gc_import_status-imported
-              ) INTO TABLE <ls_transport>-import_info.
+              INSERT ls_info_imported INTO TABLE <ls_transport>-import_info.
             CATCH cx_sy_itab_duplicate_key.
-              ##TODO.
+              MODIFY TABLE <ls_transport>-import_info FROM ls_info_imported USING KEY unique.
           ENDTRY.
+
       ENDCASE.
 
       li_status_template->add_history_entry(
@@ -254,11 +269,6 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
     ENDLOOP.
 
     li_status_template->set_transports( lt_transports ).
-
-    DATA(lo_system_group) = zcl_cilib_cust_factory=>get_system_group( mo_config->get_system_group( ) ).
-    li_status_template->set_systems( VALUE #( FOR s IN lo_system_group->get_systems( )
-      ( id = s-system_id description = s-description )
-    ) ).
 
     IF lv_update_comment IS NOT INITIAL.
       ii_host->set_pr_comment_content(

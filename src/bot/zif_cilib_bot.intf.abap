@@ -3,9 +3,10 @@ INTERFACE zif_cilib_bot PUBLIC.
   TYPES:
     gty_event TYPE c LENGTH 1,
     BEGIN OF gty_transport_info,
-      transport TYPE trkorr,
-      system    TYPE syst_sysid,
-      event     TYPE gty_event,
+      transport   TYPE trkorr,
+      system      TYPE syst_sysid,
+      event       TYPE gty_event,
+      return_code TYPE trretcode,
     END OF gty_transport_info,
     gty_transport_info_tab TYPE STANDARD TABLE OF gty_transport_info WITH DEFAULT KEY.
   CONSTANTS:

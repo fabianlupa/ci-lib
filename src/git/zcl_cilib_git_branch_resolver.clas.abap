@@ -23,7 +23,7 @@ CLASS zcl_cilib_git_branch_resolver IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD zif_cilib_git_branch_resolver~get_branch_for_transport.
-    IF iv_strategy NS zif_cilib_git_branch_resolver=>gc_strategies OR iv_transport IS INITIAL.
+    IF iv_strategy NA zif_cilib_git_branch_resolver=>gc_strategies OR iv_transport IS INITIAL.
       RAISE EXCEPTION TYPE zcx_cilib_illegal_argument.
     ENDIF.
 
