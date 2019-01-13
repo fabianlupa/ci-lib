@@ -31,7 +31,7 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
 
     deserialize(
       EXPORTING
-        iv_xml = iv_comment
+        iv_xml        = iv_comment
       IMPORTING
         et_systems    = lo_instance->mt_systems
         et_transports = lo_instance->mt_transports
@@ -48,6 +48,7 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
                 transports = mt_transports
                 history    = mt_history
          RESULT XML rv_comment.
+    rv_comment = rv_comment+40. " Remove byte order mark and XML version
   ENDMETHOD.
 
   METHOD zif_cilib_bot_status_tmpl~add_system.
@@ -131,7 +132,7 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
     TRY.
         deserialize(
           EXPORTING
-            iv_xml = iv_comment
+            iv_xml        = iv_comment
           IMPORTING
             et_systems    = DATA(lt_systems)
             et_transports = DATA(lt_transports)
