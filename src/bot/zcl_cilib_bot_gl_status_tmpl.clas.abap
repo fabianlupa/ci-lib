@@ -13,7 +13,8 @@ CLASS zcl_cilib_bot_gl_status_tmpl DEFINITION
                   EXPORTING et_systems    TYPE zif_cilib_bot_status_tmpl=>gty_system_tab
                             et_transports TYPE zif_cilib_bot_status_tmpl=>gty_transport_tab
                             et_history    TYPE stringtab
-                  RAISING   cx_transformation_error.
+                  RAISING   cx_transformation_error
+                            zcx_cilib_unsupp_operation.
     METHODS:
       normalize_before_serialization.
     DATA:
@@ -137,7 +138,7 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
             et_history    = DATA(lt_history)
         ).
         rv_parsable = abap_true.
-      CATCH cx_transformation_error.
+      CATCH cx_transformation_error zcx_cilib_unsupp_operation.
         rv_parsable = abap_false.
     ENDTRY.
   ENDMETHOD.
@@ -147,18 +148,17 @@ CLASS zcl_cilib_bot_gl_status_tmpl IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD deserialize.
-    TRY.
-        CALL TRANSFORMATION zcilib_bot_gl_status_tmpl
-             SOURCE XML iv_xml
-             RESULT systems    = et_systems
-                    transports = et_transports
-                    history    = et_history.
-      CATCH cx_transformation_error INTO DATA(lx_transform_error).
-        RAISE EXCEPTION lx_transform_error.
-*      CATCH cx_root INTO DATA(lx_ex).
-*        RAISE EXCEPTION TYPE cx_transformation_error
-*          EXPORTING
-*            previous = lx_ex.
-    ENDTRY.
+    CONSTANTS: lc_pattern TYPE string VALUE `<div\s+data-template="(\w+)"\s+data-version="(\d+)">`.
+
+    FIND FIRST OCCURRENCE OF REGEX lc_pattern IN iv_xml SUBMATCHES DATA(lv_template) DATA(lv_version).
+    IF sy-subrc <> 0.
+      RAISE EXCEPTION TYPE zcx_cilib_unsupp_operation.
+    ENDIF.
+
+    CALL TRANSFORMATION zcilib_bot_gl_status_tmpl
+         SOURCE XML iv_xml
+         RESULT systems    = et_systems
+                transports = et_transports
+                history    = et_history.
   ENDMETHOD.
 ENDCLASS.
