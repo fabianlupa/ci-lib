@@ -44,6 +44,7 @@ CLASS zcl_cilib_host_gitlab DEFINITION
       BEGIN OF gc_project_subpaths,
         repo_branches  TYPE string VALUE `repository/branches`,
         merge_requests TYPE string VALUE `merge_requests`,
+        wikis          TYPE string VALUE `wikis`,
       END OF gc_project_subpaths,
       BEGIN OF gc_branch_attributes,
         name TYPE string VALUE `NAME`,
@@ -69,11 +70,18 @@ CLASS zcl_cilib_host_gitlab DEFINITION
       BEGIN OF gc_author_attributes,
         username TYPE string VALUE `USERNAME`,
       END OF gc_author_attributes,
+      BEGIN OF gc_wiki_page_attributes,
+        name    TYPE string VALUE `SLUG`,
+        title   TYPE string VALUE `TITLE`,
+        format  TYPE string VALUE `FORMAT`,
+        content TYPE string VALUE `CONTENT`,
+      END OF gc_wiki_page_attributes,
       gc_header_private_token TYPE string VALUE `Private-Token`,
       BEGIN OF gc_parameter_bool,
         true  TYPE string VALUE `true`,
         false TYPE string VALUE `false`,
-      END OF gc_parameter_bool.
+      END OF gc_parameter_bool,
+      gc_error_message_attribute TYPE string VALUE `MESSAGE`.
     METHODS:
       get_last_error_text RETURNING VALUE(rv_text) TYPE string,
       authenticate_if_needed RAISING zcx_cilib_http_comm_error.
@@ -520,7 +528,21 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD get_last_error_text.
-    mi_http_client->get_last_error( IMPORTING message = rv_text ).
+    DATA: lv_content_message TYPE string.
+
+    DATA(lv_content) = mi_rest_client->get_response_entity( )->get_string_data( ).
+    IF lv_content IS NOT INITIAL.
+      TRY.
+          lv_content_message = CAST zcl_cilib_util_json_object(
+            zcl_cilib_util_json_parser=>create_from_string( lv_content )
+          )->get_string( gc_error_message_attribute ).
+        CATCH cx_sy_move_cast_error zcx_cilib_not_found ##NO_HANDLER.
+      ENDTRY.
+    ENDIF.
+
+    mi_http_client->get_last_error( IMPORTING message = DATA(lv_http_message) ).
+
+    rv_text = |{ lv_content_message } { lv_http_message }|.
   ENDMETHOD.
 
   METHOD zif_cilib_host~get_repo_name_from_url.
@@ -556,5 +578,281 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
 
   METHOD zif_cilib_host~get_host_path.
     rv_host_path = mv_host_path.
+  ENDMETHOD.
+
+  METHOD zif_cilib_host~create_wiki_page.
+    DATA: lr_request_data TYPE REF TO data.
+    " https://docs.gitlab.com/ce/api/wikis.html#create-a-new-wiki-page
+
+    authenticate_if_needed( ).
+
+    TRY.
+        DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
+          )->append_path_component( gc_endpoints-projects
+          )->append_escaped_path_component( iv_repository
+          )->append_path_component( gc_project_subpaths-wikis
+          )->build( ).
+
+        mi_rest_client->set_request_header( iv_name = if_http_header_fields_sap=>request_uri iv_value = lv_path ).
+        mi_rest_client->set_request_header(
+          iv_name  = if_http_header_fields=>content_type
+          iv_value = 'application/json'
+        ).
+
+        DATA(lo_entity) = mi_rest_client->create_request_entity( ).
+
+        DATA(lo_struct_builder) = NEW zcl_cilib_util_struct_builder( ).
+        IF iv_format IS NOT INITIAL.
+          lo_struct_builder->add_string( iv_key = gc_wiki_page_attributes-format iv_value = iv_format ).
+        ENDIF.
+        lo_struct_builder->add_string(
+          iv_key   = gc_wiki_page_attributes-content
+          iv_value = cl_http_utility=>escape_html( iv_content )
+        ).
+        lo_struct_builder->add_string(
+          iv_key   = gc_wiki_page_attributes-title
+          iv_value = cl_http_utility=>escape_html( iv_title )
+        ).
+        lo_struct_builder->add_string(
+          iv_key   = gc_wiki_page_attributes-name
+          iv_value = cl_http_utility=>escape_html( iv_page_name )
+        ).
+
+        lo_entity->set_string_data( lo_struct_builder->get_json( ) ).
+
+        mi_rest_client->post( lo_entity ).
+        DATA(lv_status) = mi_rest_client->get_status( ).
+
+        IF lv_status = 404.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Repository'
+              iv_key       = iv_repository.
+        ELSEIF lv_status <> 201.
+          RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
+            EXPORTING
+              is_textid        = zcx_cilib_http_comm_error=>gc_code_and_message
+              iv_response_code = lv_status
+              iv_error_message = get_last_error_text( ).
+        ENDIF.
+
+      CATCH cx_rest_client_exception INTO DATA(lx_ex).
+        RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
+          EXPORTING
+            is_msg      = zcl_cilib_util_msg_tools=>get_msg_from_string( get_last_error_text( ) )
+            ix_previous = lx_ex.
+    ENDTRY.
+  ENDMETHOD.
+
+  METHOD zif_cilib_host~get_wiki_page.
+    " https://docs.gitlab.com/ce/api/wikis.html#get-a-wiki-page
+
+    authenticate_if_needed( ).
+
+    TRY.
+        DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
+          )->append_path_component( gc_endpoints-projects
+          )->append_escaped_path_component( iv_repository
+          )->append_path_component( gc_project_subpaths-wikis
+          )->append_escaped_path_component( iv_page_name
+          )->build( ).
+
+        mi_rest_client->set_request_header( iv_name = if_http_header_fields_sap=>request_uri iv_value = lv_path ).
+        mi_rest_client->get( ).
+        DATA(lv_status) = mi_rest_client->get_status( ).
+
+        IF lv_status = 404.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Wiki Page'
+              it_keys      = VALUE #( ( iv_repository ) ( iv_page_name ) ).
+        ELSEIF lv_status <> 200.
+          RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
+            EXPORTING
+              is_textid        = zcx_cilib_http_comm_error=>gc_code_and_message
+              iv_response_code = lv_status
+              iv_error_message = get_last_error_text( ).
+        ENDIF.
+
+        DATA(li_response) = mi_rest_client->get_response_entity( ).
+        DATA(lo_json) = CAST zcl_cilib_util_json_object(
+          zcl_cilib_util_json_parser=>create_from_xstring( li_response->get_binary_data( ) )
+        ).
+
+        rs_page = VALUE #(
+          name    = lo_json->get_string( gc_wiki_page_attributes-name )
+          format  = lo_json->get_string( gc_wiki_page_attributes-format )
+          title   = lo_json->get_string( gc_wiki_page_attributes-title )
+          content = lo_json->get_string( gc_wiki_page_attributes-content )
+        ).
+
+      CATCH cx_rest_client_exception INTO DATA(lx_ex).
+        RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
+          EXPORTING
+            is_msg      = zcl_cilib_util_msg_tools=>get_msg_from_string( get_last_error_text( ) )
+            ix_previous = lx_ex.
+    ENDTRY.
+  ENDMETHOD.
+
+  METHOD zif_cilib_host~get_wiki_pages.
+    " https://docs.gitlab.com/ce/api/wikis.html#list-wiki-pages
+
+    authenticate_if_needed( ).
+
+    TRY.
+        DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
+          )->append_path_component( gc_endpoints-projects
+          )->append_escaped_path_component( iv_repository
+          )->append_path_component( gc_project_subpaths-wikis
+          )->build( ).
+
+        mi_rest_client->set_request_header( iv_name = if_http_header_fields_sap=>request_uri iv_value = lv_path ).
+        mi_rest_client->get( ).
+        DATA(lv_status) = mi_rest_client->get_status( ).
+
+        IF lv_status = 404.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Repository'
+              iv_key       = iv_repository.
+        ELSEIF lv_status <> 200.
+          RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
+            EXPORTING
+              is_textid        = zcx_cilib_http_comm_error=>gc_code_and_message
+              iv_response_code = lv_status
+              iv_error_message = get_last_error_text( ).
+        ENDIF.
+
+        DATA(li_response) = mi_rest_client->get_response_entity( ).
+        DATA(lo_json) = CAST zcl_cilib_util_json_array(
+          zcl_cilib_util_json_parser=>create_from_xstring( li_response->get_binary_data( ) )
+        ).
+
+        DO lo_json->get_count( ) TIMES.
+          DATA(lo_child) = CAST zcl_cilib_util_json_object( lo_json->get_element_at( sy-index ) ).
+          INSERT VALUE #(
+            name   = lo_child->get_string( gc_wiki_page_attributes-name )
+            format = lo_child->get_string( gc_wiki_page_attributes-format )
+            title  = lo_child->get_string( gc_wiki_page_attributes-title )
+          ) INTO TABLE rt_pages.
+        ENDDO.
+
+      CATCH cx_rest_client_exception INTO DATA(lx_ex).
+        RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
+          EXPORTING
+            is_msg      = zcl_cilib_util_msg_tools=>get_msg_from_string( get_last_error_text( ) )
+            ix_previous = lx_ex.
+    ENDTRY.
+  ENDMETHOD.
+
+  METHOD zif_cilib_host~update_wiki_page.
+    " https://docs.gitlab.com/ce/api/wikis.html#edit-an-existing-wiki-page
+
+    authenticate_if_needed( ).
+
+    TRY.
+        DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
+          )->append_path_component( gc_endpoints-projects
+          )->append_escaped_path_component( iv_repository
+          )->append_path_component( gc_project_subpaths-wikis
+          )->append_escaped_path_component( iv_page_name
+          )->build( ).
+
+        mi_rest_client->set_request_header( iv_name = if_http_header_fields_sap=>request_uri iv_value = lv_path ).
+        mi_rest_client->set_request_header(
+          iv_name  = if_http_header_fields=>content_type
+          iv_value = 'application/json'
+        ).
+
+        DATA(lo_entity) = mi_rest_client->create_request_entity( ).
+
+        DATA(lo_struct_builder) = NEW zcl_cilib_util_struct_builder( ).
+        IF iv_format IS NOT INITIAL.
+          lo_struct_builder->add_string( iv_key = gc_wiki_page_attributes-format iv_value = iv_format ).
+        ENDIF.
+        IF iv_content IS SUPPLIED.
+          lo_struct_builder->add_string(
+            iv_key   = gc_wiki_page_attributes-content
+            iv_value = cl_http_utility=>escape_html( iv_content )
+          ).
+        ENDIF.
+        IF iv_title IS SUPPLIED.
+          lo_struct_builder->add_string(
+            iv_key   = gc_wiki_page_attributes-title
+            iv_value = cl_http_utility=>escape_html( iv_title )
+          ).
+        ENDIF.
+        lo_struct_builder->add_string(
+          iv_key   = gc_wiki_page_attributes-name
+          iv_value = cl_http_utility=>escape_html( iv_page_name )
+        ).
+
+        lo_entity->set_string_data( lo_struct_builder->get_json( ) ).
+
+        mi_rest_client->put( lo_entity ).
+        DATA(lv_status) = mi_rest_client->get_status( ).
+
+        IF lv_status = 404.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Wiki Page'
+              it_keys      = VALUE #( ( iv_repository ) ( iv_page_name ) ).
+        ELSEIF lv_status <> 200.
+          RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
+            EXPORTING
+              is_textid        = zcx_cilib_http_comm_error=>gc_code_and_message
+              iv_response_code = lv_status
+              iv_error_message = get_last_error_text( ).
+        ENDIF.
+
+      CATCH cx_rest_client_exception INTO DATA(lx_ex).
+        RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
+          EXPORTING
+            is_msg      = zcl_cilib_util_msg_tools=>get_msg_from_string( get_last_error_text( ) )
+            ix_previous = lx_ex.
+    ENDTRY.
+  ENDMETHOD.
+
+  METHOD zif_cilib_host~delete_wiki_page.
+    " https://docs.gitlab.com/ce/api/wikis.html#delete-a-wiki-page
+
+    authenticate_if_needed( ).
+
+    TRY.
+        DATA(lv_path) = NEW zcl_cilib_http_path_builder( gc_api_base_path
+          )->append_path_component( gc_endpoints-projects
+          )->append_escaped_path_component( iv_repository
+          )->append_path_component( gc_project_subpaths-wikis
+          )->append_escaped_path_component( iv_page_name
+          )->build( ).
+
+        mi_rest_client->set_request_header( iv_name = if_http_header_fields_sap=>request_uri iv_value = lv_path ).
+        mi_rest_client->delete( ).
+        DATA(lv_status) = mi_rest_client->get_status( ).
+
+        IF lv_status = 404.
+          RAISE EXCEPTION TYPE zcx_cilib_not_found
+            EXPORTING
+              is_textid    = zcx_cilib_not_found=>gc_with_name_and_key
+              iv_type_name = 'Wiki Page'
+              it_keys      = VALUE #( ( iv_repository ) ( iv_page_name ) ).
+        ELSEIF lv_status <> 204.
+          RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
+            EXPORTING
+              is_textid        = zcx_cilib_http_comm_error=>gc_code_and_message
+              iv_response_code = lv_status
+              iv_error_message = get_last_error_text( ).
+        ENDIF.
+
+      CATCH cx_rest_client_exception INTO DATA(lx_ex).
+        RAISE EXCEPTION TYPE zcx_cilib_http_comm_error
+          EXPORTING
+            is_msg      = zcl_cilib_util_msg_tools=>get_msg_from_string( get_last_error_text( ) )
+            ix_previous = lx_ex.
+    ENDTRY.
   ENDMETHOD.
 ENDCLASS.
