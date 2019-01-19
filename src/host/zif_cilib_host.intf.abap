@@ -5,7 +5,18 @@ INTERFACE zif_cilib_host PUBLIC.
       id     TYPE i,
       author TYPE string,
     END OF gty_comment,
-    gty_comment_tab TYPE STANDARD TABLE OF gty_comment WITH EMPTY KEY.
+    BEGIN OF gty_wiki_page,
+      name   TYPE string,
+      format TYPE string,
+      title  TYPE string,
+    END OF gty_wiki_page,
+    BEGIN OF gty_wiki_page_with_content.
+      INCLUDE TYPE gty_wiki_page.
+  TYPES:
+    content TYPE string,
+    END OF gty_wiki_page_with_content,
+    gty_comment_tab   TYPE STANDARD TABLE OF gty_comment WITH EMPTY KEY,
+    gty_wiki_page_tab TYPE SORTED TABLE OF gty_wiki_page WITH UNIQUE KEY name.
   METHODS:
     authenticate RAISING zcx_cilib_http_comm_error
                          zcx_cilib_unsupp_operation,
@@ -56,6 +67,38 @@ INTERFACE zif_cilib_host PUBLIC.
                            RETURNING VALUE(rv_repository) TYPE string
                            RAISING   zcx_cilib_illegal_argument
                                      zcx_cilib_unsupp_operation,
+    get_wiki_pages IMPORTING iv_repository   TYPE string
+                   RETURNING VALUE(rt_pages) TYPE gty_wiki_page_tab
+                   RAISING   zcx_cilib_not_found
+                             zcx_cilib_http_comm_error
+                             zcx_cilib_unsupp_operation,
+    get_wiki_page IMPORTING iv_repository  TYPE string
+                            iv_page_name   TYPE string
+                  RETURNING VALUE(rs_page) TYPE gty_wiki_page_with_content
+                  RAISING   zcx_cilib_not_found
+                            zcx_cilib_http_comm_error
+                            zcx_cilib_unsupp_operation,
+    create_wiki_page IMPORTING iv_repository TYPE string
+                               iv_page_name  TYPE string
+                               iv_content    TYPE string
+                               iv_title      TYPE string
+                               iv_format     TYPE string OPTIONAL
+                     RAISING   zcx_cilib_not_found
+                               zcx_cilib_http_comm_error
+                               zcx_cilib_unsupp_operation,
+    update_wiki_page IMPORTING iv_repository TYPE string
+                               iv_page_name  TYPE string
+                               iv_content    TYPE string OPTIONAL
+                               iv_title      TYPE string OPTIONAL
+                               iv_format     TYPE string OPTIONAL
+                     RAISING   zcx_cilib_not_found
+                               zcx_cilib_http_comm_error
+                               zcx_cilib_unsupp_operation,
+    delete_wiki_page IMPORTING iv_repository TYPE string
+                               iv_page_name  TYPE string
+                     RAISING   zcx_cilib_not_found
+                               zcx_cilib_http_comm_error
+                               zcx_cilib_unsupp_operation,
     get_config RETURNING VALUE(ro_config) TYPE REF TO zcl_cilib_host_config ##TODO, " Should this be included?
     get_host_path RETURNING VALUE(rv_host_path) TYPE zcilib_host_hostpath.
   DATA:
