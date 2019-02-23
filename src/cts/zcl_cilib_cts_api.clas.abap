@@ -18,6 +18,11 @@ CLASS zcl_cilib_cts_api IMPLEMENTATION.
   METHOD zif_cilib_cts_api~get_locked_r3tr_objects_in_tr.
     DATA: lt_objects TYPE tr_objects.
 
+    IF iv_transport = 'ALL'.
+      ##TODO. " Not sure when this happens
+      RETURN.
+    ENDIF.
+
     CALL FUNCTION 'TR_GET_OBJECTS_OF_REQ_AN_TASKS'
       EXPORTING
         is_request_header      = VALUE trwbo_request_header( trkorr = iv_transport )
