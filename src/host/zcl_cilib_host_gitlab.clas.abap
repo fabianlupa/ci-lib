@@ -607,7 +607,7 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         ENDIF.
         lo_struct_builder->add_string(
           iv_key   = gc_wiki_page_attributes-content
-          iv_value = cl_http_utility=>escape_html( iv_content )
+          iv_value = iv_content
         ).
         lo_struct_builder->add_string(
           iv_key   = gc_wiki_page_attributes-title
@@ -685,7 +685,8 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
           name    = lo_json->get_string( gc_wiki_page_attributes-name )
           format  = lo_json->get_string( gc_wiki_page_attributes-format )
           title   = lo_json->get_string( gc_wiki_page_attributes-title )
-          content = lo_json->get_string( gc_wiki_page_attributes-content )
+          content = lo_json->get_string( iv_name                     = gc_wiki_page_attributes-content
+                                         iv_replace_unicode_entities = abap_true )
         ).
 
       CATCH cx_rest_client_exception INTO DATA(lx_ex).
@@ -776,7 +777,7 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
         IF iv_content IS SUPPLIED.
           lo_struct_builder->add_string(
             iv_key   = gc_wiki_page_attributes-content
-            iv_value = cl_http_utility=>escape_html( iv_content )
+            iv_value = iv_content
           ).
         ENDIF.
         IF iv_title IS SUPPLIED.

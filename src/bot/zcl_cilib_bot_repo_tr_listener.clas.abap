@@ -42,25 +42,35 @@ CLASS zcl_cilib_bot_repo_tr_listener IMPLEMENTATION.
   METHOD handle_event.
     DATA(li_host) = zcl_cilib_factory=>get_host_for_repo_url( iv_repo_url ).
     DATA(lv_repo_name) = li_host->get_repo_name_from_url( iv_repo_url ).
-    DATA(lv_repo_config) = li_host->get_config( )->get_repo_config( EXACT #( lv_repo_name ) ).
-    DATA(lv_bot_name) = lv_repo_config->get_bot_name( ).
+    DATA(lo_repo_config) = li_host->get_config( )->get_repo_config( EXACT #( lv_repo_name ) ).
+    DATA(lv_bot_name) = lo_repo_config->get_bot_name( ).
 
     DATA(lv_branch) = zcl_cilib_factory=>get_branch_strategy_resolver( )->get_branch_for_transport(
       iv_transport = iv_transport
-      iv_strategy  = lv_repo_config->get_branching_strategy( )
+      iv_strategy  = lo_repo_config->get_branching_strategy( )
     ).
 
     DATA(li_bot) = zcl_cilib_factory=>get_bot( lv_bot_name ).
+
+    DATA(lt_new_info) = VALUE zif_cilib_bot=>gty_transport_info_tab( (
+      transport   = iv_transport
+      system      = iv_system
+      event       = iv_event
+      return_code = iv_return_code
+    ) ).
+
     li_bot->add_info_to_cts_comment(
       ii_host     = li_host
       iv_repo     = EXACT #( lv_repo_name )
       iv_branch   = lv_branch
-      it_new_info = VALUE #(
-        ( transport   = iv_transport
-          system      = iv_system
-          event       = iv_event
-          return_code = iv_return_code )
-      )
+      it_new_info = lt_new_info
+    ).
+
+    li_bot->add_info_to_wiki_page(
+      ii_host                    = li_host
+      iv_repo                    = EXACT #( lv_repo_name )
+      io_repo_config             = lo_repo_config
+      it_new_info                = lt_new_info
     ).
   ENDMETHOD.
 ENDCLASS.
