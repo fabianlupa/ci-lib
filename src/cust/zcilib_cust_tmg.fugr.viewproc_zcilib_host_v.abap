@@ -1,6 +1,6 @@
 *---------------------------------------------------------------------*
 *    program for:   VIEWPROC_ZCILIB_HOST_V
-*   generation date: 20.12.2018 at 22:12:58
+*   generation date: 23.02.2019 at 10:01:36
 *   view maintenance generator version: #001407#
 *---------------------------------------------------------------------*
 FUNCTION VIEWPROC_ZCILIB_HOST_V        .

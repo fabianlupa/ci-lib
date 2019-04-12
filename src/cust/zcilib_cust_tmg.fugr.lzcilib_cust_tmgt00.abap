@@ -1,6 +1,6 @@
 *---------------------------------------------------------------------*
 *    view related data declarations
-*   generation date: 28.12.2018 at 16:02:27
+*   generation date: 23.02.2019 at 10:01:36
 *   view maintenance generator version: #001407#
 *---------------------------------------------------------------------*
 *...processing: ZCILIB_BOT_V....................................*

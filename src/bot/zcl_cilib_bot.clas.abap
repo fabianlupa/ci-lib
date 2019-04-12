@@ -25,6 +25,7 @@ CLASS zcl_cilib_bot DEFINITION
       call_parse_comment IMPORTING iv_comment         TYPE string
                          RETURNING VALUE(ri_instance) TYPE REF TO zif_cilib_bot_status_tmpl,
       instantiate_status_template RETURNING VALUE(ri_instance) TYPE REF TO zif_cilib_bot_status_tmpl,
+      instantiate_wiki_status_templ RETURNING VALUE(ri_instance) TYPE REF TO zif_cilib_bot_status_tmpl,
       instantiate_update_template RETURNING VALUE(ri_instance) TYPE REF TO zif_cilib_bot_update_tmpl,
       handle_status_comment IMPORTING ii_host         TYPE REF TO zif_cilib_host
                                       iv_repo_name    TYPE string
@@ -32,12 +33,20 @@ CLASS zcl_cilib_bot DEFINITION
                                       it_new_info     TYPE zif_cilib_bot=>gty_transport_info_tab
                             RAISING   zcx_cilib_http_comm_error
                                       zcx_cilib_not_found,
+      handle_wiki_status IMPORTING ii_host           TYPE REF TO zif_cilib_host
+                                   iv_repo_name      TYPE string
+                                   iv_wiki_page_path TYPE zcilib_bot_ctsstatuswikipath
+                                   it_new_info       TYPE zif_cilib_bot=>gty_transport_info_tab
+                         RAISING   zcx_cilib_http_comm_error
+                                   zcx_cilib_not_found,
       handle_update_comment IMPORTING ii_host         TYPE REF TO zif_cilib_host
                                       iv_repo_name    TYPE string
                                       iv_pull_request TYPE i
                                       it_new_info     TYPE zif_cilib_bot=>gty_transport_info_tab
                             RAISING   zcx_cilib_http_comm_error
-                                      zcx_cilib_not_found.
+                                      zcx_cilib_not_found,
+      update_status_with_new_info IMPORTING ii_status_template TYPE REF TO zif_cilib_bot_status_tmpl
+                                            it_new_info        TYPE zif_cilib_bot=>gty_transport_info_tab.
     DATA:
       mv_name    TYPE zcilib_bot_name,
       mi_logger  TYPE REF TO zif_cilib_util_logger,
@@ -59,8 +68,9 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
     rv_success = abap_false.
 
     mi_logger->info( |{ mv_name }-{ ii_host->get_host_path( ) }-{ iv_repo }: add_info_to_cts_comment| ).
-    IF mo_config->is_cts_status_comment_enabled( ) = abap_false.
-      mi_logger->info( 'CTS status comment is not enabled' ).
+    IF mo_config->is_cts_status_comment_enabled( ) = abap_false AND
+       mo_config->are_cts_upd_comments_enabled( ) = abap_false.
+      mi_logger->info( 'CTS comments on pull requests are not enabled' ).
       RETURN.
     ENDIF.
 
@@ -123,6 +133,45 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
     ENDTRY.
   ENDMETHOD.
 
+  METHOD zif_cilib_bot~add_info_to_wiki_page.
+    rv_success = abap_false.
+
+    mi_logger->info( |{ mv_name }-{ ii_host->get_host_path( ) }-{ iv_repo }: add_info_to_wiki_page| ).
+    IF mo_config->is_cts_wiki_status_enabled( ) = abap_false.
+      mi_logger->info( 'CTS wiki status pages are not enabled' ).
+      RETURN.
+    ENDIF.
+
+    IF lines( it_new_info ) = 0.
+      mi_logger->warning( 'Transport info is initial' ).
+      RETURN.
+    ENDIF.
+
+    DATA(lv_repo_name) = CONV string( iv_repo ).
+
+    TRY.
+        IF ii_host->does_repo_exist( lv_repo_name ) = abap_false.
+          mi_logger->error( |Repository '{ iv_repo }' not found.| ).
+          RETURN.
+        ENDIF.
+
+        handle_wiki_status(
+          ii_host           = ii_host
+          iv_repo_name      = lv_repo_name
+          iv_wiki_page_path = io_repo_config->get_cts_wiki_page_path( )
+          it_new_info       = it_new_info
+        ).
+
+        rv_success = abap_true.
+
+      CATCH zcx_cilib_http_comm_error INTO DATA(lx_comm_error).
+        mi_logger->exception( lx_comm_error ).
+      CATCH zcx_cilib_not_found INTO DATA(lx_not_found).
+        " Repo / branch / pull request / comment / transport was not found
+        mi_logger->exception( lx_not_found ).
+    ENDTRY.
+  ENDMETHOD.
+
   METHOD zif_cilib_bot~reorg_cts_comments.
     RAISE EXCEPTION TYPE zcx_cilib_not_implemented.
   ENDMETHOD.
@@ -155,6 +204,11 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
 
   METHOD instantiate_status_template.
     DATA(lv_class) = mo_config->get_cts_status_impl_classname( ).
+    CREATE OBJECT ri_instance TYPE (lv_class).
+  ENDMETHOD.
+
+  METHOD instantiate_wiki_status_templ.
+    DATA(lv_class) = mo_config->get_cts_wiki_st_impl_classname( ).
     CREATE OBJECT ri_instance TYPE (lv_class).
   ENDMETHOD.
 
@@ -220,7 +274,95 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
       ( id = s-system_id description = s-description )
     ) ).
 
-    DATA(lt_transports) = li_status_template->get_transports( ).
+    update_status_with_new_info( ii_status_template = li_status_template it_new_info = it_new_info ).
+
+    IF lv_update_comment IS NOT INITIAL.
+      ii_host->set_pr_comment_content(
+        iv_repository   = iv_repo_name
+        iv_pull_request = iv_pull_request
+        iv_comment      = lv_update_comment
+        iv_content      = li_status_template->get_comment_as_string( )
+      ).
+    ELSE.
+      ii_host->create_pr_comment(
+        iv_repository   = iv_repo_name
+        iv_pull_request = iv_pull_request
+        iv_content      = li_status_template->get_comment_as_string( )
+      ).
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD handle_wiki_status.
+    DATA: li_status_template TYPE REF TO zif_cilib_bot_status_tmpl,
+          lv_page_exists     TYPE abap_bool.
+
+    DATA(lv_bot_user) = ii_host->get_config( )->get_username( ).
+
+    TRY.
+        DATA(ls_wiki_page) = ii_host->get_wiki_page( iv_repository = iv_repo_name
+                                                     iv_page_name  = CONV #( iv_wiki_page_path ) ).
+        mi_logger->debug( |Found existing wiki page '{ iv_wiki_page_path }' for '{ iv_repo_name }', updating.| ).
+        lv_page_exists = abap_true.
+      CATCH zcx_cilib_not_found.
+        mi_logger->debug(
+          |Could not find wiki page '{ iv_wiki_page_path }' for '{ iv_repo_name }',creating new page.|
+        ).
+        lv_page_exists = abap_false.
+    ENDTRY.
+
+    IF lv_page_exists = abap_true.
+      IF call_is_parsable( ls_wiki_page-content ) = abap_true.
+        li_status_template = call_parse_comment( ls_wiki_page-content ).
+      ELSE.
+        mi_logger->debug( |Could not parse existing wiki page.| ).
+      ENDIF.
+    ENDIF.
+
+    IF li_status_template IS NOT BOUND.
+      li_status_template = instantiate_wiki_status_templ( ).
+    ENDIF.
+
+    DATA(lo_system_group) = zcl_cilib_cust_factory=>get_system_group( mo_config->get_system_group( ) ).
+    li_status_template->set_systems( VALUE #( FOR s IN lo_system_group->get_systems( )
+      ( id = s-system_id description = s-description )
+    ) ).
+
+    update_status_with_new_info( ii_status_template = li_status_template it_new_info = it_new_info ).
+
+    IF lv_page_exists = abap_true.
+      ii_host->update_wiki_page(
+        iv_repository = iv_repo_name
+        iv_page_name  = ls_wiki_page-name
+        iv_content    = li_status_template->get_comment_as_string( )
+        iv_title      = ls_wiki_page-title
+        iv_format     = ls_wiki_page-format
+      ).
+    ELSE.
+      ii_host->create_wiki_page(
+        iv_repository = iv_repo_name
+        iv_page_name  = CONV #( iv_wiki_page_path )
+        iv_content    = li_status_template->get_comment_as_string( )
+        iv_title      = CONV #( iv_wiki_page_path )
+      ).
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD handle_update_comment.
+    DATA(li_update_template) = instantiate_update_template( ).
+    LOOP AT it_new_info ASSIGNING FIELD-SYMBOL(<ls_info>).
+      li_update_template->add_update_entry( format_update_info_into_string( <ls_info> ) ).
+    ENDLOOP.
+    IF sy-subrc = 0.
+      ii_host->create_pr_comment(
+        iv_repository   = iv_repo_name
+        iv_pull_request = iv_pull_request
+        iv_content      = li_update_template->get_comment_as_string( )
+      ).
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD update_status_with_new_info.
+    DATA(lt_transports) = ii_status_template->get_transports( ).
 
     LOOP AT it_new_info ASSIGNING FIELD-SYMBOL(<ls_info>).
       READ TABLE lt_transports WITH KEY transport = <ls_info>-transport ASSIGNING FIELD-SYMBOL(<ls_transport>).
@@ -263,40 +405,11 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
 
       ENDCASE.
 
-      li_status_template->add_history_entry(
+      ii_status_template->add_history_entry(
         |{ get_formatted_timestamp( ) }: { format_update_info_into_string( <ls_info> ) }|
       ) ##TODO.
     ENDLOOP.
 
-    li_status_template->set_transports( lt_transports ).
-
-    IF lv_update_comment IS NOT INITIAL.
-      ii_host->set_pr_comment_content(
-        iv_repository   = iv_repo_name
-        iv_pull_request = iv_pull_request
-        iv_comment      = lv_update_comment
-        iv_content      = li_status_template->get_comment_as_string( )
-      ).
-    ELSE.
-      ii_host->create_pr_comment(
-        iv_repository   = iv_repo_name
-        iv_pull_request = iv_pull_request
-        iv_content      = li_status_template->get_comment_as_string( )
-      ).
-    ENDIF.
-  ENDMETHOD.
-
-  METHOD handle_update_comment.
-    DATA(li_update_template) = instantiate_update_template( ).
-    LOOP AT it_new_info ASSIGNING FIELD-SYMBOL(<ls_info2>).
-      li_update_template->add_update_entry( format_update_info_into_string( <ls_info2> ) ).
-    ENDLOOP.
-    IF sy-subrc = 0.
-      ii_host->create_pr_comment(
-        iv_repository   = iv_repo_name
-        iv_pull_request = iv_pull_request
-        iv_content      = li_update_template->get_comment_as_string( )
-      ).
-    ENDIF.
+    ii_status_template->set_transports( lt_transports ).
   ENDMETHOD.
 ENDCLASS.

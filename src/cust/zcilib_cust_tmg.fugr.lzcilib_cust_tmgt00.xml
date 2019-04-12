@@ -5,10 +5,8 @@
    <PROGDIR>
     <NAME>LZCILIB_CUST_TMGT00</NAME>
     <STATE>A</STATE>
-    <VARCL>X</VARCL>
     <SUBC>I</SUBC>
     <RLOAD>E</RLOAD>
-    <UCCHECK>X</UCCHECK>
    </PROGDIR>
   </asx:values>
  </asx:abap>
