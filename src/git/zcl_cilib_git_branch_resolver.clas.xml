@@ -4,7 +4,6 @@
   <asx:values>
    <VSEOCLASS>
     <CLSNAME>ZCL_CILIB_GIT_BRANCH_RESOLVER</CLSNAME>
-    <VERSION>1</VERSION>
     <LANGU>E</LANGU>
     <DESCRIPT>Branching strategy resolver</DESCRIPT>
     <STATE>1</STATE>
