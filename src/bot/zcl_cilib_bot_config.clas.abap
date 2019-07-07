@@ -11,6 +11,7 @@ CLASS zcl_cilib_bot_config DEFINITION
       is_cts_status_comment_enabled RETURNING VALUE(rv_enabled) TYPE abap_bool,
       are_cts_upd_comments_enabled RETURNING VALUE(rv_enabled) TYPE abap_bool,
       is_cts_wiki_status_enabled RETURNING VALUE(rv_enabled) TYPE abap_bool,
+      are_cts_pr_labels_enabled RETURNING VALUE(rv_enabled) TYPE abap_bool,
       get_cts_status_impl_classname RETURNING VALUE(rv_classname) TYPE abap_classname,
       get_cts_upd_impl_classname RETURNING VALUE(rv_classname) TYPE abap_classname,
       get_cts_wiki_st_impl_classname RETURNING VALUE(rv_classname) TYPE abap_classname,
@@ -56,5 +57,9 @@ CLASS zcl_cilib_bot_config IMPLEMENTATION.
 
   METHOD is_cts_wiki_status_enabled.
     rv_enabled = ms_data-enable_cts_status_wiki.
+  ENDMETHOD.
+
+  METHOD are_cts_pr_labels_enabled.
+    rv_enabled = ms_data-enable_cts_pr_labels.
   ENDMETHOD.
 ENDCLASS.

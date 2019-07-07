@@ -1,6 +1,6 @@
 *---------------------------------------------------------------------*
 *    program for:   VIEWFRAME_ZCILIB_BOT_V
-*   generation date: 28.12.2018 at 16:02:27
+*   generation date: 07.07.2019 at 12:20:12
 *   view maintenance generator version: #001407#
 *---------------------------------------------------------------------*
 FUNCTION VIEWFRAME_ZCILIB_BOT_V        .

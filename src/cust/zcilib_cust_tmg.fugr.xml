@@ -3447,7 +3447,7 @@
        <COLUMN>001</COLUMN>
        <LENGTH>081</LENGTH>
        <VISLENGTH>081</VISLENGTH>
-       <HEIGHT>007</HEIGHT>
+       <HEIGHT>008</HEIGHT>
        <FORMAT>CHAR</FORMAT>
        <UP_LOWER>X</UP_LOWER>
        <REQU_ENTRY>N</REQU_ENTRY>
@@ -3603,6 +3603,25 @@
       <RPY_DYFATC>
        <CONT_TYPE>SCREEN</CONT_TYPE>
        <CONT_NAME>SCREEN</CONT_NAME>
+       <TYPE>CHECK</TYPE>
+       <NAME>ZCILIB_BOT_V-ENABLE_CTS_PR_LABELS</NAME>
+       <TEXT>CTS_pull_request_labels_enabled_________</TEXT>
+       <LINE>009</LINE>
+       <COLUMN>002</COLUMN>
+       <LENGTH>042</LENGTH>
+       <VISLENGTH>042</VISLENGTH>
+       <HEIGHT>001</HEIGHT>
+       <FORMAT>CHAR</FORMAT>
+       <FROM_DICT>X</FROM_DICT>
+       <MODIFIC>3</MODIFIC>
+       <FOREIGNKEY>X</FOREIGNKEY>
+       <INPUT_FLD>X</INPUT_FLD>
+       <OUTPUT_FLD>X</OUTPUT_FLD>
+       <DICT_I_VAL>X</DICT_I_VAL>
+      </RPY_DYFATC>
+      <RPY_DYFATC>
+       <CONT_TYPE>SCREEN</CONT_TYPE>
+       <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>OKCODE</TYPE>
        <NAME>OK_CODE</NAME>
        <TEXT>____________________</TEXT>
@@ -3657,6 +3676,9 @@
        <LINE>FIELD zcilib_bot_v-cts_status_wiki_template_impl.</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
+       <LINE>FIELD zcilib_bot_v-enable_cts_pr_labels.</LINE>
+      </RPY_DYFLOW>
+      <RPY_DYFLOW>
        <LINE>FIELD zcilib_bot_v-system_group .</LINE>
       </RPY_DYFLOW>
       <RPY_DYFLOW>
@@ -3686,6 +3708,7 @@
       <item>2</item>
       <item>2</item>
       <item>2</item>
+      <item>4</item>
       <item>4</item>
       <item>4</item>
       <item>4</item>
