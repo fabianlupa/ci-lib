@@ -63,6 +63,18 @@ INTERFACE zif_cilib_host PUBLIC.
                       RAISING   zcx_cilib_not_found
                                 zcx_cilib_http_comm_error
                                 zcx_cilib_unsupp_operation,
+    get_labels_for_pull_request IMPORTING iv_repository    TYPE string
+                                          iv_pull_request  TYPE i
+                                RETURNING VALUE(rt_labels) TYPE string_table
+                                RAISING   zcx_cilib_not_found
+                                          zcx_cilib_http_comm_error
+                                          zcx_cilib_unsupp_operation,
+    set_labels_for_pull_request IMPORTING iv_repository   TYPE string
+                                          iv_pull_request TYPE i
+                                          it_labels       TYPE string_table
+                                RAISING   zcx_cilib_not_found
+                                          zcx_cilib_http_comm_error
+                                          zcx_cilib_unsupp_operation,
     get_repo_name_from_url IMPORTING iv_url               TYPE string
                            RETURNING VALUE(rv_repository) TYPE string
                            RAISING   zcx_cilib_illegal_argument
