@@ -84,7 +84,10 @@ CLASS zcl_cilib_util_json_object IMPLEMENTATION.
       RAISE EXCEPTION TYPE zcx_cilib_not_found.
     ENDIF.
 
-    rv_string = zcl_cilib_util_json_abap_conv=>to_string( <lr_ref> ).
+    rv_string = zcl_cilib_util_json_abap_conv=>to_string(
+      ir_data                     = <lr_ref>
+      iv_replace_unicode_entities = iv_replace_unicode_entities
+    ).
   ENDMETHOD.
 
   METHOD get_int.
