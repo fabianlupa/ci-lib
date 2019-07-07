@@ -82,6 +82,7 @@ CLASS zcl_cilib_host_gitlab DEFINITION
         false TYPE string VALUE `false`,
       END OF gc_parameter_bool,
       gc_error_message_attribute TYPE string VALUE `MESSAGE`.
+      gc_error_message_attribute2 TYPE string VALUE `ERROR`.
     METHODS:
       get_last_error_text RETURNING VALUE(rv_text) TYPE string,
       authenticate_if_needed RAISING zcx_cilib_http_comm_error.
@@ -536,7 +537,13 @@ CLASS zcl_cilib_host_gitlab IMPLEMENTATION.
           lv_content_message = CAST zcl_cilib_util_json_object(
             zcl_cilib_util_json_parser=>create_from_string( lv_content )
           )->get_string( gc_error_message_attribute ).
-        CATCH cx_sy_move_cast_error zcx_cilib_not_found ##NO_HANDLER.
+        CATCH cx_sy_move_cast_error zcx_cilib_not_found.
+          TRY.
+              lv_content_message = CAST zcl_cilib_util_json_object(
+                zcl_cilib_util_json_parser=>create_from_string( lv_content )
+              )->get_string( gc_error_message_attribute2 ).
+            CATCH cx_sy_move_cast_error zcx_cilib_not_found ##NO_HANDLER.
+          ENDTRY.
       ENDTRY.
     ENDIF.
 
