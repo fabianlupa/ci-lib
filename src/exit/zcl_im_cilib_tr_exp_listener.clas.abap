@@ -32,20 +32,15 @@ CLASS zcl_im_cilib_tr_exp_listener IMPLEMENTATION.
         system_failure        = 2 MESSAGE lv_message
         OTHERS                = 3.
     IF sy-subrc <> 0.
-      DATA(lv_error_message) = |Error raising event AFTER_EXPORT to destination '{ lv_destination }': | &&
-                               |subrc { sy-subrc }, '{ lv_message }|.
       TRY.
-          zcl_cilib_factory=>get_logger( )->error( lv_error_message ).
-        CATCH cx_root INTO DATA(lx_ex) ##CATCH_ALL.
-          " Errors here should never stop CTS processes, fallback to syslog
-          cl_syslog_writer=>write_entry_with_words(
-            iv_message_id = 'TR1'
-            iv_word1      = |ci-lib: Error logging error, { lx_ex->get_text( ) }|
-          ).
+          DATA(lv_error_message) = |Error raising event AFTER_EXPORT to destination '{ lv_destination }': | &&
+                                   |subrc { sy-subrc }, '{ lv_message }|.
           cl_syslog_writer=>write_entry_with_words(
             iv_message_id = 'TR1'
             iv_word1      = |ci-lib: { lv_error_message }|
           ).
+        CATCH cx_root INTO DATA(lx_ex) ##CATCH_ALL.
+          " :( Better than shortdumping the CTS process
       ENDTRY.
     ENDIF.
   ENDMETHOD.
