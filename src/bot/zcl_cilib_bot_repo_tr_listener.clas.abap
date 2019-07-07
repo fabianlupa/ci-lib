@@ -59,7 +59,7 @@ CLASS zcl_cilib_bot_repo_tr_listener IMPLEMENTATION.
       return_code = iv_return_code
     ) ).
 
-    li_bot->add_info_to_cts_comment(
+    li_bot->add_info_to_pull_request(
       ii_host     = li_host
       iv_repo     = EXACT #( lv_repo_name )
       iv_branch   = lv_branch

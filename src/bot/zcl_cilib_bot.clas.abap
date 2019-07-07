@@ -46,7 +46,13 @@ CLASS zcl_cilib_bot DEFINITION
                             RAISING   zcx_cilib_http_comm_error
                                       zcx_cilib_not_found,
       update_status_with_new_info IMPORTING ii_status_template TYPE REF TO zif_cilib_bot_status_tmpl
-                                            it_new_info        TYPE zif_cilib_bot=>gty_transport_info_tab.
+                                            it_new_info        TYPE zif_cilib_bot=>gty_transport_info_tab,
+      handle_pr_labels IMPORTING ii_host         TYPE REF TO zif_cilib_host
+                                 iv_repo_name    TYPE string
+                                 iv_pull_request TYPE i
+                                 it_new_info     TYPE zif_cilib_bot=>gty_transport_info_tab
+                       RAISING   zcx_cilib_http_comm_error
+                                 zcx_cilib_not_found.
     DATA:
       mv_name    TYPE zcilib_bot_name,
       mi_logger  TYPE REF TO zif_cilib_util_logger,
@@ -64,13 +70,14 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
     mi_cts_api = ii_cts_api.
   ENDMETHOD.
 
-  METHOD zif_cilib_bot~add_info_to_cts_comment.
+  METHOD zif_cilib_bot~add_info_to_pull_request.
     rv_success = abap_false.
 
-    mi_logger->info( |{ mv_name }-{ ii_host->get_host_path( ) }-{ iv_repo }: add_info_to_cts_comment| ).
+    mi_logger->info( |{ mv_name }-{ ii_host->get_host_path( ) }-{ iv_repo }: add_info_to_pull_request| ).
     IF mo_config->is_cts_status_comment_enabled( ) = abap_false AND
-       mo_config->are_cts_upd_comments_enabled( ) = abap_false.
-      mi_logger->info( 'CTS comments on pull requests are not enabled' ).
+       mo_config->are_cts_upd_comments_enabled( ) = abap_false AND
+       mo_config->are_cts_pr_labels_enabled( ) = abap_false.
+      mi_logger->info( 'CTS updates on pull requests are not enabled' ).
       RETURN.
     ENDIF.
 
@@ -116,6 +123,15 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
 
         IF mo_config->are_cts_upd_comments_enabled( ) = abap_true.
           handle_update_comment(
+            ii_host         = ii_host
+            iv_repo_name    = lv_repo_name
+            iv_pull_request = lv_pull_request
+            it_new_info     = it_new_info
+          ).
+        ENDIF.
+
+        IF mo_config->are_cts_pr_labels_enabled( ) = abap_true.
+          handle_pr_labels(
             ii_host         = ii_host
             iv_repo_name    = lv_repo_name
             iv_pull_request = lv_pull_request
@@ -411,5 +427,43 @@ CLASS zcl_cilib_bot IMPLEMENTATION.
     ENDLOOP.
 
     ii_status_template->set_transports( lt_transports ).
+  ENDMETHOD.
+
+  METHOD handle_pr_labels.
+    CONSTANTS: lc_label_prefix TYPE string VALUE `sysid:`.
+    DATA: lt_systems TYPE SORTED TABLE OF syst_sysid WITH UNIQUE KEY table_line.
+
+    DATA(lt_labels) = ii_host->get_labels_for_pull_request( iv_repository   = iv_repo_name
+                                                            iv_pull_request = iv_pull_request ).
+    mi_logger->debug( |Found { lines( lt_labels ) NUMBER = USER } labels on MR { iv_pull_request }| ).
+
+    LOOP AT it_new_info ASSIGNING FIELD-SYMBOL(<ls_info>)
+                        WHERE event       = zif_cilib_bot=>gc_events-imported
+                          AND ( return_code = '0000' OR return_code = '0004' ).
+      TRY.
+          INSERT <ls_info>-system INTO TABLE lt_systems.
+        CATCH cx_sy_itab_duplicate_key ##NO_HANDLER.
+      ENDTRY.
+    ENDLOOP.
+
+    IF lines( lt_systems ) = 1.
+      LOOP AT lt_labels TRANSPORTING NO FIELDS WHERE table_line = |{ lc_label_prefix }{ lt_systems[ 1 ] }|.
+        EXIT.
+      ENDLOOP.
+
+      IF sy-subrc = 0.
+        mi_logger->debug( |Label already exists| ).
+      ELSE.
+        DELETE lt_labels WHERE table_line CP |{ lc_label_prefix }*|.
+        APPEND |{ lc_label_prefix }{ lt_systems[ 1 ] }| TO lt_labels.
+        mi_logger->debug( |Adding label, deleting existing ones| ).
+        ii_host->set_labels_for_pull_request( iv_repository   = iv_repo_name
+                                              iv_pull_request = iv_pull_request
+                                              it_labels       = lt_labels ).
+      ENDIF.
+    ELSE.
+      mi_logger->warning( |Transport(s) imported into { lines( lt_systems ) NUMBER = USER } systems,| &&
+                          | not updating labels.| ).
+    ENDIF.
   ENDMETHOD.
 ENDCLASS.

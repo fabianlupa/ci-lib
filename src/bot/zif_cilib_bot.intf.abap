@@ -15,12 +15,12 @@ INTERFACE zif_cilib_bot PUBLIC.
       imported TYPE gty_event VALUE 'I',
     END OF gc_events.
   METHODS:
-    add_info_to_cts_comment IMPORTING ii_host           TYPE REF TO zif_cilib_host
-                                      iv_repo           TYPE zcilib_host_repo
-                                      iv_branch         TYPE string
-                                      it_new_info       TYPE gty_transport_info_tab
-                            RETURNING VALUE(rv_success) TYPE abap_bool
-                            RAISING   zcx_cilib_illegal_argument,
+    add_info_to_pull_request IMPORTING ii_host           TYPE REF TO zif_cilib_host
+                                       iv_repo           TYPE zcilib_host_repo
+                                       iv_branch         TYPE string
+                                       it_new_info       TYPE gty_transport_info_tab
+                             RETURNING VALUE(rv_success) TYPE abap_bool
+                             RAISING   zcx_cilib_illegal_argument,
     add_info_to_wiki_page IMPORTING ii_host           TYPE REF TO zif_cilib_host
                                     iv_repo           TYPE zcilib_host_repo
                                     io_repo_config    TYPE REF TO zcl_cilib_host_repo_config
