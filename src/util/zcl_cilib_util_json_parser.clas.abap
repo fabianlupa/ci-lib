@@ -75,58 +75,71 @@ CLASS zcl_cilib_util_json_parser IMPLEMENTATION.
 
     DATA(lv_kind) = cl_abap_typedescr=>describe_by_data_ref( lr_source )->kind.
 
-    IF lv_kind = cl_abap_typedescr=>kind_struct.
-      INSERT VALUE #(
-        ref     = lr_source
-        element =  NEW zcl_cilib_util_json_object( ir_element = lr_source io_parser = me io_parent = io_parent )
-      ) INTO TABLE mt_elements REFERENCE INTO lr_new.
-      ASSERT sy-subrc = 0.
+    CASE lv_kind.
+      WHEN cl_abap_typedescr=>kind_struct.
+        INSERT VALUE #(
+          ref     = lr_source
+          element =  NEW zcl_cilib_util_json_object( ir_element = lr_source io_parser = me io_parent = io_parent )
+        ) INTO TABLE mt_elements REFERENCE INTO lr_new.
+        ASSERT sy-subrc = 0.
 
-      IF mo_root IS NOT BOUND.
-        mo_root = lr_new->element.
-      ENDIF.
-
-      ASSIGN lr_source->* TO <lg_struct>.
-      ASSERT sy-subrc = 0.
-
-      ro_element = lr_new->element.
-
-      DO.
-        ASSIGN COMPONENT sy-index OF STRUCTURE <lg_struct> TO <lg_comp>.
-        IF sy-subrc <> 0.
-          EXIT.
+        IF mo_root IS NOT BOUND.
+          mo_root = lr_new->element.
         ENDIF.
-        lo_child = parse( ir_from = CAST #( <lg_comp> ) io_parent = lr_new->element ).
-        IF lo_child IS BOUND.
-          APPEND lo_child TO ro_element->mt_children.
+
+        ASSIGN lr_source->* TO <lg_struct>.
+        ASSERT sy-subrc = 0.
+
+        ro_element = lr_new->element.
+
+        DO.
+          ASSIGN COMPONENT sy-index OF STRUCTURE <lg_struct> TO <lg_comp>.
+          IF sy-subrc <> 0.
+            EXIT.
+          ENDIF.
+          lo_child = parse( ir_from = CAST #( <lg_comp> ) io_parent = lr_new->element ).
+          IF lo_child IS BOUND.
+            APPEND lo_child TO ro_element->mt_children.
+          ENDIF.
+        ENDDO.
+
+      WHEN cl_abap_typedescr=>kind_table.
+        INSERT VALUE #(
+          ref     = lr_source
+          element =  NEW zcl_cilib_util_json_array( ir_element = lr_source io_parser = me io_parent = io_parent )
+        ) INTO TABLE mt_elements REFERENCE INTO lr_new.
+        ASSERT sy-subrc = 0.
+
+        IF mo_root IS NOT BOUND.
+          mo_root = lr_new->element.
         ENDIF.
-      ENDDO.
 
-    ELSEIF lv_kind = cl_abap_typedescr=>kind_table.
-      INSERT VALUE #(
-        ref     = lr_source
-        element =  NEW zcl_cilib_util_json_array( ir_element = lr_source io_parser = me io_parent = io_parent )
-      ) INTO TABLE mt_elements REFERENCE INTO lr_new.
-      ASSERT sy-subrc = 0.
+        ASSIGN lr_source->* TO <lt_tab>.
+        ASSERT sy-subrc = 0.
 
-      IF mo_root IS NOT BOUND.
-        mo_root = lr_new->element.
-      ENDIF.
+        ro_element = lr_new->element.
 
-      ASSIGN lr_source->* TO <lt_tab>.
-      ASSERT sy-subrc = 0.
+        LOOP AT <lt_tab> ASSIGNING <lg_line>.
+          lo_child = parse( ir_from = CAST #( <lg_line> ) io_parent = lr_new->element ).
+          IF lo_child IS BOUND.
+            APPEND lo_child TO ro_element->mt_children.
+          ENDIF.
+        ENDLOOP.
+      WHEN cl_abap_typedescr=>kind_elem.
+        INSERT VALUE #(
+          ref     = lr_source
+          element = NEW zcl_cilib_util_json_value( ir_element = lr_source io_parser = me io_parent = io_parent )
+        ) INTO TABLE mt_elements REFERENCE INTO lr_new.
+        ASSERT sy-subrc = 0.
 
-      ro_element = lr_new->element.
-
-      LOOP AT <lt_tab> ASSIGNING <lg_line>.
-        lo_child = parse( ir_from = CAST #( <lg_line> ) io_parent = lr_new->element ).
-        IF lo_child IS BOUND.
-          APPEND lo_child TO ro_element->mt_children.
+        IF mo_root IS NOT BOUND.
+          mo_root = lr_new->element.
         ENDIF.
-      ENDLOOP.
-    ELSE.
 
-    ENDIF.
+        ro_element = lr_new->element.
+      WHEN OTHERS.
+        ASSERT 1 = 2.
+    ENDCASE.
   ENDMETHOD.
 
   METHOD get_array_by_ref.
