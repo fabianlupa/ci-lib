@@ -1,63 +1,46 @@
 {
-   "global":{
-      "skipGeneratedFunctionGroups": true
-   },
-   "rules":{
-      "7bit_ascii":{
-         "enabled":true
-      },
-      "contains_tab":{
-         "enabled":true
-      },
-      "functional_writing":{
-         "enabled":true
-      },
-      "line_length":{
-         "enabled":true,
-         "length":120
-      },
-      "max_one_statement":{
-         "enabled":true
-      },
-      "parser_error":{
-         "enabled":true
-      },
-      "space_before_colon":{
-         "enabled":true
-      },
-      "colon_missing_space":{
-         "enabled":true
-      },
-      "exit_or_check":{
-         "enabled":false
-      },
-      "line_only_punc":{
-         "enabled":false
-      },
-      "obsolete_statement":{
-         "enabled":true
-      },
-      "start_at_tab":{
-         "enabled":true
-      },
-      "whitespace_end":{
-         "enabled":true
-      },
-      "exporting":{
-         "enabled":true
-      },
-      "empty_statement":{
-         "enabled":false
-      },
-      "sequential_blank":{
-         "enabled":true,
-         "lines":4
-      },
-      "definitions_top":{
-         "enabled":false
-      },
-      "indentation":{
-         "enabled":true
-      }
-   }
+  "global": {
+    "files": "/src/**/*.*",
+    "skipGeneratedGatewayClasses": true,
+    "skipGeneratedPersistentClasses": true,
+    "skipGeneratedFunctionGroups": true
+  },
+  "dependencies": [
+    {
+      "url": "https://github.com/abaplint/deps",
+      "folder": "/deps",
+      "files": "/src/**/*.*"
+    }
+  ],
+  "syntax": {
+    "version": "v753",
+    "errorNamespace": "^(Z|Y|LT?CL_|TY_|LIF_)",
+    "globalConstants": [],
+    "globalMacros": []
+  },
+  "rules": {
+    "7bit_ascii": true,
+    "contains_tab": true,
+    "check_syntax": false,
+    "functional_writing": true,
+    "line_length": {
+      "length": 120
+    },
+    "max_one_statement": true,
+    "parser_error": true,
+    "space_before_colon": true,
+    "colon_missing_space": true,
+    "exit_or_check": false,
+    "line_only_punc": false,
+    "obsolete_statement": true,
+    "start_at_tab": true,
+    "whitespace_end": true,
+    "exporting": true,
+    "empty_statement": false,
+    "sequential_blank": {
+      "lines": 4
+    },
+    "definitions_top": false,
+    "indentation": true
+  }
 }
